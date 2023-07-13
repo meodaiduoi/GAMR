@@ -11,9 +11,16 @@ class Task(BaseModel):
 
 class Ping(BaseModel):
     hostname_list: list[str] 
-    time: int | None = 10
+    timeout: str | None = None
 
-class Command(BaseModel):
-    host_name: str
+class Pingall(BaseModel):
+    timeout: str | None = None
+
+class PopenTask(BaseModel):
+    hostname: str
     cmd: str
     wait: bool
+
+class CmdTask(BaseModel):
+    hostname: str
+    cmd: str

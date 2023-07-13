@@ -1,4 +1,4 @@
-#!/home/onos/Desktop/bknet/venv11/bin/python3.11
+#! /home/onos/Desktop/ryu/venv11/bin/python3.11
 
 from mininet.topo import Topo
 from mininet.net import Mininet
@@ -9,10 +9,10 @@ from mininet.util import irange
 from mininet.link import TCLink
 
 import uvicorn
-from fastapi import FastAPI
-from pydantic import BaseModel
 
-from ..mn_restapi.mn_restapi_hook import RestHook 
+import sys
+sys.path.insert(1, '../' )
+from mn_restapi.mn_restapi_hook import RestHookMN 
 
 class MyTopo(Topo):
     def build(self):
@@ -43,7 +43,7 @@ if __name__ == '__main__':
                   autoSetMacs=True,
                   ipBase='10.0.0.0')
     net.start()
-    app = RestHook(net=net)
+    app = RestHookMN(net=net)
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
     net.stop()

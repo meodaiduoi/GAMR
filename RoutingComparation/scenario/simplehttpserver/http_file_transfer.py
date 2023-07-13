@@ -1,3 +1,5 @@
+# Change shebang before running
+
 from pydantic import BaseModel
 import uvicorn
 
@@ -48,6 +50,10 @@ class FileTask(BaseModel):
 class RemoveFileTask(BaseModel):
     file_path: str
 
+
+@app.get("/")
+async def helloworld():
+    return {'hello': 'world'}
 
 @app.post("/remove_file/")
 async def remove_file(rm_task: RemoveFileTask):

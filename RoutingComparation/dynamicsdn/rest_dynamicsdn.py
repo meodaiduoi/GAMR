@@ -1,11 +1,6 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
 import uvicorn
 
-import requests as rq 
 import networkx as nx
 
 from ga.module_function import Function
@@ -14,6 +9,9 @@ from ga.module_memset import MemSet
 from ga.module_population import Population
 from ga.module_graph import Graph
 
+from helper.utils import *
+from helper.models import *
+
 app = FastAPI()
 memset = MemSet()
 
@@ -21,52 +19,14 @@ memset = MemSet()
 async def hello():
     return {'hello': 'world'}
 
-class SrcDst(BaseModel):
-    src_host: int
-    dst_host: int
-
-class RouteTask(BaseModel):
-    route: list[SrcDst]
-
-def get_topo():
-    topo_json = rq.get('http://0.0.0.0:8080/topology_graph').json()
-    return topo_json, nx.json_graph.node_link_graph(topo_json)
-
-def get_host():
-    return rq.get('http://0.0.0.0:8080/hosts').json()
-
-def get_key(dict, value):
-    for key, val in dict.items():
-        if val == value:
-           return key
-        
-def print_json(result, mapping):
-    resul_list = []
-    for request in result.chromosome:
-        src = get_key(mapping,request[0])
-        dst = get_key(mapping,request[1])
-        src = int(src[1:])
-        dst = int(dst[1:])
-        path = {
-            'src_host': src,
-            'dst_host': dst,
-            'path_dpid': request[2][1:-1]
-
-        }
-        resul_list.append(path)
-    result_json = {
-        "path": resul_list
-    }
-    return result_json  
 
 @app.post('/routing')
 def routing(task: RouteTask):
     '''
-        abc.
+        
     '''
     topo_json, graph = get_topo()
     host_json = get_host()
-    
 
     # Add host to graph
     for host in host_json['hosts']:
@@ -135,7 +95,9 @@ def routing(task: RouteTask):
 
     memset.addAllPath(solutions, request)
 
-    return print_json(result, mapping)
+    # return flowrule based on json result format
+    result = result_to_json(result, mapping)    
+    return create_flowrule_json(result, host_json, get_link_to_port())
 
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8003)

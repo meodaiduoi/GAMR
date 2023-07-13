@@ -1,0 +1,8 @@
+[service-port]
+resthookmn = 8000
+simplehttpserver = 8001
+dynamicsdn = 8002
+
+[venv-path]
+venv11 = '...'
+venv7 = '...'

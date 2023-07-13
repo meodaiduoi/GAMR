@@ -10,52 +10,60 @@ import mininet
 from mininet.net import Mininet, Host
 from subprocess import Popen
 
-from mn_restapi_model import *
+from mn_restapi.mn_restapi_model import *
 
-class RestHook(FastAPI):
+class RestHookMN(FastAPI):
     def __init__(self, net: Mininet):
         super().__init__(title='fastapi hook for mininet',
                          description='')
         self.net = net
 
-        @self.post('/send_task')
-        def send_task(task: Task):
-            host: Host = self.net.getNodeByName(task.host_name)
+        @self.post('/run_popen')
+        def run_popen(task: PopenTask):
+            '''
+                Using poepn to run task with option to returing result
+            '''
+            host: Host = self.net.getNodeByName(task.hostname)
             proc: Popen = host.popen(task.cmd)
             if task.wait == True:
-                proc.communicate()
+                result, err = proc.communicate()
+            
+            return { 'result': result.decode("latin-1"),
+                     'error': err.decode("latin-1")}
 
         @self.post('/run_cmd')
-        def run_cmd(task: Command):
-            host: Host = self.net.getNodeByName('h1')
-            ...
-
+        async def run_cmd(task: CmdTask):
+            '''
+                Run command with the given hostsname
+            '''
+            host: Host = self.net.getNodeByName(task.hostname)
+            host.cmd(task.cmd)
 
         @self.post('/ping')
         def ping(task: Ping):
-            hosts = []
-            for hostname in task.hostname_list:
-                hosts.append(net.getNodeByName(task))
-            result = net.ping(hosts)
+            '''
+                Ping between a list of given hostsname then return average packetloss percentage on each host
+            '''
+            hosts = [net.getNodeByName(hostname) for hostname in task.hostname_list]
+            result = net.ping(hosts, task.timeout)
             return { 'packetloss': result }
 
-        @self.get('/pingall')
-        # @self.post('/pingall')
-        def pingall():
-            result = self.net.pingAll()
+        @self.post('/pingall')
+        def pingall(task: Pingall):
+            '''
+                Pingall then return average packetloss percentage on each host
+            '''
+            result = self.net.pingAll(timeout=task.timeout)
             return {'packetloss': result}
 
         @self.get('/device_name')
-        def hostname():
+        async def device_name():
             '''
-                get lists of all hostnames
+                get lists of all hostname and switchname \n
             '''
-            nodes = net.nodes
-            host_names = []
-            switch_names = []
-            for node in nodes:
-                if isinstance(node, mininet.Host):
-                    host_names.append(node.name)
-                elif isinstance(node, mininet.Switch):
-                    switch_names.append(node.name)
-            return { 'hostname':host_names, 'switchname': switch_names }
+            host_names = [host.name for host in net.hosts]
+            switch_names = [switch.name for switch in net.switches]
+            return {
+                'hostname': host_names,
+                'switchname': switch_names
+            }
