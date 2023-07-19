@@ -15,6 +15,17 @@ from helper.models import *
 app = FastAPI()
 memset = MemSet()
 
+import tomllib
+try:
+    with open("config.toml", "rb") as f:
+        toml_dict = tomllib.load(f)
+except tomllib.TOMLDecodeError:
+    print("Yep, definitely not valid.")
+
+RESTHOOKMN_PORT = toml_dict['service-port']['resthookmn']
+DYNAMICSDN_PORT = toml_dict['service-port']['dynamicsdn']
+SIMPLEHTTPSERVER_PORT = toml_dict['service-port']['simplehttpserver']
+
 @app.get('/')
 async def hello():
     return {'hello': 'world'}
@@ -100,7 +111,7 @@ def routing(task: RouteTask):
     return create_flowrule_json(result, host_json, get_link_to_port())
 
 if __name__ == '__main__':
-    uvicorn.run(app, host="0.0.0.0", port=8003)
+    uvicorn.run(app, host="0.0.0.0", port=DYNAMICSDN_PORT)
 
 
 

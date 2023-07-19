@@ -1,16 +1,25 @@
 import requests as rq
 
-# TODO: add config file here later
+import tomli 
+try:
+    toml_dict = tomli.loads('../config.toml')
+except tomli.TOMLDecodeError:
+    print("Yep, definitely not valid.")
+
+RESTHOOKMN_PORT = toml_dict['service-port']['resthookmn']
+DYNAMICSDN_PORT = toml_dict['service-port']['dynamicsdn']
+SIMPLEHTTPSERVER_PORT = toml_dict['service-port']['simplehttpserver']
 
 def run_simplehttpserver(hostlist: list[str]):
     result = {}
     for host in hostlist:
         data = {
           "hostname": host,
-          "cmd": '''curl -o /dev/null -s -w "%{http_code}\n" 'http://0.0.0.0:8002/''',
+          "cmd": '',
           "wait": True
         }
-        result[host] = rq.post('http://0.0.0.0:8001/run_cmd', json=data).json()['result'].decode('latin-1')
+        result[host] = rq.post(f'http://0.0.0.0:{RESTHOOKMN_PORT}/run_cmd', 
+                               json=data).json()['result'].decode('latin-1')
     return result
 
 def heartbeat_simplehttpserver(hostlist: list[str]):
@@ -21,7 +30,8 @@ def heartbeat_simplehttpserver(hostlist: list[str]):
           "cmd": '''curl -o /dev/null -s -w "%{http_code}\n" 'http://0.0.0.0:8002/''',
           "wait": True
         }
-        result[host] = rq.post('0.0.0.0:8081/run_popen', json=data).json()['result'].decode('latin-1')
+        result[host] = rq.post('http://0.0.0.0:{RESTHOOKMN_PORT}/run_popen', 
+                               json=data).json()['result'].decode('latin-1')
     return result
 
 if __name__ == '__main__':

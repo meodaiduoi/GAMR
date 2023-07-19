@@ -10,9 +10,19 @@ from mininet.link import TCLink
 
 import uvicorn
 
+import time
 import sys
-sys.path.insert(1, '../' )
+import os
+
 from mn_restapi.mn_restapi_hook import RestHookMN 
+import tomllib
+try:
+    with open("config.toml", "rb") as f:
+        toml_dict = tomllib.load(f)
+except tomllib.TOMLDecodeError:
+    print("Yep, definitely not valid.")
+
+RESTHOOKMN_PORT = toml_dict['service-port']['resthookmn']
 
 class MyTopo(Topo):
     def build(self):
@@ -37,13 +47,17 @@ class MyTopo(Topo):
 if __name__ == '__main__':
     
     setLogLevel( 'info' )
+    try:
+        c0 = RemoteController('c0', ip='0.0.0.0')
+        net = Mininet( topo=MyTopo(), controller=c0, 
+                      autoSetMacs=True,
+                      ipBase='10.0.0.0')
+        net.start()
+        app = RestHookMN(net=net)
+        uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+        net.stop()
     
-    c0 = RemoteController('c0', ip='0.0.0.0')
-    net = Mininet( topo=MyTopo(), controller=c0, 
-                  autoSetMacs=True,
-                  ipBase='10.0.0.0')
-    net.start()
-    app = RestHookMN(net=net)
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-
-    net.stop()
+    except Exception as e:
+        print(e)
+        time.sleep(10)
+        net.stop()
