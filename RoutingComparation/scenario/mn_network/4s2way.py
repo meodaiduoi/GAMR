@@ -15,14 +15,16 @@ import sys
 import os
 
 from mn_restapi.mn_restapi_hook import RestHookMN 
-import tomllib
-try:
-    with open("config.toml", "rb") as f:
-        toml_dict = tomllib.load(f)
-except tomllib.TOMLDecodeError:
-    print("Yep, definitely not valid.")
 
-RESTHOOKMN_PORT = toml_dict['service-port']['resthookmn']
+import argparse
+argParser = argparse.ArgumentParser()
+argParser.add_argument("rest_port", type=int, help="resthookmn startup rest api port")
+argParser.add_argument("openflow_port", type=int, default=6633, help="open flow connect port")
+# argParser.add_argument("ryu_port", type=int, help="remote ryu rest api port")
+args = argParser.parse_args()
+
+RESTHOOKMN_PORT = args.rest_port
+OFP_PORT = args.openflow_port
 
 class MyTopo(Topo):
     def build(self):

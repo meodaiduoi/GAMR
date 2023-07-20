@@ -12,19 +12,32 @@ from ga.module_graph import Graph
 from helper.utils import *
 from helper.models import *
 
+import argparse
+
+argParser = argparse.ArgumentParser()
+argParser.add_argument("rest_port", type=int, help="dynamicsdn startup rest api port")
+argParser.add_argument("ryu_port", type=int, help="remote ryu rest api port")
+args = argParser.parse_args()
+
+DYNAMICSDN_PORT = args.rest_port
+RYU_PORT = args.ryu_port
+
+# import tomllib
+# try:
+#     with open("config.toml", "rb") as f:
+#         toml_dict = tomllib.load(f)
+# except tomllib.TOMLDecodeError:
+#     print("Yep, definitely not valid.")
+
+# RESTHOOKMN_PORT = toml_dict['service-port']['resthookmn']
+# DYNAMICSDN_PORT = toml_dict['service-port']['dynamicsdn']
+# SIMPLEHTTPSERVER_PORT = toml_dict['service-port']['simplehttpserver']
+
+
+
+
 app = FastAPI()
 memset = MemSet()
-
-import tomllib
-try:
-    with open("config.toml", "rb") as f:
-        toml_dict = tomllib.load(f)
-except tomllib.TOMLDecodeError:
-    print("Yep, definitely not valid.")
-
-RESTHOOKMN_PORT = toml_dict['service-port']['resthookmn']
-DYNAMICSDN_PORT = toml_dict['service-port']['dynamicsdn']
-SIMPLEHTTPSERVER_PORT = toml_dict['service-port']['simplehttpserver']
 
 @app.get('/')
 async def hello():

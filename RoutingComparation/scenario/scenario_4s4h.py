@@ -1,9 +1,10 @@
 import requests as rq
 
-import tomli 
+import tomllib
 try:
-    toml_dict = tomli.loads('../config.toml')
-except tomli.TOMLDecodeError:
+    with open("config.toml", "rb") as f:
+        toml_dict = tomllib.load(f)
+except tomllib.TOMLDecodeError:
     print("Yep, definitely not valid.")
 
 RESTHOOKMN_PORT = toml_dict['service-port']['resthookmn']
