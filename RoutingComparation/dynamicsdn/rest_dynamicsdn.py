@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 
 import networkx as nx
+import requests as rq
 
 from ga.module_function import Function
 from ga.module_evole import Evolutionary
@@ -120,7 +121,8 @@ def routing(task: RouteTask):
     memset.addAllPath(solutions, request)
 
     # return flowrule based on json result format
-    result = result_to_json(result, mapping)    
+    result = result_to_json(result, mapping)
+    # rq.post("")
     return create_flowrule_json(result, host_json, get_link_to_port())
 
 if __name__ == '__main__':

@@ -24,3 +24,9 @@ class PopenTask(BaseModel):
 class CmdTask(BaseModel):
     hostname: str
     cmd: str
+
+class SetLink(BaseModel):
+    name_node1: str
+    name_node2: str
+    turn_on: bool | None = True
+    

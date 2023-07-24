@@ -3,7 +3,7 @@ resthookmn = 8000
 dynamicsdn = 8001
 simplehttpserver = 8000
 ryu = 8080
-ofp = 6633
+ofp = 6653
 
 [venv-path]
 venv11 = "/home/onos/Desktop/ryu/venv11/bin/python3.11"

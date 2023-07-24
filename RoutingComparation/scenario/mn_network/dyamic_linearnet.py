@@ -16,7 +16,6 @@ from mininet.log import setLogLevel, info
 from mininet.util import pmonitor
 
 import uvicorn
-
 from mn_restapi.mn_restapi_hook import RestHookMN 
 
 import argparse
@@ -35,8 +34,8 @@ class MyTopo( Topo ):
 
         # Adding clients
         number_of_clients = 3
-        clients = [ self.addHost( f'client{n}', cpu=0.3 ) for n in range(1, number_of_clients) ]      
-        ep_clients = [ self.addSwitch( f'ep_cl{n}', protocols='OpenFlow13' ) for n in range(1, number_of_clients) ]
+        clients = [ self.addHost( f'h{n}', cpu=0.3 ) for n in range(1, number_of_clients) ]      
+        ep_clients = [ self.addSwitch( f'ep_cl{n}' ) for n in range(1, number_of_clients) ]
         for h, s in zip(clients, ep_clients):
             self.addLink(h, s,
                          cls=TCLink,
@@ -46,7 +45,7 @@ class MyTopo( Topo ):
         # Adding servers
         number_of_servers = 3
         servers = [ self.addHost( f'server{n}', cpu=0.3 ) for n in range(1, number_of_servers) ]
-        ep_servers = [ self.addSwitch( f'ep_sv{n}', protocols='OpenFlow13' ) for n in range(1, number_of_servers) ] 
+        ep_servers = [ self.addSwitch( f'ep_sv{n}' ) for n in range(1, number_of_servers) ] 
         for sv, ep_sv in zip(servers, ep_servers):
             self.addLink(sv, ep_sv,
                          cls=TCLink,
@@ -60,7 +59,7 @@ class MyTopo( Topo ):
         
         layers_of_switches = []
         for i in range(number_of_layer):
-            switches = [ self.addSwitch( f'sw{i}_{j}', protocols='OpenFlow13' ) for j in range(switch_in_level) ]
+            switches = [ self.addSwitch( f'sw{i}_{j}' ) for j in range(switch_in_level) ]
             layers_of_switches.append(switches)
         
         # add ep_clients to the first layer and ep_servers to the last layer
@@ -74,7 +73,8 @@ class MyTopo( Topo ):
                     self.addLink(sw1, sw2,
                                  cls=TCLink,
                                  bw=100,
-                                 delay='2ms',)
+                                 delay='2ms',
+                                 loss=2)
         
             
 def run():
@@ -87,6 +87,7 @@ def run():
     net.start()
     app = RestHookMN(net=net)
     uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+    # CLI(net)
     net.stop()
     
 if __name__ == '__main__':

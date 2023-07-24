@@ -8,13 +8,16 @@ from mininet.cli import CLI
 from mininet.util import irange
 from mininet.link import TCLink
 
-import uvicorn
+from mn_switch import STPOVSSwitch
+
+# import uvicorn
 
 import time
 import sys
 import os
 
-from mn_restapi.mn_restapi_hook import RestHookMN 
+# from mn_restapi.mn_restapi_hook import RestHookMN 
+
 
 import argparse
 argParser = argparse.ArgumentParser()
@@ -33,10 +36,10 @@ class MyTopo(Topo):
         h3 =  self.addHost('h3')
         h4 =  self.addHost('h4')
         
-        s1 = self.addSwitch('s1' ,protocols='OpenFlow13')
-        s2 = self.addSwitch('s2' ,protocols='OpenFlow13')
-        s3 = self.addSwitch('s3' ,protocols='OpenFlow13')
-        s4 = self.addSwitch('s4' ,protocols='OpenFlow13')
+        s1 = self.addSwitch('s1', protocols='OpenFlow13')
+        s2 = self.addSwitch('s2', protocols='OpenFlow13')
+        s3 = self.addSwitch('s3', protocols='OpenFlow13')
+        s4 = self.addSwitch('s4', protocols='OpenFlow13')
 
         ep_list = [(h1, s1), (h2, s2), (h3, s3), (h4, s4)]
         link_route = [(s1, s2), (s2, s3), (s3, s4), (s4, s1)]
@@ -50,13 +53,22 @@ if __name__ == '__main__':
     
     setLogLevel( 'info' )
     try:
-        c0 = RemoteController('c0', ip='0.0.0.0')
-        net = Mininet( topo=MyTopo(), controller=c0, 
+        c0 = RemoteController('c0', ip='0.0.0.0', port=OFP_PORT)
+        net = Mininet( topo=MyTopo(), 
+                       controller=c0, 
+                    #   switch=STPOVSSwitch, 
                       autoSetMacs=True,
                       ipBase='10.0.0.0')
         net.start()
-        app = RestHookMN(net=net)
-        uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+        net.get('s1').cmd('ovs-vsctl set bridge s1 rstp-enable=true')
+        net.get('s2').cmd('ovs-vsctl set bridge s1 rstp-enable=true')
+        net.get('s3').cmd('ovs-vsctl set bridge s1 rstp-enable=true')
+        net.get('s4').cmd('ovs-vsctl set bridge s1 rstp-enable=true')
+        
+        
+        # app = RestHookMN(net=net)
+        # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+        CLI(net)
         net.stop()
     
     except Exception as e:
