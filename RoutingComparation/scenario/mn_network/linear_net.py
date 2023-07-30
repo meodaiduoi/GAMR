@@ -1,3 +1,5 @@
+#!/home/onos/Desktop/ryu/venv11/bin/python3.11
+
 import os
 import random
 
@@ -16,8 +18,8 @@ from mininet.log import setLogLevel, info
 from mininet.util import pmonitor
 
 
-# import uvicorn
-# from mn_restapi.mn_restapi_hook import RestHookMN 
+import uvicorn
+from mn_restapi.mn_restapi_hook import RestHookMN 
 
 import argparse
 argParser = argparse.ArgumentParser()
@@ -53,7 +55,7 @@ if __name__ == '__main__':
                     autoSetMacs=True,
                     ipBase='10.0.0.0')
     net.start()
-    # app = RestHookMN(net=net)
-    # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+    app = RestHookMN(net=net)
+    uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
     CLI(net)
     net.stop()

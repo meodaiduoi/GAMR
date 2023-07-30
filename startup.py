@@ -22,7 +22,7 @@ OFP_PORT = toml_dict['service-port']['ofp']
 # create startup sequence
 # ryu startup
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest ryu.app.simple_switch_stp_13 {RYU}'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+                  f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest ryu.app.simple_switch_lacp_13 {RYU}'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 # time.sleep(1)
 # # mininet + mnresthook startup

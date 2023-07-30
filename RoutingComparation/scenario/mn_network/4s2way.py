@@ -60,12 +60,7 @@ if __name__ == '__main__':
                       autoSetMacs=True,
                       ipBase='10.0.0.0')
         net.start()
-        net.get('s1').cmd('ovs-vsctl set bridge s1 rstp-enable=true')
-        net.get('s2').cmd('ovs-vsctl set bridge s1 rstp-enable=true')
-        net.get('s3').cmd('ovs-vsctl set bridge s1 rstp-enable=true')
-        net.get('s4').cmd('ovs-vsctl set bridge s1 rstp-enable=true')
-        
-        
+
         # app = RestHookMN(net=net)
         # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
         CLI(net)

@@ -11,6 +11,8 @@ from mininet.net import Mininet, Host, Node, Link
 from subprocess import Popen
 
 from mn_restapi.mn_restapi_model import *
+from mn_restapi.spanning_tree import SpanningTree, convert_network
+
 import networkx as nx
 class RestHookMN(FastAPI):
     def __init__(self, net: Mininet):
@@ -68,45 +70,55 @@ class RestHookMN(FastAPI):
                 'switchname': switch_names
             }
         
-        @self.post('address')
+        @self.post('/address')
         async def address(name: str):
+            '''
+                Get MAC and IP address of a given hostname/switch/nod
+            '''
             device = net.getNodeByName(name)
             return {
                 'mac': device.MAC(),
                 'ip': device.IP()
             }
         
-        @self.get('graph')
+        @self.get('/graph')
         async def get_graph():
-            # Create an empty NetworkX graph
-            graph = nx.DiGraph()
-
-            # Add nodes to the graph
-            for node in net.nodes:
-                graph.add_node(node.name)
-
-            # Add edges to the graph
-            for link in net.links:
-                src = link.intf1.node.name
-                dst = link.intf2.node.name
-                graph.add_edge(src, dst)
-                graph.add_edge(dst, src)
-                
+            '''
+                Return Mininet network graph
+            '''
+            graph = convert_network(self.net)
             # Serialize the JSON object
             graph_json = nx.node_link_data(graph)
             return graph_json
         
-        @self.post('set_link')
-        def set_link(set_link: SetLink):
+        @self.post('config_link_status')
+        def set_link(config: ConfigLink):
             '''
                 turn on/off a link between 2 nodes
-            '''    
-            node1: Node = net.get(link.name_node1)
-            node2: Node = net.get(link.name_node2)
-            link: Link = node1.linkTo(node2)
-            if set_link.turn_on == False:
-                link.intf1.link_down()
-                return {'status': 'down'}
-            if set_link.turn_on == True:
-                link.intf1.link_up()
-                return {'status': 'up'}
+            ''' 
+            net.configLinkStatus(config.name1, config.name2, config.status)
+            return {'status': 'ok'}
+        
+        @self.get('/link_probing')
+        def link_probing():
+            '''
+                Using spanning tree algrothim to cut off loop on the network
+                then pingall
+            '''
+            graph = convert_network(self.net)
+            stree = SpanningTree(graph)
+
+            for link in stree.solution_invert()[0]:
+                print(link)
+                self.net.configLinkStatus(link[0], link[1], 'down')
+                
+            net.pingAllFull()
+            net.pingAllFull()
+            net.pingAllFull()
+            
+            for link in stree.solution_invert()[0]:
+                print(link)
+                self.net.configLinkStatus(link[0], link[1], 'up')
+            
+            # return stree value as json
+            return { stree.solution_as_networkx() }
