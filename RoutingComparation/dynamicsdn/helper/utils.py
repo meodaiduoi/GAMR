@@ -2,6 +2,7 @@ import requests as rq
 import networkx as nx
 
 def get_link_to_port():
+    # fix this to remote port
     link_to_port = rq.get('http://0.0.0.0:8080/link_to_port').json()
     # convert string key to int key
     link_to_port =  {int(key): {int(key2): value2 for key2, value2 in value.items()} for key, value in link_to_port.items()}
@@ -29,7 +30,7 @@ def flowrule_template(dpid, in_port, out_port, hostmac_src, hostmac_dst):
         "table_id": 0,
         "idle_timeout": 3000,
         "hard_timeout": 3000,
-        "priority": 1,
+        "priority": 2,
         "flags": 1,
         "match": {
             "in_port": in_port,

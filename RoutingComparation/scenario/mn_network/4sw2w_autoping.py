@@ -51,30 +51,13 @@ class MyTopo(Topo):
 if __name__ == '__main__':
     setLogLevel( 'info' )
     # add ccontroller and build the network
-    # c0 = RemoteController('c0', ip='0.0.0.0')
+    c0 = RemoteController('c0', ip='0.0.0.0')
     net = Mininet(topo=MyTopo(), 
-                #   controller=c0,
+                  controller=c0,
                   switch=OVSSwitch,
                   autoSetMacs=True,
                   ipBase='10.0.0.0')
     net.start()
-
-    # net.configLinkStatus('s1', 's4', 'down')
-    # net.pingAllFull()
-    # net.configLinkStatus('s1', 's4', 'up')
-    # net.configLinkStatus('s1', 's2', 'down')
-    # net.pingAllFull()
-    
-    # s1: Node = net.get('s1')
-    # s4: Node = net.get('s4')
-    
-    # link1 = s1.linkTo(s4)
-    # link1.delete() # Bring down the link from h1 to s1
-
-    # Perform your desired actions with the link down
-
-    # Bring the link back up
-    # link1.intf1.link_up()  # Bring up the link from h1 to s1
     
     app = RestHookMN(net=net)
     uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)

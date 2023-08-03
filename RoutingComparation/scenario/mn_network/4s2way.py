@@ -10,13 +10,13 @@ from mininet.link import TCLink
 
 from mn_switch import STPOVSSwitch
 
-# import uvicorn
+import uvicorn
+from mn_restapi.mn_restapi_hook import RestHookMN 
 
 import time
 import sys
 import os
 
-# from mn_restapi.mn_restapi_hook import RestHookMN 
 
 
 import argparse
@@ -61,9 +61,9 @@ if __name__ == '__main__':
                       ipBase='10.0.0.0')
         net.start()
 
-        # app = RestHookMN(net=net)
-        # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
-        CLI(net)
+        app = RestHookMN(net=net)
+        uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+        # CLI(net)
         net.stop()
     
     except Exception as e:

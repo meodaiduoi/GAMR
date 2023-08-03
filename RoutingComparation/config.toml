@@ -9,6 +9,9 @@ ofp = 6653
 venv11 = "/home/onos/Desktop/ryu/venv11/bin/python3.11"
 venv7 = "/home/onos/Desktop/ryu/venv7/bin/python3.7"
 ryu-manager = '/home/onos/Desktop/ryu/venv7/bin/ryu-manager'
+scenario-dir = '/home/onos/Desktop/ryu/RoutingComparasion/RoutingComparation/scenario/scenario'
+
 [app-path]
 simplehttpserver = "/home/onos/Desktop/ryu/RoutingComparasion/RoutingComparation/scenario/simplehttpserver/http_file_transfer.py"
 ryu = "/home/onos/Desktop/ryu/Yet-Another-Ryu-Simple-Network-Monitor/src/ryu-app/controller_rest.py"
+sdndb = '/home/onos/Desktop/ryu/RoutingComparasion/RoutingComparation/sdndb/crawler.py'

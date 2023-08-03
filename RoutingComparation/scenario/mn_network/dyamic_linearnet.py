@@ -1,3 +1,5 @@
+#! /home/onos/Desktop/ryu/venv11/bin/python3.11
+
 import os
 import random
 
@@ -80,10 +82,11 @@ class MyTopo( Topo ):
 def run():
     setLogLevel( 'info' )
     # add ccontroller and build the network
-    c0 = RemoteController('c0', ip='0.0.0.0')
-    net = Mininet( topo=MyTopo(), controller=c0, 
-                    autoSetMacs=True,
-                    ipBase='10.0.0.0')
+    # c0 = RemoteController('c0', ip='0.0.0.0')
+    net = Mininet(topo=MyTopo(), 
+                #   controller=c0, 
+                  autoSetMacs=True,
+                  ipBase='10.0.0.0')
     net.start()
     app = RestHookMN(net=net)
     uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)

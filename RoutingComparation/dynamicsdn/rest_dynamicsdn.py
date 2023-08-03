@@ -13,6 +13,9 @@ from ga.module_graph import Graph
 from helper.utils import *
 from helper.models import *
 
+import sys
+sys.stdout.write("\x1b]2;Rest_dynamicsdn\x07")
+
 import argparse
 
 argParser = argparse.ArgumentParser()
@@ -23,20 +26,6 @@ args = argParser.parse_args()
 DYNAMICSDN_PORT = args.rest_port
 RYU_PORT = args.ryu_port
 
-# import tomllib
-# try:
-#     with open("config.toml", "rb") as f:
-#         toml_dict = tomllib.load(f)
-# except tomllib.TOMLDecodeError:
-#     print("Yep, definitely not valid.")
-
-# RESTHOOKMN_PORT = toml_dict['service-port']['resthookmn']
-# DYNAMICSDN_PORT = toml_dict['service-port']['dynamicsdn']
-# SIMPLEHTTPSERVER_PORT = toml_dict['service-port']['simplehttpserver']
-
-
-
-
 app = FastAPI()
 memset = MemSet()
 
@@ -46,7 +35,7 @@ async def hello():
 
 
 @app.post('/routing')
-def routing(task: RouteTask):
+async def routing(task: RouteTask):
     '''
         
     '''
@@ -83,9 +72,9 @@ def routing(task: RouteTask):
         src = mapping[link["source"]]
         dst = mapping[link["target"]]
         if src != dst:
-            delay = link["delay"]
-            loss = link["packet_loss"]
-            bandwidth = link["free_bandwith"]
+            delay = link.get("delay", 0)
+            loss = link.get("packet_loss", 0)
+            bandwidth = link.get("free_bandwidth", 0)
             update_delay.append((src, dst, delay))
             update_loss.append((src, dst, loss))
             update_bandwidth.append((src, dst, bandwidth))
@@ -124,7 +113,7 @@ def routing(task: RouteTask):
     result = result_to_json(result, mapping)
     # rq.post("")
     return create_flowrule_json(result, host_json, get_link_to_port())
-
+    
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=DYNAMICSDN_PORT)
 
