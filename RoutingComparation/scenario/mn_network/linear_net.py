@@ -5,7 +5,7 @@ import random
 
 from mininet.topo import Topo
 from mininet.net import Mininet
-from mininet.node import Node, CPULimitedHost
+from mininet.node import Node, CPULimitedHost, Host
 
 from mininet.cli import CLI
 from mininet.link import Intf
@@ -33,13 +33,15 @@ OFP_PORT = args.openflow_port
 
 class MyTopo( Topo ):
     def build(self, *args, **params):
-        h1 = self.addHost('h1')
+        h1: Host = self.addHost('h1')
         h2 = self.addHost('h2')
         h3 = self.addHost('h3')
         
         s1 = self.addSwitch('s1')
         s2 = self.addSwitch('s2')        
         s3 = self.addSwitch('s3')
+
+       
 
         links = [(h1, s1), (h2, s2), 
                  (h3, s3), (s1, s2), (s2, s3)]

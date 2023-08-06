@@ -17,7 +17,8 @@ if __name__ == '__main__':
     
     # Link probing seq
     rq.get(f'http://0.0.0.0:{RESTHOOKMN_PORT}/link_probing')
-    
+    rq.get(f'http://0.0.0.0:{RESTHOOKMN_PORT}/link_probing')
+     
 
     
     

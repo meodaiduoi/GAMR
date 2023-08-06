@@ -50,12 +50,15 @@ async def routing(task: RouteTask):
         graph.add_edge(f'h{host_id}', int(host['port']['dpid']), type='host')
         graph.add_edge(int(host['port']['dpid']), f'h{host_id}', type='host')
 
+    # print graph to json
+    print(nx.node_link_data(graph))
+    
     # Mapping host h{int} to int
     mapping = dict(zip(graph.nodes(), range(1, len(graph.nodes())+1)))
+    print(mapping)
     # Creating adj-matrix of graph
     number_node = len(graph.nodes())
     bin_matrix = nx.adjacency_matrix(graph).todense()
-    print(type(bin_matrix))
     adj_matrix = [[] for i in range(number_node+1)]
     for i in range(1, number_node+1):
         for j in range(1, number_node+1):
@@ -111,8 +114,9 @@ async def routing(task: RouteTask):
 
     # return flowrule based on json result format
     result = result_to_json(result, mapping)
-    # rq.post("")
-    return create_flowrule_json(result, host_json, get_link_to_port())
+    flowrules = create_flowrule_json(result, host_json, get_link_to_port())
+    send_flowrule(flowrules)
+    return flowrules
     
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=DYNAMICSDN_PORT)

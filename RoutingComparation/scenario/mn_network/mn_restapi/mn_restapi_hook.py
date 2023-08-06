@@ -112,9 +112,7 @@ class RestHookMN(FastAPI):
                 print(link)
                 self.net.configLinkStatus(link[0], link[1], 'down')
                 
-            net.pingAllFull()
-            net.pingAllFull()
-            net.pingAllFull()
+            net.pingAll('1')
             
             for link in stree.solution_invert()[0]:
                 print(link)

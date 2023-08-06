@@ -46,7 +46,7 @@ class MyTopo( Topo ):
         
         # Adding servers
         number_of_servers = 3
-        servers = [ self.addHost( f'server{n}', cpu=0.3 ) for n in range(1, number_of_servers) ]
+        servers = [ self.addHost( f'sv{n}', cpu=0.3 ) for n in range(1, number_of_servers) ]
         ep_servers = [ self.addSwitch( f'ep_sv{n}' ) for n in range(1, number_of_servers) ] 
         for sv, ep_sv in zip(servers, ep_servers):
             self.addLink(sv, ep_sv,
@@ -82,10 +82,11 @@ class MyTopo( Topo ):
 def run():
     setLogLevel( 'info' )
     # add ccontroller and build the network
-    # c0 = RemoteController('c0', ip='0.0.0.0')
+    c0 = RemoteController('c0', ip='0.0.0.0')
     net = Mininet(topo=MyTopo(), 
-                #   controller=c0, 
+                  controller=c0, 
                   autoSetMacs=True,
+                  link=TCLink,
                   ipBase='10.0.0.0')
     net.start()
     app = RestHookMN(net=net)

@@ -10,12 +10,16 @@ from mininet.link import Intf
 from mininet.node import Controller, RemoteController, OVSSwitch, OVSKernelSwitch
 
 from mininet.topolib import TreeTopo
-from mininet.link import TCLink
+from mininet.link import TCLink, Link
 
 from mininet.log import setLogLevel, info
 from mininet.util import pmonitor
 
 import random
+
+from mn_restapi.util import *
+from mn_restapi.mn_restapi_hook import RestHookMN
+import uvicorn
 
 import argparse
 argParser = argparse.ArgumentParser()
@@ -26,39 +30,44 @@ args = argParser.parse_args()
 RESTHOOKMN_PORT = args.rest_port
 OFP_PORT = args.openflow_port
 
+import random
+# set random state of script
+random.seed(69)
+
 class MyTopo(Topo):
-    def build(self):
-        h1 =  self.addHost('h1')
-        h2 =  self.addHost('h2')
-        h3 =  self.addHost('h3')
-        h4 =  self.addHost('h4')
-        
-        # s1 = self.addSwitch('s1', protocols='OpenFlow13')
-        # s2 = self.addSwitch('s2', protocols='OpenFlow13')
-        # s3 = self.addSwitch('s3', protocols='OpenFlow13')
-        # s4 = self.addSwitch('s4', protocols='OpenFlow13')
-        
-        device_num = 16
+    def build(self):        
+        device_num = 5
         swlist = []
         for i in range(1, device_num):
-            swlist = self.addSwitch(f's{i}')
+            swlist.append(self.addSwitch(f's{i}', stp=True))
         
         hlist = []
-        for i in range()
-            for i in range(1, device_num):
-                hlist = self.addHost(f'h{i}')
+        for i in range(1, device_num):
+            hlist.append(self.addHost(f'h{i}', mac=int_to_mac(i)))
  
-        for d1, d2 in swlist, hlist:
+        for (d1, d2) in zip(swlist, hlist):
             self.addLink(d1, d2)
 
-        # 
+        # add switches and hosts
+        for (sw, h) in zip(swlist, hlist):
+            self.addLink(sw, h, bw=500, delay='1ms', max_queue_size=1000, loss=0, use_htb=True)
+        
+        # add linear path between switches
+        for i in range(len(swlist) - 1):
+            loss = random.randint(0, 3)
+            delay = random.randint(5, 20)
+            bw = random.randint(50, 100)
+            self.addLink(swlist[i], swlist[i+1], bw=bw, delay=f'{delay}ms', max_queue_size=1000, loss=loss, use_htb=True)
+               
         for d1 in swlist:
             for d2 in reversed(swlist):
-                if random.random() < 0.75:
-                    self.addLink(d1, d2)
-        
-        
-
+                # check if link between 2 nodes not exist and not connected to itself
+                if not link_exist(self, d1, d2) and d1 != d2:
+                    if random.random() < 0.45:
+                        loss = random.randint(0, 5)
+                        delay = random.randint(10, 40)
+                        self.addLink(d1, d2, bw=50, delay=f'{delay}ms',  max_queue_size=1000, loss=loss, use_htb=True)
+                
 if __name__ == '__main__':
     setLogLevel( 'info' )
     # add ccontroller and build the network
@@ -66,28 +75,12 @@ if __name__ == '__main__':
     net = Mininet(topo=MyTopo(), 
                   controller=c0,
                   switch=OVSSwitch,
-                  autoSetMacs=True,
-                  ipBase='10.0.0.0')
+                  link=TCLink,
+                  ipBase='10.0.0.0/24')
     net.start()
-
-    # net.configLinkStatus('s1', 's4', 'down')
-    # net.pingAllFull()
-    # net.configLinkStatus('s1', 's4', 'up')
-    # net.configLinkStatus('s1', 's2', 'down')
-    # net.pingAllFull()
+    enable_stp(net)
     
-    # s1: Node = net.get('s1')
-    # s4: Node = net.get('s4')
-    
-    # link1 = s1.linkTo(s4)
-    # link1.delete() # Bring down the link from h1 to s1
-
-    # Perform your desired actions with the link down
-
-    # Bring the link back up
-    # link1.intf1.link_up()  # Bring up the link from h1 to s1
-    
-    app = RestHookMN(net=net)
-    uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+    # app = RestHookMN(net=net)
+    # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
     CLI(net)
     net.stop()

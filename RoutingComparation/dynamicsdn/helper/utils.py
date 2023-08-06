@@ -1,5 +1,6 @@
 import requests as rq
 import networkx as nx
+import json
 
 def get_link_to_port():
     # fix this to remote port
@@ -56,27 +57,35 @@ def get_key(dict, value):
         
 def result_to_json(result, mapping):
     resul_list = []
+    # print(result.chromosome)
+    # print(mapping)
     for request in result.chromosome:
+        print("Request", request)
         src = get_key(mapping,request[0])
         dst = get_key(mapping,request[1])
         src = int(src[1:])
         dst = int(dst[1:])
+        request_result_map = []
+        for i in request[2][1:-1]:
+            request_result_map.append(int(get_key(mapping, i)))
+        # print("Hello")
         path = {
             'src_host': src,
             'dst_host': dst,
-            'path_dpid': request[2][1:-1]
+            'path_dpid': request_result_map
 
         }
         resul_list.append(path)
     result_json = {
         "path": resul_list
     }
+    print(resul_list)
     return result_json  
 
 def create_flowrule_json(solution, host_json, link_to_port):
     solution = solution['path'][0]
     path_dpid = solution['path_dpid']
-
+    print(path_dpid)
     hostmac_src = hostid_to_mac(solution['src_host'])
     hostmac_dst = hostid_to_mac(solution['dst_host'])
 
@@ -88,10 +97,12 @@ def create_flowrule_json(solution, host_json, link_to_port):
         # find in_port and out_port of first switch
         if i == 0:
             in_port = src_endpoint_port
+            print(path_dpid[i], path_dpid[i+1])
             out_port = link_to_port[path_dpid[i]][path_dpid[i+1]][0]
             dpid_flowport[path_dpid[i]] = (in_port, out_port)
             continue
         # find in_port and out_port of switch inbetween
+        print(path_dpid[i], path_dpid[i+1])
         in_port = link_to_port[path_dpid[i-1]][path_dpid[i]][1]
         out_port = link_to_port[path_dpid[i]][path_dpid[i+1]][0]
         dpid_flowport[path_dpid[i]] = (in_port, out_port)
@@ -107,3 +118,7 @@ def create_flowrule_json(solution, host_json, link_to_port):
         flowrules.append(flowrule_template(dpid, flowport[0], flowport[1], hostmac_src, hostmac_dst))
         flowrules.append(flowrule_template(dpid, flowport[1], flowport[0], hostmac_dst, hostmac_src))
     return flowrules
+
+def send_flowrule(flowrules):
+    for flowrule in flowrules:
+        rq.post('http://0.0.0.0:8080/flowrules', json=json.dumps(flowrules))

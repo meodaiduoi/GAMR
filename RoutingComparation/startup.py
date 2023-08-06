@@ -24,23 +24,22 @@ OFP_PORT = toml_dict['service-port']['ofp']
 # create startup sequence
 # ryu startup
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest ryu.app.simple_switch_13 {RYU};\
+                  f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest ryu.app.simple_switch_13  {RYU};\
                   read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-
 time.sleep(1)
 
 # mininet + mnresthook startup
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
-                  f'{VENV11} ./scenario/mn_network/4sw2w_autoping.py {RESTHOOKMN_PORT} {OFP_PORT};\
+                  f'{VENV11} ./scenario/mn_network/med_15sw_net.py {RESTHOOKMN_PORT} {OFP_PORT};\
                   read -p "press any key to close"'], 
                  stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
-time.sleep(1)
+time.sleep(5)
 # dynamicsdn startup
-subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{VENV11} ./dynamicsdn/rest_dynamicsdn.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
-                    read -p "press any key to close"'], 
-                    stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+# subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
+#                   f'{VENV11} ./dynamicsdn/rest_dynamicsdn.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
+#                     read -p "press any key to close"'], 
+#                     stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 # time.sleep(1)
 # # sdn_db startup
@@ -49,10 +48,10 @@ subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
 
 time.sleep(1)
 # scenario startup
-subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{VENV11} {SCENARIO_DIR}/scenario_test.py {RESTHOOKMN_PORT} {RESTDYNAMICSDN_PORT};\
-                  read -p "press any key to close"'], 
-                  stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+# subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
+#                   f'{VENV11} {SCENARIO_DIR}/scenario_test.py {RESTHOOKMN_PORT} {RESTDYNAMICSDN_PORT};\
+#                   read -p "press any key to close"'], 
+#                   stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 
 
