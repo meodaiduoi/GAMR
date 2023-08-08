@@ -41,14 +41,19 @@ async def routing(task: RouteTask):
     '''
     topo_json, graph = get_topo()
     host_json = get_host()
+    link_qualitys = rq.get('http://0.0.0.0:8080/link_quality').json()
 
     # Add host to graph
     for host in host_json['hosts']:
-        host_id = int(host['mac'].translate(str.maketrans('','',":.- ")), 16)
-        graph.add_node(f'h{host_id}', type='host')
+        dpid_int = mac_to_int(host['port']['dpid'])
+        host_int = mac_to_int(host['mac'])
+        print(f'dpid_int: {dpid_int}, host_int: {host_int}')
+        
+        # Add node to graph
+        graph.add_node(f'h{host_int}', type='host')
         # add bi-directional link between host and switch
-        graph.add_edge(f'h{host_id}', int(host['port']['dpid']), type='host')
-        graph.add_edge(int(host['port']['dpid']), f'h{host_id}', type='host')
+        graph.add_edge(f'h{host_int}', dpid_int, type='host')
+        graph.add_edge(dpid_int, f'h{host_int}', type='host')
 
     # print graph to json
     print(nx.node_link_data(graph))
@@ -65,7 +70,7 @@ async def routing(task: RouteTask):
             if bin_matrix[i-1][j-1] == 1:
                 adj_matrix[i].append(j)
 
-    # Update Links QoS parameters
+    # Update Links QoS parameters from /topology_graph
     topo_json['links']
     update_delay = []
     update_bandwidth = []
@@ -76,11 +81,32 @@ async def routing(task: RouteTask):
         dst = mapping[link["target"]]
         if src != dst:
             delay = link.get("delay", 0)
+            if delay == None: delay = 0
             loss = link.get("packet_loss", 0)
+            if loss == None: loss = 0
             bandwidth = link.get("free_bandwidth", 0)
+            if bandwidth == None: bandwidth = 0
             update_delay.append((src, dst, delay))
             update_loss.append((src, dst, loss))
             update_bandwidth.append((src, dst, bandwidth))
+    
+    # Get from data from /link_quality
+    # update_delay = []
+    # update_bandwidth = []
+    # update_loss = []
+    # for qos in link_qualitys:
+    #     src = mapping[qos['src.dpid']]
+    #     dst = mapping[qos['dst.dpid']]
+    #     if src != dst:
+    #         delay = qos.get('delay', 0)
+    #         if delay == None: delay = 0
+    #         loss = qos.get('packet_loss', 0)
+    #         if loss == None: loss = 0
+    #         bandwidth = qos.get('free_bandwidth', 0)
+    #         if bandwidth == None: bandwidth = 0
+    #         update_delay.append((src, dst, delay))
+    #         update_loss.append((src, dst, loss))
+    #         update_bandwidth.append((src, dst, bandwidth))
      
     # Reading request
     routes = task.route
@@ -98,6 +124,7 @@ async def routing(task: RouteTask):
     clients = []
     servers = []
     graph_gen = Graph(number_node, 10, 10, 10, clients, servers, adj_matrix)
+    print("Danh sach ke:", graph_gen.adj_matrix)
     for band in graph_gen.predict_bandwidth:
         band = 9999
     func = Function()
@@ -114,6 +141,7 @@ async def routing(task: RouteTask):
 
     # return flowrule based on json result format
     result = result_to_json(result, mapping)
+    print(f"result: {result}")
     flowrules = create_flowrule_json(result, host_json, get_link_to_port())
     send_flowrule(flowrules)
     return flowrules

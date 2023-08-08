@@ -14,6 +14,9 @@ def hostid_to_mac(host_id):
     mac_str = ":".join(mac_hex[i:i+2] for i in range(0, len(mac_hex), 2))
     return mac_str
 
+def mac_to_int(mac):
+    return int(mac.translate(str.maketrans('','',":.- ")), 16)
+
 def get_endpoint_info(host_mac, host_json):
     '''
         Get dpid and port_no of host connected to switch
@@ -21,7 +24,7 @@ def get_endpoint_info(host_mac, host_json):
     '''
     for host in host_json['hosts']:
         if host['mac'] == host_mac:
-            return int(host['port']['dpid']), int(host['port']['port_no'])
+            return mac_to_int(host['port']['dpid']), mac_to_int(host['port']['port_no'])
         
 def flowrule_template(dpid, in_port, out_port, hostmac_src, hostmac_dst):
     return {
@@ -31,7 +34,7 @@ def flowrule_template(dpid, in_port, out_port, hostmac_src, hostmac_dst):
         "table_id": 0,
         "idle_timeout": 3000,
         "hard_timeout": 3000,
-        "priority": 2,
+        "priority": 11,
         "flags": 1,
         "match": {
             "in_port": in_port,

@@ -36,7 +36,7 @@ random.seed(69)
 
 class MyTopo(Topo):
     def build(self):        
-        device_num = 5
+        device_num = 15
         swlist = []
         for i in range(1, device_num):
             swlist.append(self.addSwitch(f's{i}', stp=True))
@@ -54,8 +54,8 @@ class MyTopo(Topo):
         
         # add linear path between switches
         for i in range(len(swlist) - 1):
-            loss = random.randint(0, 3)
-            delay = random.randint(5, 20)
+            loss = random.randint(0, 1)
+            delay = random.randint(5, 10)
             bw = random.randint(50, 100)
             self.addLink(swlist[i], swlist[i+1], bw=bw, delay=f'{delay}ms', max_queue_size=1000, loss=loss, use_htb=True)
                
@@ -63,9 +63,9 @@ class MyTopo(Topo):
             for d2 in reversed(swlist):
                 # check if link between 2 nodes not exist and not connected to itself
                 if not link_exist(self, d1, d2) and d1 != d2:
-                    if random.random() < 0.45:
-                        loss = random.randint(0, 5)
-                        delay = random.randint(10, 40)
+                    if random.random() < 0.10:
+                        loss = random.randint(0, 3)
+                        delay = random.randint(10, 25)
                         self.addLink(d1, d2, bw=50, delay=f'{delay}ms',  max_queue_size=1000, loss=loss, use_htb=True)
                 
 if __name__ == '__main__':
@@ -79,6 +79,7 @@ if __name__ == '__main__':
                   ipBase='10.0.0.0/24')
     net.start()
     enable_stp(net)
+    wait_for_stp(net)
     
     # app = RestHookMN(net=net)
     # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)

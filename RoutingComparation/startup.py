@@ -24,7 +24,7 @@ OFP_PORT = toml_dict['service-port']['ofp']
 # create startup sequence
 # ryu startup
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest ryu.app.simple_switch_13  {RYU};\
+                  f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest ryu.app.simple_switch_13 {RYU};\
                   read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 time.sleep(1)
 
@@ -36,15 +36,15 @@ subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
 
 time.sleep(5)
 # dynamicsdn startup
-# subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-#                   f'{VENV11} ./dynamicsdn/rest_dynamicsdn.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
-#                     read -p "press any key to close"'], 
-#                     stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
+                  f'{VENV11} ./dynamicsdn/rest_dynamicsdn.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
+                    read -p "press any key to close"'], 
+                    stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
-# time.sleep(1)
-# # sdn_db startup
-# subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-#                   f'{VENV11} {SDNDB} {RYU_PORT}'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+time.sleep(1)
+# sdn_db startup
+subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
+                  f'{VENV11} ./sdndb/crawler.py {RYU_PORT}'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 time.sleep(1)
 # scenario startup
