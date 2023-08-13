@@ -12,8 +12,12 @@ except tomllib.TOMLDecodeError:
 VENV11 = toml_dict['venv-path']['venv11']
 VENV7 = toml_dict['venv-path']['venv7']
 RYU_MANAGER = toml_dict['venv-path']['ryu-manager']
-SCENARIO_DIR = toml_dict['venv-path']['scenario-dir']
-RYU = toml_dict['app-path']['ryu']
+
+RYUAPP_DIR = toml_dict['app-path']['ryuapp-dir']
+RYUAPP_CONTROLLERREST = toml_dict['app-path']['ryuapp-controllerrest']
+RYUAPP_FLOWMANAGER = toml_dict['app-path']['ryuapp-flowmanager']
+
+SCENARIO_DIR = toml_dict['app-path']['scenario-dir']
 SDNDB = toml_dict['app-path']['sdndb']
 
 RYU_PORT = toml_dict['service-port']['ryu']
@@ -23,14 +27,24 @@ OFP_PORT = toml_dict['service-port']['ofp']
 
 # create startup sequence
 # ryu startup
+# subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
+#                   f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest {RYUAPP_DIR}/manualswitch.py {RYUAPP_FLOWMANAGER} {RYUAPP_CONTROLLERREST};\
+#                   read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+# DEbug
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest ryu.app.simple_switch_13 {RYU};\
+                  f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest {RYUAPP_DIR}/simple_switch_13.py {RYUAPP_FLOWMANAGER} {RYUAPP_CONTROLLERREST};\
                   read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+
 time.sleep(1)
 
 # mininet + mnresthook startup
+# subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
+#                   f'{VENV11} ./scenario/mn_network/med_15sw_net.py {RESTHOOKMN_PORT} {OFP_PORT};\
+#                   read -p "press any key to close"'], 
+#                  stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
-                  f'{VENV11} ./scenario/mn_network/med_15sw_net.py {RESTHOOKMN_PORT} {OFP_PORT};\
+                  f'{VENV11} ./scenario/mn_network/4sw2w_autoping.py {RESTHOOKMN_PORT} {OFP_PORT};\
                   read -p "press any key to close"'], 
                  stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 

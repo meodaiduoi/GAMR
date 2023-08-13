@@ -37,7 +37,7 @@ async def hello():
 @app.post('/routing')
 async def routing(task: RouteTask):
     '''
-        
+        Routing using GA alogrithm
     '''
     topo_json, graph = get_topo()
     host_json = get_host()
@@ -143,7 +143,7 @@ async def routing(task: RouteTask):
     result = result_to_json(result, mapping)
     print(f"result: {result}")
     flowrules = create_flowrule_json(result, host_json, get_link_to_port())
-    send_flowrule(flowrules)
+    send_flowrule(flowrules, RYU_PORT)
     return flowrules
     
 if __name__ == '__main__':

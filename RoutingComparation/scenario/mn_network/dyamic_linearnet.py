@@ -77,7 +77,6 @@ class MyTopo( Topo ):
                                  bw=100,
                                  delay='2ms',
                                  loss=2)
-        
             
 def run():
     setLogLevel( 'info' )

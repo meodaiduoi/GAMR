@@ -10,9 +10,12 @@ from mininet.link import TCLink
 
 from mininet.log import setLogLevel
 
-import uvicorn
-from mn_restapi.mn_restapi_hook import RestHookMN
+# import uvicorn
+# from mn_restapi.mn_restapi_hook import RestHookMN
+from mn_restapi.util import *
 
+import random
+random.seed(69)
 
 import argparse
 argParser = argparse.ArgumentParser()
@@ -35,19 +38,19 @@ class MyTopo(Topo):
         # s3 = self.addSwitch('s3', protocols='OpenFlow13')
         # s4 = self.addSwitch('s4', protocols='OpenFlow13')
 
-        s1 = self.addSwitch('s1')
-        s2 = self.addSwitch('s2')
-        s3 = self.addSwitch('s3')
-        s4 = self.addSwitch('s4')
+        s1 = self.addSwitch('s1', stp=True)
+        s2 = self.addSwitch('s2', stp=True)
+        s3 = self.addSwitch('s3', stp=True)
+        s4 = self.addSwitch('s4', stp=True)
 
         ep_list = [(h1, s1), (h2, s2), (h3, s3), (h4, s4)]
         link_route = [(s1, s2), (s2, s3), (s3, s4), (s4, s1)]
         # link_route = [(s1, s2), (s2, s3), (s3, s4)]
         
         for d1, d2 in ep_list:
-            self.addLink(d1, d2, delay='2ms')
+            self.addLink(d1, d2, delay=f'{random.randint(1, 10)}ms', loss=random.randint(0, 1), max_queue_size=1000, use_htb=True)
         for d1, d2 in link_route:
-            self.addLink(d1, d2, delay='2ms')
+            self.addLink(d1, d2, delay=f'{random.randint(10, 30)}ms', loss=random.randint(0, 10), max_queue_size=1000, use_htb=True)
 
 if __name__ == '__main__':
     setLogLevel( 'info' )
@@ -61,7 +64,10 @@ if __name__ == '__main__':
                   ipBase='10.0.0.0')
     net.start()
     
-    app = RestHookMN(net=net)
-    uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+    enable_stp(net)
+    wait_for_stp(net)
+    
+    # app = RestHookMN(net=net)
+    # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
     CLI(net)
     net.stop()
