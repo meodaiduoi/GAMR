@@ -28,26 +28,35 @@ async def hello():
 
 
 @app.post('/routing/manual')
-async def routing(tasks: ManualRouteTask):
+async def routing(tasks: ManualRouteTasks):
     '''
     Manual routing \n
     
     '''
-    mapping, graph: nx.DiGraph = get_full_topo_graph()
+    _, graph: nx.DiGraph = get_full_topo_graph()
+    flowrules = []
     for task in tasks.route:
-        path = [task.src_host] + task.path + [task.dst_host]
-        if nx.is_path(graph, path):
-            create_flowrule_json(get_host(), get_link_to_port(), )
-    
-    
+        path = [task.src_host] + task.dpid_path + [task.dst_host]
+        task.model_dump()
+        if nx.is_path(graph, task.dpid_path):
+            flowrules.append(create_flowrule_json(task.model_dump(), get_host(), get_link_to_port()))
+    return send_flowrule(flowrules)
+
 @app.post('/routing/shortest_path')
-async def routing(tasks: RouteTask):
+async def routing(tasks: RouteTasks):
     '''
     Shortest path routing \n
     '''
-    mapping, graph: nx.DiGraph = get_full_topo_graph()
+    _, graph: nx.DiGraph = get_full_topo_graph()
+    solutions = []
+    flowrules = []
     for task in tasks.route:
         if nx.has_path(graph, task.src_host, task.dst_host):
-            path = list(nx.shortest_path(graph, task.src_host, task.dst_host))
-
-    ...
+            path = list(nx.shortest_path(graph, f'h{task.src_host}', f'h{task.dst_host}'))
+            solutions.append({
+                'src_host': task.src_host,
+                'dst_host': task.dst_host,
+                'dpid_path': path,
+            })
+            flowrules = create_flowrule_json(solutions, get_host(), get_link_to_port())
+    return send_flowrule(flowrules)

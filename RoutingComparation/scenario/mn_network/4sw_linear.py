@@ -61,9 +61,9 @@ if __name__ == '__main__':
                       ipBase='10.0.0.0')
         net.start()
 
-        # app = RestHookMN(net=net)
-        # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
-        CLI(net)
+        app = RestHookMN(net=net)
+        uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+        # CLI(net)
         net.stop()
     
     except Exception as e:

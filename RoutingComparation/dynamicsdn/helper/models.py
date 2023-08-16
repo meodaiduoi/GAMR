@@ -4,14 +4,13 @@ class SrcDst(BaseModel):
     src_host: int
     dst_host: int
 
-class RouteTask(BaseModel):
+class RouteTasks(BaseModel):
     route: list[SrcDst]
-    
 
 class ManualRoute(BaseModel):
     src_host: int
     dst_host: int
-    path: list[int]
+    dpid_path: list[int]
 
-class ManualRouteTask(BaseModel):
+class ManualRouteTasks(BaseModel):
     route: list[ManualRoute]

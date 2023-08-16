@@ -64,8 +64,8 @@ if __name__ == '__main__':
                   ipBase='10.0.0.0')
     net.start()
     
-    enable_stp(net)
-    wait_for_stp(net)
+    # enable_stp(net)
+    # wait_for_stp(net)
     
     # app = RestHookMN(net=net)
     # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)

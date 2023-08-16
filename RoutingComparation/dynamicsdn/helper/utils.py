@@ -145,10 +145,17 @@ def create_flowrule_json(solutions, host_json, link_to_port):
     return flowrules
 
 def send_flowrule(flowrules, ryu_rest_port):
+    status = []
     for flowrule in flowrules:
-        status = rq.post(f'http://0.0.0.0:{ryu_rest_port}/stats/flowentry/add', json=json.dumps(flowrule)).status_code
-        logging.info(f'Adding flowrule status: {status}')
-        
+        result = rq.post(f'http://0.0.0.0:{ryu_rest_port}/stats/flowentry/add', data=json.dumps(flowrule))
+        status.append({
+            'status': result.status_code,
+            'src_host': flowrule.get('src_host'),
+            'dst_host': flowrule.get('dst_host'),
+            'dpid_path': flowrule.get('dpid_path')
+        })
+    return status
+            
 def get_full_topo_graph():
     # dict, nx.DiGraph    
     topo_json, graph = get_topo()

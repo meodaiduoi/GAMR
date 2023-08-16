@@ -35,7 +35,7 @@ async def hello():
 
 
 @app.post('/routing')
-async def routing(task: RouteTask):
+async def routing(task: RouteTasks):
     '''
         Routing using GA alogrithm
     '''
@@ -111,10 +111,10 @@ async def routing(task: RouteTask):
     # Reading request
     routes = task.route
     request = []
+    
     for route in routes:
-        # src = 'h' + str(router['src_host'])
-        src = f'''h{route.src_host}'''
-        dst = f'''h{route.dst_host}'''
+        src = f'h{route.src_host}'
+        dst = f'h{route.dst_host}'
         src = mapping[src]
         dst = mapping[dst]
         request.append((src, dst))
