@@ -27,7 +27,7 @@ def get_endpoint_info(host_mac, host_json):
         if host['mac'] == host_mac:
             return mac_to_int(host['port']['dpid']), mac_to_int(host['port']['port_no'])
         
-def flowrule_template(dpid, in_port, out_port, hostmac_src, hostmac_dst, priority=2):
+def flowrule_template(dpid, in_port, out_port, hostmac_src, hostmac_dst, priority=1):
     return {
         "dpid": dpid,
         "cookie": 1,
@@ -52,8 +52,12 @@ def get_topo():
     topo_json = rq.get('http://0.0.0.0:8080/topology_graph').json()
     return topo_json, nx.json_graph.node_link_graph(topo_json)
 
-def get_host():
-    return rq.get('http://0.0.0.0:8080/hosts').json()
+def get_host(max_display_mac=-1):
+    # I have to some dirty hack to remove invalid hosts
+    hosts = rq.get('http://0.0.0.0:8080/hosts').json()
+    if max_display_mac > 0: 
+        hosts = {'hosts': [host for host in hosts['hosts'] if mac_to_int(host['mac']) < 100]}
+    return hosts
 
 def get_key(dict, value):
     for key, val in dict.items():
@@ -82,13 +86,14 @@ def result_to_json(result, mapping):
         }
         resul_list.append(path)
     result_json = {
-        "path": resul_list
+        'route': resul_list
     }
     print(resul_list)
     return result_json  
 
 def create_flowrule_json(solutions, host_json, link_to_port):
-    for solution in solutions['path']:
+    flowrules = []
+    for solution in solutions['route']:
         path_dpid = solution['path_dpid']
         hostmac_src = hostid_to_mac(solution['src_host'])
         hostmac_dst = hostid_to_mac(solution['dst_host'])
@@ -137,10 +142,9 @@ def create_flowrule_json(solutions, host_json, link_to_port):
                 # print(in_port, out_port)
 
         # create bi-directional flowrule
-    flowrules = []
-    for dpid, port_pair in zip(dpid_flowport['dpid_path'], dpid_flowport['port_pair_path']):
-        flowrules.append(flowrule_template(dpid, port_pair[0], port_pair[1], hostmac_src, hostmac_dst))
-        flowrules.append(flowrule_template(dpid, port_pair[1], port_pair[0], hostmac_dst, hostmac_src))
+        for dpid, port_pair in zip(dpid_flowport['dpid_path'], dpid_flowport['port_pair_path']):
+            flowrules.append(flowrule_template(dpid, port_pair[0], port_pair[1], hostmac_src, hostmac_dst))
+            flowrules.append(flowrule_template(dpid, port_pair[1], port_pair[0], hostmac_dst, hostmac_src))
 
     return flowrules
 
@@ -150,16 +154,14 @@ def send_flowrule(flowrules, ryu_rest_port):
         result = rq.post(f'http://0.0.0.0:{ryu_rest_port}/stats/flowentry/add', data=json.dumps(flowrule))
         status.append({
             'status': result.status_code,
-            'src_host': flowrule.get('src_host'),
-            'dst_host': flowrule.get('dst_host'),
-            'dpid_path': flowrule.get('dpid_path')
+            'flowrule': flowrule
         })
     return status
             
-def get_full_topo_graph():
+def get_full_topo_graph(max_display_mac=100) -> tuple[dict, nx.DiGraph]:
     # dict, nx.DiGraph    
     topo_json, graph = get_topo()
-    host_json = get_host()
+    host_json = get_host(max_display_mac)
 
     # Add host to graph
     for host in host_json['hosts']:
@@ -173,10 +175,27 @@ def get_full_topo_graph():
         graph.add_edge(f'h{host_int}', dpid_int, type='host')
         graph.add_edge(dpid_int, f'h{host_int}', type='host')
 
-    # print graph to json
-    # print(nx.node_link_data(graph))
-    
     # Mapping host h{int} to int
     mapping: dict = dict(zip(graph.nodes(), range(1, len(graph.nodes())+1)))
 
     return mapping, graph
+
+def get_link_qos():
+    # Get from data from /link_quality
+    link_qualitys = rq.get('http://0.0.0.0:8080/link_quality').json()
+    update_delay = []
+    update_bandwidth = []
+    update_loss = []
+    for qos in link_qualitys:
+        src = qos['src.dpid']
+        dst = qos['dst.dpid']
+        if src != dst:
+            delay = qos.get('delay', 0)
+            if delay == None: delay = 0
+            loss = qos.get('packet_loss', 0)
+            if loss == None: loss = 0
+            bandwidth = qos.get('free_bandwidth', 0)
+            if bandwidth == None: bandwidth = 0
+            update_delay.append((src, dst, delay))
+            update_loss.append((src, dst, loss))
+            update_bandwidth.append((src, dst, bandwidth))

@@ -36,11 +36,17 @@ class MyTopo(Topo):
         h3 =  self.addHost('h3')
         h4 =  self.addHost('h4')
         
-        s1 = self.addSwitch('s1', protocols='OpenFlow13')
-        s2 = self.addSwitch('s2', protocols='OpenFlow13')
-        s3 = self.addSwitch('s3', protocols='OpenFlow13')
-        s4 = self.addSwitch('s4', protocols='OpenFlow13')
+        # Not recomened
+        # s1 = self.addSwitch('s1', protocols='OpenFlow13')
+        # s2 = self.addSwitch('s2', protocols='OpenFlow13')
+        # s3 = self.addSwitch('s3', protocols='OpenFlow13')
+        # s4 = self.addSwitch('s4', protocols='OpenFlow13')
 
+        s1 = self.addSwitch('s1', stp=True)
+        s2 = self.addSwitch('s2', stp=True)
+        s3 = self.addSwitch('s3', stp=True)
+        s4 = self.addSwitch('s4', stp=True)
+        
         ep_list = [(h1, s1), (h2, s2), (h3, s3), (h4, s4)]
         link_route = [(s1, s2), (s2, s3), (s3, s4), (s4, s1)]
 

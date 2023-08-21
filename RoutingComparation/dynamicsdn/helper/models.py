@@ -10,7 +10,7 @@ class RouteTasks(BaseModel):
 class ManualRoute(BaseModel):
     src_host: int
     dst_host: int
-    dpid_path: list[int]
+    path_dpid: list[int]
 
 class ManualRouteTasks(BaseModel):
     route: list[ManualRoute]

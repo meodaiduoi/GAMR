@@ -117,6 +117,7 @@ async def routing(task: RouteTasks):
         dst = f'h{route.dst_host}'
         src = mapping[src]
         dst = mapping[dst]
+        print('reading rq', src, dst)
         request.append((src, dst))
 
     # Sovling problem to find solution
@@ -143,8 +144,7 @@ async def routing(task: RouteTasks):
     result = result_to_json(result, mapping)
     print(f"result: {result}")
     flowrules = create_flowrule_json(result, host_json, get_link_to_port())
-    send_flowrule(flowrules, RYU_PORT)
-    return flowrules
+    return send_flowrule(flowrules, RYU_PORT)
     
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=DYNAMICSDN_PORT)

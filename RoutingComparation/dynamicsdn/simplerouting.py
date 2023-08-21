@@ -33,30 +33,35 @@ async def routing(tasks: ManualRouteTasks):
     Manual routing \n
     
     '''
-    _, graph: nx.DiGraph = get_full_topo_graph()
+    mapping, graph = get_full_topo_graph()
+    
     flowrules = []
     for task in tasks.route:
-        path = [task.src_host] + task.dpid_path + [task.dst_host]
+        path = [task.src_host] + task.path_dpid + [task.dst_host]
         task.model_dump()
-        if nx.is_path(graph, task.dpid_path):
+        if nx.is_path(graph, task.path_dpid):
             flowrules.append(create_flowrule_json(task.model_dump(), get_host(), get_link_to_port()))
-    return send_flowrule(flowrules)
+    return send_flowrule(flowrules, ryu_rest_port=RYU_PORT)
 
 @app.post('/routing/shortest_path')
 async def routing(tasks: RouteTasks):
     '''
     Shortest path routing \n
     '''
-    _, graph: nx.DiGraph = get_full_topo_graph()
-    solutions = []
+    mapping, graph = get_full_topo_graph()
+    
+    solutions = {'route': []}
     flowrules = []
     for task in tasks.route:
         if nx.has_path(graph, task.src_host, task.dst_host):
             path = list(nx.shortest_path(graph, f'h{task.src_host}', f'h{task.dst_host}'))
-            solutions.append({
+            solutions['route'].append({
                 'src_host': task.src_host,
                 'dst_host': task.dst_host,
-                'dpid_path': path,
+                'path_dpid': path[1:-1],
             })
             flowrules = create_flowrule_json(solutions, get_host(), get_link_to_port())
-    return send_flowrule(flowrules)
+    return send_flowrule(flowrules, ryu_rest_port=RYU_PORT)
+
+if __name__ == '__main__':
+    uvicorn.run(app, host="0.0.0.0", port=DYNAMICSDN_PORT)

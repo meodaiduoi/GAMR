@@ -17,8 +17,9 @@ from mininet.link import TCLink
 from mininet.log import setLogLevel, info
 from mininet.util import pmonitor
 
+from mn_restapi.util import * 
+from mn_restapi.mn_restapi_hook import *
 import uvicorn
-from mn_restapi.mn_restapi_hook import RestHookMN 
 
 import argparse
 argParser = argparse.ArgumentParser()
@@ -87,10 +88,18 @@ def run():
                   autoSetMacs=True,
                   link=TCLink,
                   ipBase='10.0.0.0')
+    
+    # ARP must be enable if you want adding flow manually
+    net.staticArp()
     net.start()
-    app = RestHookMN(net=net)
-    uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
-    # CLI(net)
+
+    # Enable spanning tree protocol (optional)
+    enable_stp(net)
+    wait_for_stp(net)
+    
+    # app = RestHookMN(net=net)
+    # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+    CLI(net)
     net.stop()
     
 if __name__ == '__main__':
