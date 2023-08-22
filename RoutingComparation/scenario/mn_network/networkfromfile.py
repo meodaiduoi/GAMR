@@ -16,6 +16,7 @@ from mininet.util import pmonitor
 
 import networkx as nx
 import random
+random.seed(69)
 
 from mn_restapi.util import * 
 from mn_restapi.mn_restapi_hook import *
@@ -47,20 +48,26 @@ if __name__ == '__main__':
     
     # Construct mininet
     for n in graph.nodes:
+        # Overide start index from 0 to 1
+        n = int(n) + 1
+        
         net.addSwitch(f"s{n}", stp=True)
         # Add single host on designated switches
 
-        net.addHost(f"h{n}")
+        net.addHost(f"h{n}", mac=int_to_mac(n))
         # directly add the link between hosts and their gateways
+        # There is no point adding spec at endpoint because we cant mesuare it anyway
         net.addLink(f's{n}', f'h{n}',
-                    bw=random.randint(100, 300),
-                    delay=f'{random.randint(1, 5)}ms',
-                    # loss=random.randint(0),
-                    max_queue_size=1000, use_htb=True
-                    )
+                    max_queue_size=1000, use_htb=True)
     
     # Connect your switches to each other as defined in networkx graph
+    spec_list = {}
     for (n1, n2) in graph.edges:
+        
+        # Overide start index from 0 to 1
+        n1 = int(n1) + 1
+        n2 = int(n2) + 1
+        
         net.addLink(f's{n1}', f's{n2}',
                     bw=random.randint(50, 100),
                     delay=f'{random.randint(10, 50)}ms',
