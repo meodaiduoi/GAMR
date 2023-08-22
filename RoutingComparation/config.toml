@@ -6,16 +6,16 @@ ryu = 8080
 ofp = 6653
 
 [venv-path]
-venv11 = "/home/onos/Desktop/ryu/venv11/bin/python3.11"
-venv7 = "/home/onos/Desktop/ryu/venv7/bin/python3.7"
-ryu-manager = '/home/onos/Desktop/ryu/venv7/bin/ryu-manager'
+venv11 = "../../venv11/bin/python3.11"
+venv7 = "../../venv7/bin/python3.7"
+ryu-manager = '../../venv7/bin/ryu-manager'
 
 [app-path]
-simplehttpserver = "/home/onos/Desktop/ryu/RoutingComparasion/RoutingComparation/scenario/simplehttpserver/http_file_transfer.py"
+simplehttpserver = "./scenario/simplehttpserver/http_file_transfer.py"
 
-scenario-dir = '/home/onos/Desktop/ryu/RoutingComparasion/RoutingComparation/scenario/scenario'
-ryuapp-dir = '/home/onos/Desktop/ryu/Yet-Another-Ryu-Simple-Network-Monitor/src/ryu-app'
+scenario-dir = './scenario/scenario'
+ryuapp-dir = '../../Yet-Another-Ryu-Simple-Network-Monitor/src/ryu-app'
 
-ryuapp-controllerrest = "/home/onos/Desktop/ryu/Yet-Another-Ryu-Simple-Network-Monitor/src/ryu-app/controller_rest.py"
-ryuapp-flowmanager = '/home/onos/Desktop/ryu/flowmanager/flowmanager.py'
-sdndb = '/home/onos/Desktop/ryu/RoutingComparasion/RoutingComparation/sdndb/crawler.py'
+ryuapp-controllerrest = "../../Yet-Another-Ryu-Simple-Network-Monitor/src/ryu-app/controller_rest.py"
+ryuapp-flowmanager = '../../flowmanager/flowmanager.py'
+sdndb = './sdndb/crawler.py'

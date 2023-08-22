@@ -48,15 +48,22 @@ if __name__ == '__main__':
     
     # Construct mininet
     for n in graph.nodes:
-        # Overide start index from 0 to 1
+        '''
+        Overide start index from 0 to 1 for 
+        mininet convention host and sw starting from 1
+        '''
         n = int(n) + 1
         
-        net.addSwitch(f"s{n}", stp=True)
+        # set switch dpid and host mac addr
+        sw = net.addSwitch(f"s{n}", dpid=str(n).zfill(16), stp=True)
         # Add single host on designated switches
-
         net.addHost(f"h{n}", mac=int_to_mac(n))
-        # directly add the link between hosts and their gateways
-        # There is no point adding spec at endpoint because we cant mesuare it anyway
+        
+        '''
+        directly add the link between hosts and their gateways
+        There is no point adding spec at endpoint because 
+        we cant mesuare it anyway
+        '''
         net.addLink(f's{n}', f'h{n}',
                     max_queue_size=1000, use_htb=True)
     
@@ -68,22 +75,25 @@ if __name__ == '__main__':
         n1 = int(n1) + 1
         n2 = int(n2) + 1
         
+        loss = random.randint(0, 4)
+        delay = random.randint(10, 50)
+        bw = random.randint(50, 100)
+        
         net.addLink(f's{n1}', f's{n2}',
-                    bw=random.randint(50, 100),
-                    delay=f'{random.randint(10, 50)}ms',
-                    loss=random.randint(0, 4),
-                    max_queue_size=1000, use_htb=True
-                    )
+                    bw=bw,
+                    delay=f'{delay}ms',
+                    loss=loss,
+                    max_queue_size=1000, use_htb=True)
     
     # ARP must be enable if you want adding flow manually
     net.staticArp()
     net.start()
 
     # Enable spanning tree protocol (optional)
-    enable_stp(net)
-    wait_for_stp(net)
+    # enable_stp(net)
+    # wait_for_stp(net)
     
-    # app = RestHookMN(net=net)
-    # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+    app = RestHookMN(net=net)
+    uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
     CLI(net)
     net.stop()

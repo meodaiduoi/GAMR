@@ -37,6 +37,7 @@ class MyTopo( Topo ):
         h1 =  self.addHost( 'h1',  ip='10.10.2.1/24' ,mac='00:00:00:00:00:01',defaultRoute='via 10.10.2.254' )
         h2 =  self.addHost( 'h2',  ip='10.10.2.2/24', mac='00:00:00:00:00:02',defaultRoute='via 10.10.2.254' )
         
+        # suggeest using str(number).zfill(5) for dpid param
         sc1 = self.addSwitch( 'sc1', dpid='0000000000000001', stp=True )
         sc2 = self.addSwitch( 'sc2', dpid='0000000000000002', stp=True )
         sc3 = self.addSwitch( 'sc3', dpid='0000000000000003', stp=True )
