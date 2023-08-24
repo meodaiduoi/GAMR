@@ -8,7 +8,8 @@ ofp = 6653
 [venv-path]
 venv11 = "../../venv11/bin/python3.11"
 venv7 = "../../venv7/bin/python3.7"
-ryu-manager = '../../venv7/bin/ryu-manager'
+ryu-manager-python7 = '../../venv7/bin/ryu-manager'
+ryu-manager-python8 = '../../venv8/bin/ryu-manager'
 
 [app-path]
 simplehttpserver = "./scenario/simplehttpserver/http_file_transfer.py"

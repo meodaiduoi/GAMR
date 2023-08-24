@@ -9,7 +9,7 @@ except tomllib.TOMLDecodeError:
     print("Yep, definitely not valid.")
 
 # ENV variable
-RYU_MANAGER = toml_dict['venv-path']['ryu-manager-python7']
+RYU_MANAGER = toml_dict['venv-path']['ryu-manager-python8']
 
 RYUAPP_DIR = toml_dict['app-path']['ryuapp-dir']
 RYUAPP_CONTROLLERREST = toml_dict['app-path']['ryuapp-controllerrest']

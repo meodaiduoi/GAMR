@@ -1,6 +1,3 @@
-#! /home/onos/Desktop/ryu/venv11/bin/python3.11
-
-
 from mininet.topo import Topo
 from mininet.net import Mininet
 

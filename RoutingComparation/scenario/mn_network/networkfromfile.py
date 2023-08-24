@@ -1,4 +1,6 @@
-#! /home/onos/Desktop/ryu/venv11/bin/python3.11
+'''
+    Generating network topology from a graphml file.
+'''
 
 from mininet.topo import Topo
 from mininet.net import Mininet
@@ -15,8 +17,9 @@ from mininet.log import setLogLevel, info
 from mininet.util import pmonitor
 
 import networkx as nx
+
 import random
-random.seed(69)
+# random.seed(69)
 
 from mn_restapi.util import * 
 from mn_restapi.mn_restapi_hook import *
@@ -93,7 +96,9 @@ if __name__ == '__main__':
     # enable_stp(net)
     # wait_for_stp(net)
     
-    app = RestHookMN(net=net)
-    uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+    # Using prebuilt restapi (fastapi) Optional
+    # app = RestHookMN(net=net)
+    # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+    
     CLI(net)
     net.stop()
