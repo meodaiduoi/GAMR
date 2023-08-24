@@ -23,12 +23,11 @@ RESTHOOKMN_PORT = toml_dict['service-port']['resthookmn']
 RESTDYNAMICSDN_PORT = toml_dict['service-port']['dynamicsdn']
 OFP_PORT = toml_dict['service-port']['ofp']
 
-print(VENV11)
-
 # create startup sequence
 # ryu startup
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest {RYUAPP_DIR}/manualswitch.py \
+                  f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} \
+                    ryu.app.ofctl_rest {RYUAPP_DIR}/manualswitch.py \
                     {RYUAPP_FLOWMANAGER} {RYUAPP_CONTROLLERREST};\
                   read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 # DEbug
@@ -39,17 +38,20 @@ subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
 time.sleep(1)
 
 # mininet + mnresthook startup
+# Premade network
 # subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
 #                   f'{VENV11} ./scenario/mn_network/med_15sw_net.py {RESTHOOKMN_PORT} {OFP_PORT};\
 #                   read -p "press any key to close"'], 
 #                  stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
+# Load from file
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
-                  f'{VENV11} ./scenario/mn_network/med_15sw_net.py {RESTHOOKMN_PORT} {OFP_PORT};\
+                  f'{VENV11} ./scenario/mn_network/networkfromfile.py ./scenario/mn_network/graphml_ds/Oxford.graphml -apip {RESTHOOKMN_PORT} -ofp {OFP_PORT};\
                   read -p "press any key to close"'], 
                  stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 time.sleep(5)
+
 # dynamicsdn startup
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
                   f'{VENV11} ./dynamicsdn/rest_dynamicsdn.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\

@@ -1,5 +1,5 @@
 import requests as rq
-from helper.utils import *
+from common.utils import *
 import argparse
 argParser = argparse.ArgumentParser()
 argParser.add_argument("resthookmn_port", type=int, help="resthookmn remote rest api port")
@@ -16,8 +16,8 @@ if __name__ == '__main__':
     # switchname = devicename['switchname']
     
     # Link probing seq
-    rq.get(f'http://0.0.0.0:{RESTHOOKMN_PORT}/link_probing')
-    rq.get(f'http://0.0.0.0:{RESTHOOKMN_PORT}/link_probing')
+    # rq.get(f'http://0.0.0.0:{RESTHOOKMN_PORT}/link_probing')
+    # rq.get(f'http://0.0.0.0:{RESTHOOKMN_PORT}/link_probing')
      
 
     

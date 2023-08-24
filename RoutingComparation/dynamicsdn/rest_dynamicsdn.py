@@ -10,8 +10,8 @@ from ga.module_memset import MemSet
 from ga.module_population import Population
 from ga.module_graph import Graph
 
-from helper.utils import *
-from helper.models import *
+from common.utils import *
+from common.models import *
 
 import sys
 sys.stdout.write("\x1b]2;Rest_dynamicsdn\x07")

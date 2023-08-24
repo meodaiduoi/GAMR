@@ -4,34 +4,44 @@ import requests as rq
 import argparse
 import time
 import os
+import datetime
+
+
 
 argParser = argparse.ArgumentParser()
 argParser.add_argument("rest_port", type=int, help="resthookmn startup rest api port")
-
-con = sqlite3.connect('db/linkcost.db')
-
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
 
 def set_cwd_to_file_location():
     file_path = os.path.abspath(__file__)
     os.chdir(os.path.dirname(file_path))
 set_cwd_to_file_location()
-print(os.getcwd())
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+logging.info(f'current working dir: {os.getcwd()}')
+
+def mkdir(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+        logging.info(f"Folder: {path} created")
+
+folder = 'db'
+mkdir(folder)
+current_time = datetime.datetime.now()
+formatted_time = current_time.strftime("%H-%M-%S--%d-%m-%Y")
+con = sqlite3.connect(f'{folder}/linkcost-{formatted_time}.db')
 
 # Create table with 
 try:
-    con.execute('''CREATE TABLE linkcost
-            (
-            time_id INTEGER, 
-            src_dpid INTEGER,
-            dst_dpid INTEGER,
-            delay REAL,
-            packet_loss REAL,
-            link_usage REAL,
-            free_bandwidth REAL   
-                
-                )''')
+    con.execute('''CREATE TABLE linkcost (
+                time_id INTEGER, 
+                src_dpid INTEGER,
+                dst_dpid INTEGER,
+                delay REAL,
+                packet_loss REAL,
+                link_usage REAL,
+                free_bandwidth REAL   
+            )''')
     con.commit()
     logging.info("Table created successfully")
 except sqlite3.OperationalError:

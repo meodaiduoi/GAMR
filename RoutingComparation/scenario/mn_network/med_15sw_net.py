@@ -13,8 +13,8 @@ from mininet.log import setLogLevel, info
 from mininet.util import pmonitor
 
 from mn_restapi.util import *
-# from mn_restapi.mn_restapi_hook import RestHookMN
-# import uvicorn
+from mn_restapi.mn_restapi_hook import RestHookMN
+import uvicorn
 
 import argparse
 argParser = argparse.ArgumentParser()
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     # enable_stp(net)
     # wait_for_stp(net)
     
-    # app = RestHookMN(net=net)
-    # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+    app = RestHookMN(net=net)
+    uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
     CLI(net)
     net.stop()

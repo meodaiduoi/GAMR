@@ -1,5 +1,5 @@
-from helper.utils import *
-from helper.models import *
+from common.utils import *
+from common.models import *
 
 from fastapi import FastAPI
 import uvicorn

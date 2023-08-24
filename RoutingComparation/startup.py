@@ -10,7 +10,7 @@ except tomllib.TOMLDecodeError:
 
 # ENV variable
 RYU_MANAGER = toml_dict['venv-path']['ryu-manager-python7']
-
+VENV11 = toml_dict['venv-path']['venv11']
 RYUAPP_DIR = toml_dict['app-path']['ryuapp-dir']
 RYUAPP_CONTROLLERREST = toml_dict['app-path']['ryuapp-controllerrest']
 RYUAPP_FLOWMANAGER = toml_dict['app-path']['ryuapp-flowmanager']
@@ -37,15 +37,16 @@ subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
 time.sleep(1)
 
 # mininet + mnresthook startup
-# subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
-#                   f'{VENV11} ./scenario/mn_network/med_15sw_net.py {RESTHOOKMN_PORT} {OFP_PORT};\
-#                   read -p "press any key to close"'], 
-#                  stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
                   f'{VENV11} ./scenario/mn_network/med_15sw_net.py {RESTHOOKMN_PORT} {OFP_PORT};\
                   read -p "press any key to close"'], 
                  stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+
+# subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
+#                   f'{VENV11} ./scenario/mn_network/networkfromfile.py ./scenario/mn_network/graphml_ds/Oxford.graphml -apip {RESTHOOKMN_PORT} -ofp {OFP_PORT};\
+#                   read -p "press any key to close"'], 
+#                  stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+
 
 time.sleep(5)
 # dynamicsdn startup
@@ -57,7 +58,8 @@ subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
 time.sleep(1)
 # sdn_db startup
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{VENV11} ./sdndb/crawler.py {RYU_PORT}'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+                  f'{VENV11} ./sdndb/crawler.py {RYU_PORT};\
+                     read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 time.sleep(1)
 # scenario startup

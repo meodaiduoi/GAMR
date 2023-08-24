@@ -11,6 +11,10 @@ venv7 = "../../venv7/bin/python3.7"
 ryu-manager-python7 = '../../venv7/bin/ryu-manager'
 ryu-manager-python9 = '../../venv9/bin/ryu-manager'
 
+# PYTHONPATH for python project
+python-path = "~/Desktop/ryu/RoutingComparasion/RoutingComparation"
+
+
 [app-path]
 simplehttpserver = "./scenario/simplehttpserver/http_file_transfer.py"
 
