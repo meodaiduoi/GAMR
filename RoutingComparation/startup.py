@@ -10,7 +10,7 @@ except tomllib.TOMLDecodeError:
 
 # ENV variable
 RYU_MANAGER = toml_dict['venv-path']['ryu-manager-python7']
-
+VENV11 = toml_dict['venv-path']['venv11']
 RYUAPP_DIR = toml_dict['app-path']['ryuapp-dir']
 RYUAPP_CONTROLLERREST = toml_dict['app-path']['ryuapp-controllerrest']
 RYUAPP_FLOWMANAGER = toml_dict['app-path']['ryuapp-flowmanager']
