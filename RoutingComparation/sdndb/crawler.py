@@ -3,6 +3,7 @@ import logging
 import requests as rq
 import argparse
 import time
+import os
 
 argParser = argparse.ArgumentParser()
 argParser.add_argument("rest_port", type=int, help="resthookmn startup rest api port")
@@ -12,6 +13,11 @@ con = sqlite3.connect('db/linkcost.db')
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+def set_cwd_to_file_location():
+    file_path = os.path.abspath(__file__)
+    os.chdir(os.path.dirname(file_path))
+set_cwd_to_file_location()
+print(os.getcwd())
 
 # Create table with 
 try:
