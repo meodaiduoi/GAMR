@@ -31,7 +31,7 @@ random.seed(69)
 
 class MyTopo(Topo):
     def build(self):        
-        device_num = 20
+        device_num = 10
         swlist = []
         for i in range(1, device_num):
             swlist.append(self.addSwitch(f's{i}', stp=True))

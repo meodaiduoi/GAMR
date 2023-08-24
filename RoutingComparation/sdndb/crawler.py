@@ -12,7 +12,6 @@ con = sqlite3.connect('db/linkcost.db')
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-
 # Create table with 
 try:
     con.execute('''CREATE TABLE linkcost
@@ -51,6 +50,11 @@ while True:
         con.commit()
         timeID_initial += 1
         time.sleep(3)
+    
+    except rq.ConnectionError or rq.ConnectTimeout:
+        logging.error("Connection err..., reconnecting")
+        time.sleep(3)
+
     except KeyboardInterrupt:
         con.close()
         logging.info("Keyboard interrupt exiting...")

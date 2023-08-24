@@ -25,10 +25,10 @@ OFP_PORT = toml_dict['service-port']['ofp']
 
 # create startup sequence
 # ryu startup
-subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest {RYUAPP_DIR}/manualswitch.py \
-                    {RYUAPP_DIR}/temp.py {RYUAPP_FLOWMANAGER} {RYUAPP_CONTROLLERREST};\
-                  read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+# subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
+#                   f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest {RYUAPP_DIR}/manualswitch.py \
+#                     {RYUAPP_DIR}/temp.py {RYUAPP_FLOWMANAGER} {RYUAPP_CONTROLLERREST};\
+#                   read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 # DEbug
 # subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
 #                   f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest {RYUAPP_DIR}/simple_switch_13.py {RYUAPP_FLOWMANAGER} {RYUAPP_CONTROLLERREST};\

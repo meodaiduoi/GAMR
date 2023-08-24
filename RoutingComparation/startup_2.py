@@ -9,7 +9,7 @@ except tomllib.TOMLDecodeError:
     print("Yep, definitely not valid.")
 
 # ENV variable
-RYU_MANAGER = toml_dict['venv-path']['ryu-manager-python8']
+RYU_MANAGER = toml_dict['venv-path']['ryu-manager-python9']
 VENV11 = toml_dict['venv-path']['venv11']
 RYUAPP_DIR = toml_dict['app-path']['ryuapp-dir']
 RYUAPP_CONTROLLERREST = toml_dict['app-path']['ryuapp-controllerrest']
@@ -23,11 +23,13 @@ RESTHOOKMN_PORT = toml_dict['service-port']['resthookmn']
 RESTDYNAMICSDN_PORT = toml_dict['service-port']['dynamicsdn']
 OFP_PORT = toml_dict['service-port']['ofp']
 
+print(VENV11)
+
 # create startup sequence
 # ryu startup
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
                   f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest {RYUAPP_DIR}/manualswitch.py \
-                    {RYUAPP_DIR}/temp.py {RYUAPP_FLOWMANAGER} {RYUAPP_CONTROLLERREST};\
+                    {RYUAPP_FLOWMANAGER} {RYUAPP_CONTROLLERREST};\
                   read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 # DEbug
 # subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
@@ -57,7 +59,8 @@ subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
 time.sleep(1)
 # sdn_db startup
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{VENV11} ./sdndb/crawler.py {RYU_PORT}'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+                  f'cd sdndb/; {VENV11} ./sdndb/crawler.py {RYU_PORT};\
+                    read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 time.sleep(1)
 # scenario startup
