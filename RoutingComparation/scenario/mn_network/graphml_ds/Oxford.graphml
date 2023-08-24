@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?><graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+    <key attr.name="label" attr.type="string" for="node" id="label"/>
+    <key attr.name="Edge Label" attr.type="string" for="edge" id="edgelabel"/>
+    <key attr.name="weight" attr.type="double" for="edge" id="weight"/>
+    <key attr.name="r" attr.type="int" for="node" id="r"/>
+    <key attr.name="g" attr.type="int" for="node" id="g"/>
+    <key attr.name="b" attr.type="int" for="node" id="b"/>
+    <key attr.name="x" attr.type="float" for="node" id="x"/>
+    <key attr.name="y" attr.type="float" for="node" id="y"/>
+    <key attr.name="size" attr.type="float" for="node" id="size"/>
+    <key attr.name="Longitude" attr.type="double" for="node" id="d32"/>
+    <key attr.name="id" attr.type="int" for="node" id="d31"/>
+    <key attr.name="Country" attr.type="string" for="node" id="d30"/>
+    <key attr.name="Latitude" attr.type="double" for="node" id="d29"/>
+    <key attr.name="Internal" attr.type="int" for="node" id="d28"/>
+    <key attr.name="key" attr.type="int" for="edge" id="d37"/>
+    <key attr.name="LinkNote" attr.type="string" for="edge" id="d36"/>
+    <key attr.name="LinkLabel" attr.type="string" for="edge" id="d35"/>
+    <key attr.name="LinkType" attr.type="string" for="edge" id="d34"/>
+    <graph edgedefault="undirected">
+        <node id="0">
+            <data key="label">Portsmouth</data>
+            <data key="d32">-70.76255</data>
+            <data key="d31">0</data>
+            <data key="d30">United States</data>
+            <data key="d29">43.07176</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">383.8605</data>
+            <data key="y">-78.717186</data>
+        </node>
+        <node id="1">
+            <data key="label">Dover</data>
+            <data key="d32">-70.87367</data>
+            <data key="d31">1</data>
+            <data key="d30">United States</data>
+            <data key="d29">43.19786</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-194.72565</data>
+            <data key="y">219.9683</data>
+        </node>
+        <node id="2">
+            <data key="label">Biddeford</data>
+            <data key="d32">-70.45338</data>
+            <data key="d31">2</data>
+            <data key="d30">United States</data>
+            <data key="d29">43.49258</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-195.63498</data>
+            <data key="y">171.89873</data>
+        </node>
+        <node id="3">
+            <data key="label">Sanford</data>
+            <data key="d32">-70.77422</data>
+            <data key="d31">3</data>
+            <data key="d30">United States</data>
+            <data key="d29">43.43925</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-210.86752</data>
+            <data key="y">-266.33115</data>
+        </node>
+        <node id="4">
+            <data key="label">Boston</data>
+            <data key="d32">-71.05977</data>
+            <data key="d31">4</data>
+            <data key="d30">United States</data>
+            <data key="d29">42.35843</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">164.06711</data>
+            <data key="y">-261.02716</data>
+        </node>
+        <node id="5">
+            <data key="label">Framingham</data>
+            <data key="d32">-71.41617</data>
+            <data key="d31">5</data>
+            <data key="d30">United States</data>
+            <data key="d29">42.27926</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">375.6846</data>
+            <data key="y">82.54691</data>
+        </node>
+        <node id="6">
+            <data key="label">Manchester</data>
+            <data key="d32">-71.45479</data>
+            <data key="d31">6</data>
+            <data key="d30">United States</data>
+            <data key="d29">42.99564</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-311.24652</data>
+            <data key="y">44.700844</data>
+        </node>
+        <node id="7">
+            <data key="label">Keene</data>
+            <data key="d32">-72.27814</data>
+            <data key="d31">7</data>
+            <data key="d30">United States</data>
+            <data key="d29">42.93369</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">224.72372</data>
+            <data key="y">-275.4603</data>
+        </node>
+        <node id="8">
+            <data key="label">Worcester</data>
+            <data key="d32">-71.80229</data>
+            <data key="d31">8</data>
+            <data key="d30">United States</data>
+            <data key="d29">42.26259</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-246.5076</data>
+            <data key="y">-38.58053</data>
+        </node>
+        <node id="9">
+            <data key="label">Springfield</data>
+            <data key="d32">-72.58981</data>
+            <data key="d31">9</data>
+            <data key="d30">United States</data>
+            <data key="d29">42.10148</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">222.04916</data>
+            <data key="y">383.33902</data>
+        </node>
+        <node id="10">
+            <data key="label">Bangor</data>
+            <data key="d32">-68.77781</data>
+            <data key="d31">10</data>
+            <data key="d30">United States</data>
+            <data key="d29">44.80118</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-337.48798</data>
+            <data key="y">375.69888</data>
+        </node>
+        <node id="11">
+            <data key="label">Portland</data>
+            <data key="d32">-70.25533</data>
+            <data key="d31">11</data>
+            <data key="d30">United States</data>
+            <data key="d29">43.66147</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">472.01498</data>
+            <data key="y">377.63162</data>
+        </node>
+        <node id="12">
+            <data key="label">Turner</data>
+            <data key="d32">-70.25617</data>
+            <data key="d31">12</data>
+            <data key="d30">United States</data>
+            <data key="d29">44.25646</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-237.1261</data>
+            <data key="y">315.02664</data>
+        </node>
+        <node id="13">
+            <data key="label">Bethel</data>
+            <data key="d32">-70.79062</data>
+            <data key="d31">13</data>
+            <data key="d30">United States</data>
+            <data key="d29">44.40423</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-400.8918</data>
+            <data key="y">-485.8313</data>
+        </node>
+        <node id="14">
+            <data key="label">Norway</data>
+            <data key="d32">-70.54478</data>
+            <data key="d31">14</data>
+            <data key="d30">United States</data>
+            <data key="d29">44.21396</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">161.01413</data>
+            <data key="y">-282.07376</data>
+        </node>
+        <node id="15">
+            <data key="label">Standish</data>
+            <data key="d32">-70.552</data>
+            <data key="d31">15</data>
+            <data key="d30">United States</data>
+            <data key="d29">43.73591</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-200.00705</data>
+            <data key="y">-26.351555</data>
+        </node>
+        <node id="16">
+            <data key="label">Buckfield</data>
+            <data key="d32">-70.36534</data>
+            <data key="d31">16</data>
+            <data key="d30">United States</data>
+            <data key="d29">44.28951</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">288.7653</data>
+            <data key="y">69.95084</data>
+        </node>
+        <node id="17">
+            <data key="label">Augusta</data>
+            <data key="d32">-69.77949</data>
+            <data key="d31">17</data>
+            <data key="d30">United States</data>
+            <data key="d29">44.31062</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">455.62247</data>
+            <data key="y">-224.37407</data>
+        </node>
+        <node id="18">
+            <data key="label">Lewiston</data>
+            <data key="d32">-70.21478</data>
+            <data key="d31">18</data>
+            <data key="d30">United States</data>
+            <data key="d29">44.10035</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-425.7391</data>
+            <data key="y">-449.1518</data>
+        </node>
+        <node id="19">
+            <data key="label">Augusta</data>
+            <data key="d32">-69.77949</data>
+            <data key="d31">19</data>
+            <data key="d30">United States</data>
+            <data key="d29">44.31062</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">12.432401</data>
+            <data key="y">347.13693</data>
+        </node>
+        <edge id="74" source="0" target="3">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="75" source="0" target="11">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Network</data>
+            <data key="d35">Optical Network</data>
+            <data key="d34">Optical</data>
+        </edge>
+        <edge id="76" source="0" target="6">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Network</data>
+            <data key="d35">Optical Network</data>
+            <data key="d34">Optical</data>
+        </edge>
+        <edge id="77" source="1" target="11">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="78" source="1" target="7">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Network</data>
+            <data key="d35">Optical Network</data>
+            <data key="d34">Optical</data>
+        </edge>
+        <edge id="79" source="2" target="3">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="80" source="2" target="11">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="81" source="4" target="5">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Network</data>
+            <data key="d35">Optical Network</data>
+            <data key="d34">Optical</data>
+        </edge>
+        <edge id="82" source="4" target="6">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Network</data>
+            <data key="d35">Optical Network</data>
+            <data key="d34">Optical</data>
+        </edge>
+        <edge id="83" source="5" target="8">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Network</data>
+            <data key="d35">Optical Network</data>
+            <data key="d34">Optical</data>
+        </edge>
+        <edge id="84" source="7" target="9">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Network</data>
+            <data key="d35">Optical Network</data>
+            <data key="d34">Optical</data>
+        </edge>
+        <edge id="85" source="8" target="9">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Network</data>
+            <data key="d35">Optical Network</data>
+            <data key="d34">Optical</data>
+        </edge>
+        <edge id="86" source="10" target="18">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="87" source="10" target="19">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="88" source="11" target="18">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="89" source="11" target="15">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="90" source="12" target="17">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="91" source="12" target="13">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="92" source="13" target="14">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="93" source="14" target="16">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="94" source="14" target="15">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="95" source="15" target="16">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="96" source="16" target="17">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="97" source="17" target="18">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="98" source="17" target="19">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+        <edge id="99" source="18" target="19">
+            <data key="weight">1.0</data>
+            <data key="d37">0</data>
+            <data key="d36"> Backbone</data>
+            <data key="d35">Fiber Backbone</data>
+            <data key="d34">Fiber</data>
+        </edge>
+    </graph>
+</graphml>

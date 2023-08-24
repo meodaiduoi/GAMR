@@ -7,7 +7,7 @@ import time
 argParser = argparse.ArgumentParser()
 argParser.add_argument("rest_port", type=int, help="resthookmn startup rest api port")
 
-con = sqlite3.connect('linkcost.db')
+con = sqlite3.connect('db/linkcost.db')
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
