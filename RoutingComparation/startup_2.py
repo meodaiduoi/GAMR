@@ -44,12 +44,11 @@ time.sleep(1)
 #                   read -p "press any key to close"'], 
 #                  stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
-# Load from file
+# !TODO rework this section later - Load from file
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
                   f'{VENV11} ./scenario/mn_network/networkfromfile.py ./scenario/mn_network/graphml_ds/Oxford.graphml -apip {RESTHOOKMN_PORT} -ofp {OFP_PORT};\
                   read -p "press any key to close"'], 
                  stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-
 time.sleep(5)
 
 # dynamicsdn startup
