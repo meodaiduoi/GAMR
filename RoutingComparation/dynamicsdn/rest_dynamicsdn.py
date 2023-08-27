@@ -41,7 +41,7 @@ async def routing(task: RouteTasks):
     '''
     topo_json, graph = get_topo()
     host_json = get_host()
-    link_qualitys = rq.get('http://0.0.0.0:8080/link_quality').json()
+    link_qualitys = get_link_quality()
 
     # Add host to graph
     for host in host_json['hosts']:
@@ -71,42 +71,42 @@ async def routing(task: RouteTasks):
                 adj_matrix[i].append(j)
 
     # Update Links QoS parameters from /topology_graph
-    topo_json['links']
-    update_delay = []
-    update_bandwidth = []
-    update_loss = []
-    for link in topo_json["links"]:
-        #print(link)
-        src = mapping[link["source"]]
-        dst = mapping[link["target"]]
-        if src != dst:
-            delay = link.get("delay", 0)
-            if delay == None: delay = 0
-            loss = link.get("packet_loss", 0)
-            if loss == None: loss = 0
-            bandwidth = link.get("free_bandwidth", 0)
-            if bandwidth == None: bandwidth = 0
-            update_delay.append((src, dst, delay))
-            update_loss.append((src, dst, loss))
-            update_bandwidth.append((src, dst, bandwidth))
-    
-    # Get from data from /link_quality
+    # topo_json['links']
     # update_delay = []
-    # update_bandwidth = []
+    # update_link_utilization = []
     # update_loss = []
-    # for qos in link_qualitys:
-    #     src = mapping[qos['src.dpid']]
-    #     dst = mapping[qos['dst.dpid']]
+    # for link in topo_json["links"]:
+    #     #print(link)
+    #     src = mapping[link["source"]]
+    #     dst = mapping[link["target"]]
     #     if src != dst:
-    #         delay = qos.get('delay', 0)
+    #         delay = link.get("delay", 0)
     #         if delay == None: delay = 0
-    #         loss = qos.get('packet_loss', 0)
+    #         loss = link.get("packet_loss", 0)
     #         if loss == None: loss = 0
-    #         bandwidth = qos.get('free_bandwidth', 0)
+    #         bandwidth = link.get('link_utilization', 0)
     #         if bandwidth == None: bandwidth = 0
     #         update_delay.append((src, dst, delay))
     #         update_loss.append((src, dst, loss))
-    #         update_bandwidth.append((src, dst, bandwidth))
+    #         update_link_utilization.append((src, dst, bandwidth))
+    
+    # Get from data from /link_quality
+    update_delay = []
+    update_link_utilization = []
+    update_loss = []
+    for stat in link_qualitys:
+        src = mapping[stat['src.dpid']]
+        dst = mapping[stat['dst.dpid']]
+        if src != dst:
+            delay = stat.get('delay', 0)
+            if delay == None: delay = 0
+            loss = stat.get('packet_loss', 0)
+            if loss == None: loss = 0
+            bandwidth = stat.get('link_utilization', 0)
+            if bandwidth == None: bandwidth = 0
+            update_delay.append((src, dst, delay))
+            update_loss.append((src, dst, loss))
+            update_link_utilization.append((src, dst, bandwidth))
      
     # Reading request
     routes = task.route
@@ -130,7 +130,7 @@ async def routing(task: RouteTasks):
         band = 9999
     func = Function()
 
-    graph_gen.updateGraph(update_delay, update_loss, update_bandwidth) 
+    graph_gen.updateGraph(update_delay, update_loss, update_link_utilization) 
     pop = Population()
     pop.generate_population(graph_gen, func, 50, len(request), request, memset)
 

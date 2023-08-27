@@ -37,16 +37,19 @@ RESTHOOKMN_PORT = args.api_port
 OFP_PORT = args.openflow_port
 FILEPATH = args.filepath
 
+# import os
+# PYTHONPATH = os.getenv('PYTHONPATH')
 
 class MyTopo(Topo):
     
     def __init__(self, graph: nx.Graph, *args, **params):
-        super(MyTopo, self).__init__(*args, **params)
         self.graph = graph
-    
+        self.link_quality = []
+        super(MyTopo, self).__init__(*args, **params)
+        
     def build(self, *args, **params):
         # Construct mininet
-        for n in graph.nodes:
+        for n in self.graph.nodes:
             '''
             Overide start index from 0 to 1 for 
             mininet convention host and sw starting from 1
@@ -54,7 +57,7 @@ class MyTopo(Topo):
             n = int(n) + 1
             
             # set switch dpid and host mac addr
-            sw = self.addSwitch(f"s{n}", dpid=str(n).zfill(16), stp=True)
+            self.addSwitch(f"s{n}", dpid=str(n).zfill(16), stp=True)
             # Add single host on designated switches
             self.addHost(f"h{n}", mac=int_to_mac(n))
             
@@ -67,8 +70,7 @@ class MyTopo(Topo):
                         max_queue_size=1000, use_htb=True)
         
         # Connect your switches to each other as defined in networkx graph
-        spec_list = {}
-        for (n1, n2) in graph.edges:
+        for (n1, n2) in self.graph.edges:
             
             # Overide start index from 0 to 1
             n1 = int(n1) + 1
@@ -83,7 +85,13 @@ class MyTopo(Topo):
                         delay=f'{delay}ms',
                         loss=loss,
                         max_queue_size=1000, use_htb=True)
-
+            data = {'src.dpid': n1, 'dst.dpid': n2, 
+                    'packet_loss': loss, 'delay': delay, 'bandwidth': bw }
+            self.link_quality.append(data)
+            data = {'src.dpid': n2, 'dst.dpid': n1, 
+                    'packet_loss': loss, 'delay': delay, 'bandwidth': bw }
+            self.link_quality.append(data)
+            
 if __name__ == '__main__':
     setLogLevel( 'info' )
     
@@ -107,8 +115,8 @@ if __name__ == '__main__':
     # wait_for_stp(net)
     
     # Using prebuilt restapi (fastapi) Optional
-    # app = RestHookMN(net=net)
-    # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+    app = RestHookMN(net=net)
+    uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
     
-    CLI(net)
+    # CLI(net)
     net.stop()
