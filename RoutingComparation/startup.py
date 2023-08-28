@@ -1,6 +1,7 @@
 #!/usr/bin/python3.11
 import subprocess, time
 import tomllib
+import os
 
 try:
     with open("config.toml", "rb") as f:
@@ -22,6 +23,10 @@ RYU_PORT = toml_dict['service-port']['ryu']
 RESTHOOKMN_PORT = toml_dict['service-port']['resthookmn']
 RESTDYNAMICSDN_PORT = toml_dict['service-port']['dynamicsdn']
 OFP_PORT = toml_dict['service-port']['ofp']
+
+
+# os.environ['PYTHONPATH'] = 
+
 
 # create startup sequence
 # ryu startup

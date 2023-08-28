@@ -14,6 +14,8 @@ from mn_restapi.mn_restapi_model import *
 from mn_restapi.spanning_tree import SpanningTree, convert_network
 
 import networkx as nx
+import logging
+
 class RestHookMN(FastAPI):
     def __init__(self, net: Mininet):
         super().__init__(title='fastapi hook for mininet',
@@ -120,3 +122,14 @@ class RestHookMN(FastAPI):
             
             # return stree value as json
             return { stree.solution_as_networkx() }
+        
+        @self.get('/link_quality')
+        def link_quality():
+            '''
+                Get link quality of all link in the network
+            '''
+            try:
+                return net.topo.link_quality
+            except NameError:
+                logging.error('Topo object not implemented')
+                return 

@@ -17,6 +17,43 @@ def hostid_to_mac(host_id):
     return mac_str
 # ----
 
+
+def get_link_quality():
+    '''
+        Get from data from /link_quality
+        currently working as a workaround for link utilization
+    '''
+
+    link_quality_controller = rq.get('http://0.0.0.0:8080/link_quality').json()
+    link_quality_mininet = rq.get('http://0.0.0.0:8000/link_quality').json()
+
+    lqc_hmap = {}
+    lqm_hmap = {}
+
+    for d in link_quality_controller:
+        key = (d['src.dpid'], d['dst.dpid'])
+        lqc_hmap[key] = d
+
+    for d in link_quality_mininet:
+        key = (d['src.dpid'], d['dst.dpid'])
+        lqm_hmap[key] = d
+
+    link_quality = []
+    for key, lqc_value in lqc_hmap.items():
+        lqm_value = lqm_hmap.get(key)
+        if lqm_value == None: continue  
+        link_quality.append({
+            'src.dpid': key[0],
+            'dst.dpid': key[1],
+            'packet_loss': lqm_value.get('packet_loss', None),
+            'bandwidth': lqm_value.get('bandwidth', None),
+            'delay': lqc_value.get('delay', None),
+            'link_utilization': lqc_value.get('link_usage') / lqm_value.get('bandwidth') * 100,
+        })
+        
+    return link_quality
+    
+
 def get_link_to_port(ryu_rest_port=8080):
     # fix this to remote port
     link_to_port = rq.get(f'http://0.0.0.0:{ryu_rest_port}/link_to_port').json()
@@ -71,7 +108,7 @@ def get_key(dict, value):
            return key
         
 def result_to_json(result, mapping):
-    resul_list = []
+    result_list = []
     # print(result.chromosome)
     # print(mapping)
     for request in result.chromosome:
@@ -84,17 +121,16 @@ def result_to_json(result, mapping):
         for i in request[2][1:-1]:
             request_result_map.append(int(get_key(mapping, i)))
         # print("Hello")
-        path = {
+        route = {
             'src_host': src,
             'dst_host': dst,
             'path_dpid': request_result_map
-
         }
-        resul_list.append(path)
+        result_list.append(route)
     result_json = {
-        'route': resul_list
+        'route': result_list
     }
-    print(resul_list)
+    print(result_list)
     return result_json  
 
 def create_flowrule_json(solutions, host_json, link_to_port):
