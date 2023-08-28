@@ -67,7 +67,7 @@ url_addflow = "http://0.0.0.0:8001/routing"
 url_ping = "http://0.0.0.0:8000/ping"
 
 def make_api_call():
-    routes = create_route_list(19, 10)
+    routes = create_route_list(20, 10)
     is_break = False
     data = {
         "route": routes

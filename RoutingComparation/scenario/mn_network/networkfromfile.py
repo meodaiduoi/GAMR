@@ -107,8 +107,8 @@ if __name__ == '__main__':
     # wait_for_stp(net)
     
     # Using prebuilt restapi (fastapi) Optional
-    # app = RestHookMN(net=net)
-    # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+    app = RestHookMN(net=net)
+    uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
     
     CLI(net)
     net.stop()
