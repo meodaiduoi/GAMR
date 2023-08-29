@@ -1,19 +1,19 @@
 import time
 import logging
+import networkx as nx
 
-# ---- TODO Reoganize this section in future
-def int_to_mac(num):
-    mac = ':'.join(format((num >> i) & 0xFF, '02x') for i in (40, 32, 24, 16, 8, 0))
-    return mac
-
-def mac_to_int(mac):
-    return int(mac.translate(str.maketrans('','',":.- ")), 16)
-
-def hostid_to_mac(host_id):
-    mac_hex = "{:012x}".format(host_id)
-    mac_str = ":".join(mac_hex[i:i+2] for i in range(0, len(mac_hex), 2))
-    return mac_str
-# ----
+def convert_network(net):
+    '''
+        converting Mininet network to networkx graph
+    '''
+    graph = nx.DiGraph()
+    for link in net.links:
+         # Add edges to the graph
+        src = link.intf1.node.name
+        dst = link.intf2.node.name
+        graph.add_edge(src, dst)
+        graph.add_edge(dst, src)
+    return graph
 
 def link_exist(net, node1, node2):
     '''

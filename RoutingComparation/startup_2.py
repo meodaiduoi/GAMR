@@ -23,6 +23,9 @@ RESTHOOKMN_PORT = toml_dict['service-port']['resthookmn']
 RESTDYNAMICSDN_PORT = toml_dict['service-port']['dynamicsdn']
 OFP_PORT = toml_dict['service-port']['ofp']
 
+import os
+EXPORT_PYTHONPATH = f'export PYTHONPATH={os.getenv("PYTHONPATH")}'
+print(EXPORT_PYTHONPATH)
 # create startup sequence
 # ryu startup
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
@@ -38,29 +41,34 @@ subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
 time.sleep(1)
 
 # mininet + mnresthook startup
-# Premade network
 # subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
 #                   f'{VENV11} ./scenario/mn_network/med_15sw_net.py {RESTHOOKMN_PORT} {OFP_PORT};\
 #                   read -p "press any key to close"'], 
 #                  stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
-# !TODO rework this section later - Load from file
+# Load from file
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
-                  f'{VENV11} ./scenario/mn_network/networkfromfile.py ./scenario/mn_network/graphml_ds/Oxford.graphml -apip {RESTHOOKMN_PORT} -ofp {OFP_PORT};\
-                  read -p "press any key to close"'], 
-                 stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-time.sleep(5)
+                  f'sudo PYTHONPATH={os.getenv("PYTHONPATH")} \
+                    {VENV11} ./scenario/mn_network/networkfromfile.py \
+                    ./scenario/mn_network/graphml_ds/Oxford.graphml -apip \
+                    {RESTHOOKMN_PORT} -ofp {OFP_PORT};\
+                    read -p "press any key to close"'], 
+                    stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
+
+time.sleep(5)
 # dynamicsdn startup
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{VENV11} ./dynamicsdn/rest_dynamicsdn.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
+                  f'{EXPORT_PYTHONPATH};\
+                    {VENV11} ./dynamicsdn/rest_dynamicsdn.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
                     read -p "press any key to close"'], 
                     stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 time.sleep(1)
 # sdn_db startup
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{VENV11} ./sdndb/crawler.py {RYU_PORT};\
+                  f'{EXPORT_PYTHONPATH};\
+                    {VENV11} ./sdndb/crawler.py {RYU_PORT};\
                     read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 time.sleep(1)

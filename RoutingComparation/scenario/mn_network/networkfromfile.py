@@ -22,6 +22,7 @@ import networkx as nx
 import random
 # random.seed(69)
 
+from extras.utils import *
 from mn_restapi.util import * 
 from mn_restapi.mn_restapi_hook import *
 import uvicorn

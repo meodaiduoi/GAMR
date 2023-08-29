@@ -2,74 +2,8 @@ import requests as rq
 import networkx as nx
 import json
 import logging
+from common.utils import *
 
-# ---- TODO Reoganize this section in future
-def int_to_mac(num):
-    mac = ':'.join(format((num >> i) & 0xFF, '02x') for i in (40, 32, 24, 16, 8, 0))
-    return mac
-
-def mac_to_int(mac):
-    return int(mac.translate(str.maketrans('','',":.- ")), 16)
-
-def hostid_to_mac(host_id):
-    mac_hex = "{:012x}".format(host_id)
-    mac_str = ":".join(mac_hex[i:i+2] for i in range(0, len(mac_hex), 2))
-    return mac_str
-# ----
-
-
-def get_link_quality():
-    '''
-        Get from data from /link_quality
-        currently working as a workaround for link utilization
-    '''
-
-    link_quality_controller = rq.get('http://0.0.0.0:8080/link_quality').json()
-    link_quality_mininet = rq.get('http://0.0.0.0:8000/link_quality').json()
-
-    lqc_hmap = {}
-    lqm_hmap = {}
-
-    for d in link_quality_controller:
-        key = (d['src.dpid'], d['dst.dpid'])
-        lqc_hmap[key] = d
-
-    for d in link_quality_mininet:
-        key = (d['src.dpid'], d['dst.dpid'])
-        lqm_hmap[key] = d
-
-    link_quality = []
-    for key, lqc_value in lqc_hmap.items():
-        lqm_value = lqm_hmap.get(key)
-        if lqm_value == None: continue  
-        link_quality.append({
-            'src.dpid': key[0],
-            'dst.dpid': key[1],
-            'packet_loss': lqm_value.get('packet_loss', None),
-            'bandwidth': lqm_value.get('bandwidth', None),
-            'delay': lqc_value.get('delay', None),
-            'link_utilization': lqc_value.get('link_usage') / lqm_value.get('bandwidth') * 100,
-        })
-        
-    return link_quality
-    
-
-def get_link_to_port(ryu_rest_port=8080):
-    # fix this to remote port
-    link_to_port = rq.get(f'http://0.0.0.0:{ryu_rest_port}/link_to_port').json()
-    # convert string key to int key
-    link_to_port =  {int(key): {int(key2): value2 for key2, value2 in value.items()} for key, value in link_to_port.items()}
-    return link_to_port
-
-def get_endpoint_info(host_mac, host_json):
-    '''
-        Get dpid and port_no of host connected to switch
-        assume that host only connect to 1 switch
-    '''
-    for host in host_json['hosts']:
-        if host['mac'] == host_mac:
-            return mac_to_int(host['port']['dpid']), mac_to_int(host['port']['port_no'])
-        
 def flowrule_template(dpid, in_port, out_port, hostmac_src, hostmac_dst, priority=1):
     return {
         "dpid": dpid,
@@ -200,44 +134,3 @@ def send_flowrule(flowrules, ryu_rest_port):
         })
     return status
             
-def get_full_topo_graph(max_display_mac=100) -> tuple[dict, nx.DiGraph]:
-    # dict, nx.DiGraph    
-    topo_json, graph = get_topo()
-    host_json = get_host(max_display_mac)
-
-    # Add host to graph
-    for host in host_json['hosts']:
-        dpid_int = mac_to_int(host['port']['dpid'])
-        host_int = mac_to_int(host['mac'])
-        # print(f'dpid_int: {dpid_int}, host_int: {host_int}')
-        
-        # Add node to graph
-        graph.add_node(f'h{host_int}', type='host')
-        # add bi-directional link between host and switch
-        graph.add_edge(f'h{host_int}', dpid_int, type='host')
-        graph.add_edge(dpid_int, f'h{host_int}', type='host')
-
-    # Mapping host h{int} to int
-    mapping: dict = dict(zip(graph.nodes(), range(1, len(graph.nodes())+1)))
-
-    return mapping, graph
-
-def get_link_qos():
-    # Get from data from /link_quality
-    link_qualitys = rq.get('http://0.0.0.0:8080/link_quality').json()
-    update_delay = []
-    update_bandwidth = []
-    update_loss = []
-    for qos in link_qualitys:
-        src = qos['src.dpid']
-        dst = qos['dst.dpid']
-        if src != dst:
-            delay = qos.get('delay', 0)
-            if delay == None: delay = 0
-            loss = qos.get('packet_loss', 0)
-            if loss == None: loss = 0
-            bandwidth = qos.get('free_bandwidth', 0)
-            if bandwidth == None: bandwidth = 0
-            update_delay.append((src, dst, delay))
-            update_loss.append((src, dst, loss))
-            update_bandwidth.append((src, dst, bandwidth))

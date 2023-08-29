@@ -72,15 +72,3 @@ class SpanningTree:
         return graph
     
         
-def convert_network(net):
-    '''
-        converting Mininet network to networkx graph
-    '''
-    graph = nx.DiGraph()
-    for link in net.links:
-         # Add edges to the graph
-        src = link.intf1.node.name
-        dst = link.intf2.node.name
-        graph.add_edge(src, dst)
-        graph.add_edge(dst, src)
-    return graph

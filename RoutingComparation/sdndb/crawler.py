@@ -6,7 +6,7 @@ import time
 import os
 import datetime
 
-
+from extras.utils import *
 
 argParser = argparse.ArgumentParser()
 argParser.add_argument("rest_port", type=int, help="resthookmn startup rest api port")
@@ -40,7 +40,7 @@ try:
                 delay REAL,
                 packet_loss REAL,
                 link_usage REAL,
-                free_bandwidth REAL   
+                link_utilization REAL   
             )''')
     con.commit()
     logging.info("Table created successfully")
@@ -50,7 +50,7 @@ except sqlite3.OperationalError:
 timeID_initial = 0
 while True:
     try:
-        data = rq.get('http://0.0.0.0:8080/link_quality').json()
+        data = get_link_quality()
         for item in data:
             timeid = timeID_initial
             src = item.get('src.dpid')
@@ -58,12 +58,12 @@ while True:
             delay = item.get('delay')
             packet_loss = item.get('packet_loss')
             link_usage = item.get('link_usage')
-            free_bandwidth = item.get('free_bandwidth')
+            link_utilization = item.get('link_utilization')
             
             con.execute('''
-                        INSERT INTO linkcost (time_id, src_dpid, dst_dpid, delay, packet_loss, link_usage, free_bandwidth)
+                        INSERT INTO linkcost (time_id, src_dpid, dst_dpid, delay, packet_loss, link_usage, link_utilization)
                         VALUES (?, ?, ?, ?, ?, ?, ?)
-                        ''', (timeid, src, dst, delay, packet_loss, link_usage, free_bandwidth))
+                        ''', (timeid, src, dst, delay, packet_loss, link_usage, link_utilization))
         con.commit()
         timeID_initial += 1
         time.sleep(3)
@@ -75,5 +75,4 @@ while True:
     except KeyboardInterrupt:
         con.close()
         logging.info("Keyboard interrupt exiting...")
-        break
-        
+        break      

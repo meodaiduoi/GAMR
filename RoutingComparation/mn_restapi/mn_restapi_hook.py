@@ -11,7 +11,8 @@ from mininet.net import Mininet, Host, Node, Link
 from subprocess import Popen
 
 from mn_restapi.mn_restapi_model import *
-from mn_restapi.spanning_tree import SpanningTree, convert_network
+from mn_restapi.util import *
+# from mn_restapi.spanning_tree import SpanningTree, convert_network
 
 import networkx as nx
 import logging
@@ -101,27 +102,27 @@ class RestHookMN(FastAPI):
             net.configLinkStatus(config.name1, config.name2, config.status)
             return {'status': 'ok'}
         
-        @self.get('/link_probing')
-        def link_probing():
-            '''
-                Using spanning tree algrothim to cut off loop on the network
-                then pingall
-            '''
-            graph = convert_network(self.net)
-            stree = SpanningTree(graph)
+        # @self.get('/link_probing')
+        # def link_probing():
+        #     '''
+        #         Using spanning tree algrothim to cut off loop on the network
+        #         then pingall
+        #     '''
+        #     graph = convert_network(self.net)
+        #     stree = SpanningTree(graph)
 
-            for link in stree.solution_invert()[0]:
-                print(link)
-                self.net.configLinkStatus(link[0], link[1], 'down')
+        #     for link in stree.solution_invert()[0]:
+        #         print(link)
+        #         self.net.configLinkStatus(link[0], link[1], 'down')
                 
-            net.pingAll('1')
+        #     net.pingAll('1')
             
-            for link in stree.solution_invert()[0]:
-                print(link)
-                self.net.configLinkStatus(link[0], link[1], 'up')
+        #     for link in stree.solution_invert()[0]:
+        #         print(link)
+        #         self.net.configLinkStatus(link[0], link[1], 'up')
             
-            # return stree value as json
-            return { stree.solution_as_networkx() }
+        #     # return stree value as json
+        #     return { stree.solution_as_networkx() }
         
         @self.get('/link_quality')
         def link_quality():
