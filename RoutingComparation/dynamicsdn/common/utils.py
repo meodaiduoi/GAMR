@@ -3,6 +3,7 @@ import networkx as nx
 import json
 import logging
 from common.utils import *
+from extras.utils import *
 
 def flowrule_template(dpid, in_port, out_port, hostmac_src, hostmac_dst, priority=1):
     return {
