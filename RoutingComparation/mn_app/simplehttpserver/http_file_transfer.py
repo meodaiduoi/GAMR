@@ -1,22 +1,21 @@
 # Change shebang before running
 
-from pydantic import BaseModel
 import uvicorn
-
 from fastapi import FastAPI
-
 from fastapi import File, UploadFile
 from fastapi.responses import FileResponse
+from pydantic import BaseModel
 
 import os, sys, argparse
 import logging
 import datetime, time
 
 import requests as rq
+from extras.utils import set_cwd_to_location
 
 app = FastAPI()
 REQUEST_TIMEOUT = 5
-
+set_cwd_to_location()
 
 # Utility functions
 def generate_big_file(filename, size: int = 100) -> str:

@@ -134,3 +134,11 @@ class RestHookMN(FastAPI):
             except NameError:
                 logging.error('Topo object not implemented')
                 return 
+        
+        @self.post('/open_xterm')
+        def open_xterm():
+        # try:
+            net.getNodeByName('h1').cmd('xterm &')
+        # except:
+            # ...                
+            

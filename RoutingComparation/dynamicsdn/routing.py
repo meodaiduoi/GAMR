@@ -9,6 +9,13 @@ import requests as rq
 
 import argparse
 
+from compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver
+from compare_algorithm.ga.module_memset import MemSet
+memset = MemSet()
+
+from compare_algorithm.ga.ga_solver import ga_solver
+
+
 argParser = argparse.ArgumentParser()
 argParser.add_argument("rest_port", type=int, help="dynamicsdn startup rest api port")
 argParser.add_argument("ryu_port", type=int, help="remote ryu rest api port")
@@ -17,18 +24,19 @@ args = argParser.parse_args()
 DYNAMICSDN_PORT = args.rest_port
 RYU_PORT = args.ryu_port
 
-app = FastAPI()
 
-
+app = FastAPI(
+    title='Routing Api Network',
+    description='Routing Api for networking application',
+    summary="..."
+)
 
 @app.get('/')
 async def hello():
     return {'hello': 'world'}
 
-
-
 @app.post('/routing/manual')
-async def routing(tasks: ManualRouteTasks):
+async def routing_manual(tasks: ManualRouteTasks):
     '''
     Manual routing \n
     
@@ -43,10 +51,10 @@ async def routing(tasks: ManualRouteTasks):
             flowrules.append(create_flowrule_json(task.model_dump(), get_host(), get_link_to_port()))
     return send_flowrule(flowrules, ryu_rest_port=RYU_PORT)
 
-@app.post('/routing/shortest_path')
-async def routing(tasks: RouteTasks):
+@app.post('/routing/min_hop')
+async def routing_min_hop(tasks: RouteTasks):
     '''
-    Shortest path routing \n
+    Min-hop routing \n
     '''
     mapping, graph = get_full_topo_graph()
     
@@ -63,5 +71,19 @@ async def routing(tasks: RouteTasks):
             flowrules = create_flowrule_json(solutions, get_host(), get_link_to_port())
     return send_flowrule(flowrules, ryu_rest_port=RYU_PORT)
 
+@app.post('/routing/dijkstra')
+async def routing_dijkstra(task: RouteTasks):
+    '''
+        Dijkstra routing
+    '''
+    return dijkstra_solver(task)
+    
+@app.post('/routing/ga')
+async def routing_ga(task: RouteTasks):
+    '''
+        Ga
+    '''
+    return ga_solver(task, memset)
+    
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=DYNAMICSDN_PORT)

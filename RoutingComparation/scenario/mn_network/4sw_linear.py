@@ -9,8 +9,10 @@ from mininet.util import irange
 from mininet.link import TCLink
 from mn_switch import STPOVSSwitch
 
-# import uvicorn 
-# from mn_restapi.mn_restapi_hook import RestHookMN 
+from extras.utils import *
+from mn_restapi.util import * 
+from mn_restapi.mn_restapi_hook import *
+import uvicorn
 
 import time
 import sys
@@ -41,10 +43,6 @@ class MyTopo(Topo):
         ep_list = [(h1, s1), (h2, s2), (h3, s3), (h4, s4)]
         link_route = [(s1, s2), (s2, s3), (s3, s4)]
 
-        link_info = {
-            
-        }
-        
         for d1, d2 in ep_list:
             self.addLink(d1, d2)
         for d1, d2 in link_route:
@@ -62,6 +60,9 @@ if __name__ == '__main__':
                       ipBase='10.0.0.0')
         net.staticArp()
         net.start()
+        
+        net.getNodeByName('h1').cmd('xterm &')
+        
         # app = RestHookMN(net=net)
         # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
         CLI(net)
