@@ -15,7 +15,7 @@ from extras.utils import set_cwd_to_location
 
 app = FastAPI()
 REQUEST_TIMEOUT = 5
-set_cwd_to_location()
+set_cwd_to_location(__file__)
 
 # Utility functions
 def generate_big_file(filename, size: int = 100) -> str:

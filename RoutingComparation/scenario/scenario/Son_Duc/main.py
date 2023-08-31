@@ -34,7 +34,7 @@ def create_route_list(number_hosts, number_request):
     routes = [] 
     
     for i in range(number_request):
-        src_host = random.randint(i, number_hosts)
+        src_host = random.randint(1, number_hosts)
         dst_host = random.randint(1, number_hosts)
         while src_host == dst_host:
             dst_host = random.randint(1, number_hosts)
@@ -63,17 +63,19 @@ def create_host_list(routes, timeout):
     
     return result
 
-url_addflow = "http://0.0.0.0:8001/routing"
+url_addflow_GA = "http://0.0.0.0:8001/routing/ga"
+url_addflow_dijsktra = "http://0.0.0.0:8001/routing/dijkstra"
 url_ping = "http://0.0.0.0:8000/ping"
+fix_number_hosts, fix_number_request = 20, 10
 
 def make_api_call():
-    routes = create_route_list(20, 10)
+    routes = create_route_list(fix_number_hosts, fix_number_request)
     is_break = False
     data = {
         "route": routes
     }
     
-    res = requests.post(url_addflow, json=data)
+    res = requests.post(url_addflow_GA, json=data)
     
     if res.status_code == 200:
         print("Add flow ok")

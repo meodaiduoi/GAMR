@@ -7,7 +7,7 @@ import logging
     Env management
 
 '''
-def set_cwd_to_location(filepath=__file__):
+def set_cwd_to_location(filepath):
     '''
         Used to set current working dir 
         of file to desier path     

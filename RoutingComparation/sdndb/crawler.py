@@ -12,7 +12,7 @@ argParser = argparse.ArgumentParser()
 argParser.add_argument("rest_port", type=int, help="resthookmn startup rest api port")
 
 # set cwd to file location
-set_cwd_to_location()
+set_cwd_to_location(__file__)
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -25,26 +25,25 @@ current_time = datetime.datetime.now()
 formatted_time = current_time.strftime("%H-%M-%S--%d-%m-%Y")
 con = sqlite3.connect(f'{folder}/linkcost-{formatted_time}.db')
 
-if __name__ == '__main__':
-    # Create table with 
-    try:
-        con.execute('''CREATE TABLE linkcost (
-                    time_id INTEGER, 
-                    src_dpid INTEGER,
-                    dst_dpid INTEGER,
-                    delay REAL,
-                    packet_loss REAL,
-                    link_usage REAL,
-                    link_utilization REAL   
-                )''')
-        con.commit()
-        logging.info("Table created successfully")
-    except sqlite3.OperationalError:
-        logging.info("Table already exists")
+# Create table 
+try:
+    con.execute('''CREATE TABLE linkcost (
+                time_id INTEGER, 
+                src_dpid INTEGER,
+                dst_dpid INTEGER,
+                delay REAL,
+                packet_loss REAL,
+                link_usage REAL,
+                link_utilization REAL   
+            )''')
+    con.commit()
+    logging.info("Table created successfully")
+except sqlite3.OperationalError:
+    logging.info("Table already exists")
 
+# Update data to db
 timeID_initial = 0
 start_time = time.time()
-
 while time.time() - start_time < 3650:
     try:
         data = get_link_quality()
