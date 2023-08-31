@@ -125,7 +125,7 @@ class RestHookMN(FastAPI):
         #     return { stree.solution_as_networkx() }
         
         @self.get('/link_quality')
-        def link_quality():
+        async def link_quality():
             '''
                 Get link quality of all link in the network
             '''
@@ -136,9 +136,21 @@ class RestHookMN(FastAPI):
                 return 
         
         @self.post('/open_xterm')
-        def open_xterm():
-        # try:
-            net.getNodeByName('h1').cmd('xterm &')
-        # except:
-            # ...                
-            
+        async def open_xterm(cmd: CmdTask):
+            '''
+                Open command in xterm \n
+                for reading the output of xterm before window
+                closing add "(your command) ; sleep 5" or
+                "(your command) ; sleep 5" at the end.
+            '''
+            try:
+                if cmd.cmd != '':
+                    net.getNodeByName(f'{cmd.hostname}').cmd(
+                        f'xterm -e "{cmd.cmd}"'
+                    )
+                else:
+                    net.getNodeByName(f'{cmd.hostname}').cmd('xterm &')
+                return {'status': 'ok'}
+            except KeyError:
+                logging.error("Invalid hostname")
+                return {'status': 500}

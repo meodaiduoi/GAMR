@@ -7,7 +7,6 @@ from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 from mininet.util import irange
 from mininet.link import TCLink
-from mn_switch import STPOVSSwitch
 
 from extras.utils import *
 from mn_restapi.util import * 
@@ -61,7 +60,7 @@ if __name__ == '__main__':
         net.staticArp()
         net.start()
         
-        net.getNodeByName('h1').cmd('xterm &')
+        net.getNodeByName('h1').cmd('xterm -e ech')
         
         # app = RestHookMN(net=net)
         # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
