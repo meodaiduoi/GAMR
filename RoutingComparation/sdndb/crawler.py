@@ -69,7 +69,7 @@ while time.time() - start_time < 3650:
         logging.error("Connection err..., reconnecting")
         time.sleep(3)
 
-        except KeyboardInterrupt:
-            con.close()
-            logging.info("Keyboard interrupt exiting...")
-            break      
+    except KeyboardInterrupt:
+        con.close()
+        logging.info("Keyboard interrupt exiting...")
+        break      
