@@ -48,7 +48,9 @@ except sqlite3.OperationalError:
     logging.info("Table already exists")
 
 timeID_initial = 0
-while True:
+start_time = time.time()
+
+while time.time() - start_time < 3650:
     try:
         data = get_link_quality()
         for item in data:
