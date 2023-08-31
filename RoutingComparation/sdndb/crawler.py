@@ -11,19 +11,13 @@ from extras.utils import *
 argParser = argparse.ArgumentParser()
 argParser.add_argument("rest_port", type=int, help="resthookmn startup rest api port")
 
-def set_cwd_to_file_location():
-    file_path = os.path.abspath(__file__)
-    os.chdir(os.path.dirname(file_path))
-set_cwd_to_file_location()
+# set cwd to file location
+set_cwd_to_location()
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 logging.info(f'current working dir: {os.getcwd()}')
 
-def mkdir(path):
-    if not os.path.exists(path):
-        os.makedirs(path)
-        logging.info(f"Folder: {path} created")
 
 folder = 'db'
 mkdir(folder)
@@ -31,21 +25,22 @@ current_time = datetime.datetime.now()
 formatted_time = current_time.strftime("%H-%M-%S--%d-%m-%Y")
 con = sqlite3.connect(f'{folder}/linkcost-{formatted_time}.db')
 
-# Create table with 
-try:
-    con.execute('''CREATE TABLE linkcost (
-                time_id INTEGER, 
-                src_dpid INTEGER,
-                dst_dpid INTEGER,
-                delay REAL,
-                packet_loss REAL,
-                link_usage REAL,
-                link_utilization REAL   
-            )''')
-    con.commit()
-    logging.info("Table created successfully")
-except sqlite3.OperationalError:
-    logging.info("Table already exists")
+if __name__ == '__main__':
+    # Create table with 
+    try:
+        con.execute('''CREATE TABLE linkcost (
+                    time_id INTEGER, 
+                    src_dpid INTEGER,
+                    dst_dpid INTEGER,
+                    delay REAL,
+                    packet_loss REAL,
+                    link_usage REAL,
+                    link_utilization REAL   
+                )''')
+        con.commit()
+        logging.info("Table created successfully")
+    except sqlite3.OperationalError:
+        logging.info("Table already exists")
 
 timeID_initial = 0
 start_time = time.time()
@@ -74,7 +69,7 @@ while time.time() - start_time < 3650:
         logging.error("Connection err..., reconnecting")
         time.sleep(3)
 
-    except KeyboardInterrupt:
-        con.close()
-        logging.info("Keyboard interrupt exiting...")
-        break      
+        except KeyboardInterrupt:
+            con.close()
+            logging.info("Keyboard interrupt exiting...")
+            break      

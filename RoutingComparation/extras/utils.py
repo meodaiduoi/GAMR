@@ -1,18 +1,49 @@
 import requests as rq
 import networkx as nx
+import os
+import logging
+
+'''
+    Env management
+
+'''
+def set_cwd_to_location(filepath=__file__):
+    '''
+        Used to set current working dir 
+        of file to desier path     
+    '''
+    filepath = os.path.abspath(filepath)
+    os.chdir(os.path.dirname(filepath))
+
+def mkdir(path):
+    '''
+        For making 
+    '''
+    if not os.path.exists(path):
+        os.makedirs(path)
+        logging.info(f"Folder: {path} created")
 
 '''
     Mac converter
 
 '''
 def int_to_mac(num):
+    '''
+        Convert int to mac number (example format: 00:00..:00:00)
+    '''
     mac = ':'.join(format((num >> i) & 0xFF, '02x') for i in (40, 32, 24, 16, 8, 0))
     return mac
 
 def mac_to_int(mac):
+    '''
+        Convert hex mac to int
+    '''
     return int(mac.translate(str.maketrans('','',":.- ")), 16)
 
 def hostid_to_mac(host_id):
+    '''
+        Host index id to mac (ex: 1 to mac 00:00..00:01)
+    '''
     mac_hex = "{:012x}".format(host_id)
     mac_str = ":".join(mac_hex[i:i+2] for i in range(0, len(mac_hex), 2))
     return mac_str
@@ -40,7 +71,7 @@ def get_link_to_port(ryu_rest_port=8080):
 
 def get_endpoint_info(host_mac, host_json):
     '''
-        Get dpid and port_no of host connected to switch
+        Get dpid and port_no of host connected to switch \n
         assume that host only connect to 1 switch
     '''
     for host in host_json['hosts']:
@@ -48,6 +79,10 @@ def get_endpoint_info(host_mac, host_json):
             return mac_to_int(host['port']['dpid']), mac_to_int(host['port']['port_no'])
 
 def get_full_topo_graph(max_display_mac=100) -> tuple[dict, nx.DiGraph]:
+    '''
+        get network topology with hostId and switchId \n 
+        mapping of ryu restapi
+    '''
     # dict, nx.DiGraph    
     topo_json, graph = get_topo()
     host_json = get_host(max_display_mac)
@@ -72,7 +107,8 @@ def get_full_topo_graph(max_display_mac=100) -> tuple[dict, nx.DiGraph]:
 def get_link_quality():
     '''
         Get from data from /link_quality
-        currently working as a workaround for link utilization
+        currently working as a workaround 
+        for link utilization
     '''
 
     link_quality_controller = rq.get('http://0.0.0.0:8080/link_quality').json()

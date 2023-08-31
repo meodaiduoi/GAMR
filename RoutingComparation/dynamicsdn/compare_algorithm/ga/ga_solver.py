@@ -1,46 +1,20 @@
-from fastapi import FastAPI
-import uvicorn
-
 import networkx as nx
-import requests as rq
-
-from ga.module_function import Function
-from ga.module_evole import Evolutionary
-from ga.module_memset import MemSet
-from ga.module_population import Population
-from ga.module_graph import Graph
-
-from common.utils import *
-from common.models import *
 from extras.utils import *
+from dynamicsdn.common.utils import *
+from dynamicsdn.common.models import RouteTasks
 
-import sys
-sys.stdout.write("\x1b]2;Rest_dynamicsdn\x07")
+from compare_algorithm.ga.module_function import Function
+from compare_algorithm.ga.module_evole import Evolutionary
+from compare_algorithm.ga.module_memset import MemSet
+from compare_algorithm.ga.module_population import Population
+from compare_algorithm.ga.module_graph import Graph
 
-import argparse
-
-argParser = argparse.ArgumentParser()
-argParser.add_argument("rest_port", type=int, help="dynamicsdn startup rest api port")
-argParser.add_argument("ryu_port", type=int, help="remote ryu rest api port")
-args = argParser.parse_args()
-
-DYNAMICSDN_PORT = args.rest_port
-RYU_PORT = args.ryu_port
-
-app = FastAPI()
-memset = MemSet()
-
-@app.get('/')
-async def hello():
-    return {'hello': 'world'}
-
-
-@app.post('/routing')
-async def routing(task: RouteTasks):
+def ga_solver(task: RouteTasks, memset: MemSet):
     '''
         Routing using GA alogrithm
     '''
-    topo_json, graph = get_topo()
+    
+    _, graph = get_topo()
     host_json = get_host()
     link_qualitys = get_link_quality()
 
@@ -48,7 +22,7 @@ async def routing(task: RouteTasks):
     for host in host_json['hosts']:
         dpid_int = mac_to_int(host['port']['dpid'])
         host_int = mac_to_int(host['mac'])
-        print(f'dpid_int: {dpid_int}, host_int: {host_int}')
+        # print(f'dpid_int: {dpid_int}, host_int: {host_int}')
         
         # Add node to graph
         graph.add_node(f'h{host_int}', type='host')
@@ -70,27 +44,7 @@ async def routing(task: RouteTasks):
         for j in range(1, number_node+1):
             if bin_matrix[i-1][j-1] == 1:
                 adj_matrix[i].append(j)
-
-    # Update Links QoS parameters from /topology_graph
-    # topo_json['links']
-    # update_delay = []
-    # update_link_utilization = []
-    # update_loss = []
-    # for link in topo_json["links"]:
-    #     #print(link)
-    #     src = mapping[link["source"]]
-    #     dst = mapping[link["target"]]
-    #     if src != dst:
-    #         delay = link.get("delay", 0)
-    #         if delay == None: delay = 0
-    #         loss = link.get("packet_loss", 0)
-    #         if loss == None: loss = 0
-    #         bandwidth = link.get('link_utilization', 0)
-    #         if bandwidth == None: bandwidth = 0
-    #         update_delay.append((src, dst, delay))
-    #         update_loss.append((src, dst, loss))
-    #         update_link_utilization.append((src, dst, bandwidth))
-    
+   
     # Get from data from /link_quality
     update_delay = []
     update_link_utilization = []
@@ -127,8 +81,7 @@ async def routing(task: RouteTasks):
     servers = []
     graph_gen = Graph(number_node, 10, 10, 10, clients, servers, adj_matrix)
     print("Danh sach ke:", graph_gen.adj_matrix)
-    for band in graph_gen.predict_bandwidth:
-        band = 9999
+
     func = Function()
 
     graph_gen.updateGraph(update_delay, update_loss, update_link_utilization) 
@@ -145,10 +98,4 @@ async def routing(task: RouteTasks):
     result = result_to_json(result, mapping)
     print(f"result: {result}")
     flowrules = create_flowrule_json(result, host_json, get_link_to_port())
-    return send_flowrule(flowrules, RYU_PORT)
-    
-if __name__ == '__main__':
-    uvicorn.run(app, host="0.0.0.0", port=DYNAMICSDN_PORT)
-
-
-
+    return send_flowrule(flowrules)

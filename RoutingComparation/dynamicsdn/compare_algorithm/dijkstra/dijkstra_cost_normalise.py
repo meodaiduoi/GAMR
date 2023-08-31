@@ -1,9 +1,18 @@
 import numpy as np
+import networkx as nx
+import json
+
+from compare_algorithm.ga.module_graph import Graph
+
+from dynamicsdn.common.utils import *
+from dynamicsdn.common.models import *
+from extras.utils import *
+
 def normalize_weight(graph, priority):
     if priority == 1:
-        a = 0.18
-        b = 0.53
-        c = 0.29
+        a = 1/3
+        b = 1/3
+        c = 1/3
     elif priority == 2:
         a = 0.12
         b = 0.26
@@ -33,6 +42,9 @@ def normalize_weight(graph, priority):
     return graph_cost
 
 def dijkstra(graph, priority, source, destination):
+    # print("Nguon", source)
+    # print("Dich", destination)
+    # print("Hello dong")
     graph_cost = normalize_weight(graph, priority)
     dist = np.zeros(graph.number_nodes+1)
     prev = np.zeros(graph.number_nodes+1)
@@ -49,13 +61,20 @@ def dijkstra(graph, priority, source, destination):
             if dist[i] < min_dist:
                 min_dist = dist[i]
                 u = i
+        # print("Hello")
+        # print(u)
         Q.remove(u)
-        for v in range(1, graph.number_nodes+1):
-            if graph_cost[u][v] != 0:
-                alt = dist[u] + graph_cost[u][v]
-                if alt < dist[v]:
-                    dist[v] = alt
-                    prev[v] = u
+        # for v in range(1, graph.number_nodes+1):
+        #     if graph_cost[u][v] != 0:
+        #         alt = dist[u] + graph_cost[u][v]
+        #         if alt < dist[v]:
+        #             dist[v] = alt
+        #             prev[v] = u
+        for v in graph.adj_matrix[u]:
+            alt = dist[u] + graph_cost[u][v]
+            if alt < dist[v]:
+                dist[v] = alt
+                prev[v] = u
     path = []
     u = destination
     while prev[u] != -1:
@@ -63,6 +82,7 @@ def dijkstra(graph, priority, source, destination):
         u = int(prev[u])
     path.append(source)
     path.reverse()
+    print(path)
     return path   
 
 def routing_k(graph, pair_list, priority):

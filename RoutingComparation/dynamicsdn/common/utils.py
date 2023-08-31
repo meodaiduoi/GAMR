@@ -125,10 +125,10 @@ def create_flowrule_json(solutions, host_json, link_to_port):
 
     return flowrules
 
-def send_flowrule(flowrules, ryu_rest_port):
+def send_flowrule(flowrules, ryu_ip='0.0.0.0', ryu_rest_port=8080):
     status = []
     for flowrule in flowrules:
-        result = rq.post(f'http://0.0.0.0:{ryu_rest_port}/stats/flowentry/add', data=json.dumps(flowrule))
+        result = rq.post(f'http://{ryu_ip}:{ryu_rest_port}/stats/flowentry/add', data=json.dumps(flowrule))
         status.append({
             'status': result.status_code,
             'flowrule': flowrule
