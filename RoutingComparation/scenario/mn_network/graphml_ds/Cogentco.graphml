@@ -1,0 +1,4164 @@
+<?xml version="1.0" encoding="UTF-8"?><graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+    <key attr.name="label" attr.type="string" for="node" id="label"/>
+    <key attr.name="Edge Label" attr.type="string" for="edge" id="edgelabel"/>
+    <key attr.name="weight" attr.type="double" for="edge" id="weight"/>
+    <key attr.name="r" attr.type="int" for="node" id="r"/>
+    <key attr.name="g" attr.type="int" for="node" id="g"/>
+    <key attr.name="b" attr.type="int" for="node" id="b"/>
+    <key attr.name="x" attr.type="float" for="node" id="x"/>
+    <key attr.name="y" attr.type="float" for="node" id="y"/>
+    <key attr.name="size" attr.type="float" for="node" id="size"/>
+    <key attr.name="hyperedge" attr.type="int" for="node" id="d37"/>
+    <key attr.name="geocode_append" attr.type="string" for="node" id="d36"/>
+    <key attr.name="Longitude" attr.type="double" for="node" id="d34"/>
+    <key attr.name="id" attr.type="int" for="node" id="d33"/>
+    <key attr.name="type" attr.type="string" for="node" id="d32"/>
+    <key attr.name="Country" attr.type="string" for="node" id="d31"/>
+    <key attr.name="Latitude" attr.type="double" for="node" id="d30"/>
+    <key attr.name="Internal" attr.type="int" for="node" id="d29"/>
+    <key attr.name="LinkLabel" attr.type="string" for="edge" id="d40"/>
+    <key attr.name="key" attr.type="int" for="edge" id="d39"/>
+    <key attr.name="id" attr.type="string" for="edge" id="d38"/>
+    <graph edgedefault="undirected">
+        <node id="0">
+            <data key="label">Timisoara</data>
+            <data key="d34">21.22722</data>
+            <data key="d33">0</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Romania</data>
+            <data key="d30">45.74944</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-258.0253</data>
+            <data key="y">-201.40942</data>
+        </node>
+        <node id="1">
+            <data key="label">Bucharest</data>
+            <data key="d34">26.10626</data>
+            <data key="d33">1</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Romania</data>
+            <data key="d30">44.43225</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-223.33508</data>
+            <data key="y">-166.16138</data>
+        </node>
+        <node id="2">
+            <data key="label">Mainz-Wiesbaden</data>
+            <data key="d34">8.27111</data>
+            <data key="d33">2</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">50.0</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">164.8103</data>
+            <data key="y">-324.55368</data>
+        </node>
+        <node id="3">
+            <data key="label">Mannheim</data>
+            <data key="d34">8.46472</data>
+            <data key="d33">3</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">49.48833</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">44.197758</data>
+            <data key="y">265.71652</data>
+        </node>
+        <node id="4">
+            <data key="label">Stuttgart</data>
+            <data key="d34">9.17702</data>
+            <data key="d33">4</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">48.78232</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-399.6493</data>
+            <data key="y">150.97702</data>
+        </node>
+        <node id="5">
+            <data key="label">Nuremberg</data>
+            <data key="d34">11.06833</data>
+            <data key="d33">5</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">49.44778</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-276.2173</data>
+            <data key="y">396.3732</data>
+        </node>
+        <node id="6">
+            <data key="label">Munich</data>
+            <data key="d34">11.57549</data>
+            <data key="d33">6</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">48.13743</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">1.4252982</data>
+            <data key="y">-81.105255</data>
+        </node>
+        <node id="7">
+            <data key="label">Vienna</data>
+            <data key="d34">16.37208</data>
+            <data key="d33">7</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Austria</data>
+            <data key="d30">48.20849</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-105.52227</data>
+            <data key="y">-21.839172</data>
+        </node>
+        <node id="8">
+            <data key="label">Bratislava</data>
+            <data key="d34">17.10674</data>
+            <data key="d33">8</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Slovakia</data>
+            <data key="d30">48.14816</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">437.0158</data>
+            <data key="y">334.32944</data>
+        </node>
+        <node id="9">
+            <data key="label">Budapest</data>
+            <data key="d34">19.03991</data>
+            <data key="d33">9</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Hungary</data>
+            <data key="d30">47.49801</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">413.9383</data>
+            <data key="y">184.42868</data>
+        </node>
+        <node id="10">
+            <data key="label">Milwaukee</data>
+            <data key="d34">-87.90647</data>
+            <data key="d33">10</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">43.0389</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">127.01026</data>
+            <data key="y">220.28403</data>
+        </node>
+        <node id="11">
+            <data key="label">Minneapolis</data>
+            <data key="d34">-93.26384</data>
+            <data key="d33">11</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">44.97997</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-191.70306</data>
+            <data key="y">326.51273</data>
+        </node>
+        <node id="12">
+            <data key="label">South Bend</data>
+            <data key="d34">-86.25001</data>
+            <data key="d33">12</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">41.68338</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-93.789665</data>
+            <data key="y">-365.1248</data>
+        </node>
+        <node id="13">
+            <data key="label">Chicago</data>
+            <data key="d34">-87.65005</data>
+            <data key="d33">13</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">41.85003</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-343.6247</data>
+            <data key="y">-33.65979</data>
+        </node>
+        <node id="14">
+            <data key="label">Kansas City</data>
+            <data key="d34">-94.62746</data>
+            <data key="d33">14</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">39.11417</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">3.8532462</data>
+            <data key="y">484.88852</data>
+        </node>
+        <node id="15">
+            <data key="label">St Louis</data>
+            <data key="d34">-90.19789</data>
+            <data key="d33">15</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">38.62727</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">401.85284</data>
+            <data key="y">-466.67664</data>
+        </node>
+        <node id="16">
+            <data key="label">Des Moines</data>
+            <data key="d34">-93.60911</data>
+            <data key="d33">16</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">41.60054</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-247.55151</data>
+            <data key="y">-237.22163</data>
+        </node>
+        <node id="17">
+            <data key="label">Omaha</data>
+            <data key="d34">-95.93779</data>
+            <data key="d33">17</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">41.25861</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-354.81958</data>
+            <data key="y">461.44125</data>
+        </node>
+        <node id="18">
+            <data key="label">Louisville</data>
+            <data key="d34">-85.75941</data>
+            <data key="d33">18</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">38.25424</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-401.48187</data>
+            <data key="y">357.09378</data>
+        </node>
+        <node id="19">
+            <data key="label">Nashville</data>
+            <data key="d34">-86.78444</data>
+            <data key="d33">19</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">36.16589</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-383.55902</data>
+            <data key="y">-449.11374</data>
+        </node>
+        <node id="20">
+            <data key="label">Gijon</data>
+            <data key="d34">-5.66444</data>
+            <data key="d33">20</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">43.54111</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-422.13116</data>
+            <data key="y">-159.58585</data>
+        </node>
+        <node id="21">
+            <data key="label">Santander</data>
+            <data key="d34">-3.80444</data>
+            <data key="d33">21</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">43.46472</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-288.97577</data>
+            <data key="y">-271.62216</data>
+        </node>
+        <node id="22">
+            <data key="label">Vigo</data>
+            <data key="d34">-8.71667</data>
+            <data key="d33">22</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">42.23333</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">239.31342</data>
+            <data key="y">374.22897</data>
+        </node>
+        <node id="23">
+            <data key="label">Leon</data>
+            <data key="d34">-5.56667</data>
+            <data key="d33">23</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">42.6</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-318.10446</data>
+            <data key="y">-368.77704</data>
+        </node>
+        <node id="24">
+            <data key="label">Zaragoza</data>
+            <data key="d34">-0.87734</data>
+            <data key="d33">24</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">41.65606</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-146.70242</data>
+            <data key="y">-113.2016</data>
+        </node>
+        <node id="25">
+            <data key="label">Barcelona</data>
+            <data key="d34">2.15899</data>
+            <data key="d33">25</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">41.38879</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">325.40375</data>
+            <data key="y">472.42917</data>
+        </node>
+        <node id="26">
+            <data key="label">Bilbao</data>
+            <data key="d34">-2.92528</data>
+            <data key="d33">26</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">43.26271</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-374.3227</data>
+            <data key="y">-22.117706</data>
+        </node>
+        <node id="27">
+            <data key="label">Logrono</data>
+            <data key="d34">-2.45</data>
+            <data key="d33">27</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">42.46667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">271.98615</data>
+            <data key="y">457.65274</data>
+        </node>
+        <node id="28">
+            <data key="label">Avila</data>
+            <data key="d34">-4.7</data>
+            <data key="d33">28</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">40.65</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-448.06808</data>
+            <data key="y">-416.67224</data>
+        </node>
+        <node id="29">
+            <data key="label">San Sebastian</data>
+            <data key="d34">-1.97499</data>
+            <data key="d33">29</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">43.31283</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-201.20572</data>
+            <data key="y">-380.50922</data>
+        </node>
+        <node id="30">
+            <data key="label">Indianapolis</data>
+            <data key="d34">-86.15804</data>
+            <data key="d33">30</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">39.76838</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">493.38538</data>
+            <data key="y">292.85538</data>
+        </node>
+        <node id="31">
+            <data key="label">Cincinnati</data>
+            <data key="d34">-84.45689</data>
+            <data key="d33">31</data>
+            <data key="d32">Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">39.162</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">418.17603</data>
+            <data key="y">310.6033</data>
+        </node>
+        <node id="32">
+            <data key="label">Toledo</data>
+            <data key="d36">US</data>
+            <data key="d34">-83.55521</data>
+            <data key="d33">32</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">41.66394</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">34.549137</data>
+            <data key="y">355.98764</data>
+        </node>
+        <node id="33">
+            <data key="label">Detroit</data>
+            <data key="d34">-83.04575</data>
+            <data key="d33">33</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">42.33143</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">364.11584</data>
+            <data key="y">-245.62332</data>
+        </node>
+        <node id="34">
+            <data key="label">Dayton</data>
+            <data key="d34">-84.19161</data>
+            <data key="d33">34</data>
+            <data key="d32">Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">39.75895</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-310.51236</data>
+            <data key="y">-166.08676</data>
+        </node>
+        <node id="35">
+            <data key="label">Columbus</data>
+            <data key="d34">-82.99879</data>
+            <data key="d33">35</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">39.96118</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-1.851954</data>
+            <data key="y">-9.681733</data>
+        </node>
+        <node id="36">
+            <data key="label">Hamilton</data>
+            <data key="d34">-84.56134</data>
+            <data key="d33">36</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">39.3995</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">65.14771</data>
+            <data key="y">59.183197</data>
+        </node>
+        <node id="37">
+            <data key="label">Cleveland</data>
+            <data key="d34">-81.69541</data>
+            <data key="d33">37</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">41.4995</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-413.0791</data>
+            <data key="y">271.09628</data>
+        </node>
+        <node id="38">
+            <data key="label">Buffalo</data>
+            <data key="d34">-78.87837</data>
+            <data key="d33">38</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">42.88645</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-339.11932</data>
+            <data key="y">-449.514</data>
+        </node>
+        <node id="39">
+            <data key="label">Toronto</data>
+            <data key="d34">-80.60091</data>
+            <data key="d33">39</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">40.46423</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-134.49402</data>
+            <data key="y">469.11795</data>
+        </node>
+        <node id="40">
+            <data key="label">Oslo</data>
+            <data key="d34">10.74609</data>
+            <data key="d33">40</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Norway</data>
+            <data key="d30">59.91273</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">85.92707</data>
+            <data key="y">-203.64941</data>
+        </node>
+        <node id="41">
+            <data key="label">Stockholm</data>
+            <data key="d34">18.0649</data>
+            <data key="d33">41</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Sweden</data>
+            <data key="d30">59.33258</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">293.70935</data>
+            <data key="y">332.7632</data>
+        </node>
+        <node id="42">
+            <data key="label">Copenhagen</data>
+            <data key="d34">12.56553</data>
+            <data key="d33">42</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Denmark</data>
+            <data key="d30">55.67594</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-389.57898</data>
+            <data key="y">-130.52194</data>
+        </node>
+        <node id="43">
+            <data key="label">Malmo</data>
+            <data key="d34">13.00073</data>
+            <data key="d33">43</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Sweden</data>
+            <data key="d30">55.60587</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-62.94476</data>
+            <data key="y">495.86972</data>
+        </node>
+        <node id="44">
+            <data key="label">Newcastle</data>
+            <data key="d34">-1.61396</data>
+            <data key="d33">44</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United Kingdom</data>
+            <data key="d30">54.97328</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">130.5116</data>
+            <data key="y">-337.4964</data>
+        </node>
+        <node id="45">
+            <data key="label">Leeds</data>
+            <data key="d34">-1.54785</data>
+            <data key="d33">45</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United Kingdom</data>
+            <data key="d30">53.79648</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">459.77783</data>
+            <data key="y">-11.209107</data>
+        </node>
+        <node id="46">
+            <data key="label">Glasgow</data>
+            <data key="d34">-4.25763</data>
+            <data key="d33">46</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United Kingdom</data>
+            <data key="d30">55.86515</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-175.51306</data>
+            <data key="y">-353.65787</data>
+        </node>
+        <node id="47">
+            <data key="label">Edinburgh</data>
+            <data key="d34">-3.2</data>
+            <data key="d33">47</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United Kingdom</data>
+            <data key="d30">55.95</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-195.92896</data>
+            <data key="y">-374.67618</data>
+        </node>
+        <node id="48">
+            <data key="label">Liverpool Southport</data>
+            <data key="d34">-2.97794</data>
+            <data key="d33">48</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United Kingdom</data>
+            <data key="d30">53.41058</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">4.3260856</data>
+            <data key="y">443.87344</data>
+        </node>
+        <node id="49">
+            <data key="label">Manchester</data>
+            <data key="d34">-2.23743</data>
+            <data key="d33">49</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United Kingdom</data>
+            <data key="d30">53.48095</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-251.99194</data>
+            <data key="y">47.03311</data>
+        </node>
+        <node id="50">
+            <data key="label">Lisbon</data>
+            <data key="d34">-9.13333</data>
+            <data key="d33">50</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Portugal</data>
+            <data key="d30">38.71667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-74.10665</data>
+            <data key="y">184.57297</data>
+        </node>
+        <node id="51">
+            <data key="label">Coimbra</data>
+            <data key="d34">-8.41667</data>
+            <data key="d33">51</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Portugal</data>
+            <data key="d30">40.2</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-316.04034</data>
+            <data key="y">394.97128</data>
+        </node>
+        <node id="52">
+            <data key="label">Alicante</data>
+            <data key="d34">-0.48149</data>
+            <data key="d33">52</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">38.34517</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-388.97263</data>
+            <data key="y">-440.2037</data>
+        </node>
+        <node id="53">
+            <data key="label">Murcia</data>
+            <data key="d34">-1.11667</data>
+            <data key="d33">53</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">37.98333</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-359.9981</data>
+            <data key="y">-451.4765</data>
+        </node>
+        <node id="54">
+            <data key="label">Madrid</data>
+            <data key="d34">-3.70256</data>
+            <data key="d33">54</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">40.4165</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">56.067814</data>
+            <data key="y">-266.22183</data>
+        </node>
+        <node id="55">
+            <data key="label">Valencia</data>
+            <data key="d34">-0.37739</data>
+            <data key="d33">55</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">39.46975</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-221.28134</data>
+            <data key="y">-377.9195</data>
+        </node>
+        <node id="56">
+            <data key="label">Sevilla</data>
+            <data key="d34">-5.98694</data>
+            <data key="d33">56</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">37.37722</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-446.09937</data>
+            <data key="y">-217.99402</data>
+        </node>
+        <node id="57">
+            <data key="label">Badajoz</data>
+            <data key="d34">-6.96667</data>
+            <data key="d33">57</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">38.88333</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">350.96906</data>
+            <data key="y">-57.527832</data>
+        </node>
+        <node id="58">
+            <data key="label">Granada</data>
+            <data key="d34">-3.60667</data>
+            <data key="d33">58</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">37.18817</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">240.39258</data>
+            <data key="y">126.481964</data>
+        </node>
+        <node id="59">
+            <data key="label">Malaga</data>
+            <data key="d34">-4.42034</data>
+            <data key="d33">59</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Spain</data>
+            <data key="d30">36.72016</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">356.60303</data>
+            <data key="y">43.56729</data>
+        </node>
+        <node id="60">
+            <data key="label">Austin</data>
+            <data key="d34">-97.74306</data>
+            <data key="d33">60</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">30.26715</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">391.12408</data>
+            <data key="y">516.4878</data>
+        </node>
+        <node id="61">
+            <data key="label">San Antonio</data>
+            <data key="d34">-98.49363</data>
+            <data key="d33">61</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">29.42412</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-30.227045</data>
+            <data key="y">309.17477</data>
+        </node>
+        <node id="62">
+            <data key="label">New Orleans</data>
+            <data key="d34">-90.07507</data>
+            <data key="d33">62</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">29.95465</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">440.61932</data>
+            <data key="y">463.8179</data>
+        </node>
+        <node id="63">
+            <data key="label">Jackson</data>
+            <data key="d34">-90.18481</data>
+            <data key="d33">63</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">32.29876</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">123.40296</data>
+            <data key="y">-228.64337</data>
+        </node>
+        <node id="64">
+            <data key="label">Tulsa</data>
+            <data key="d34">-95.99278</data>
+            <data key="d33">64</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">36.15398</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">173.81042</data>
+            <data key="y">-316.95068</data>
+        </node>
+        <node id="65">
+            <data key="label">Oklahoma City</data>
+            <data key="d34">-97.51643</data>
+            <data key="d33">65</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">35.46756</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">515.5419</data>
+            <data key="y">228.48996</data>
+        </node>
+        <node id="66">
+            <data key="label">Fort Worth</data>
+            <data key="d34">-97.32085</data>
+            <data key="d33">66</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">32.72541</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">48.26331</data>
+            <data key="y">10.266875</data>
+        </node>
+        <node id="67">
+            <data key="label">Dallas</data>
+            <data key="d34">-96.80667</data>
+            <data key="d33">67</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">32.78306</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-300.26038</data>
+            <data key="y">285.89102</data>
+        </node>
+        <node id="68">
+            <data key="label">Memphis</data>
+            <data key="d34">-90.04898</data>
+            <data key="d33">68</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">35.14953</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">145.72992</data>
+            <data key="y">477.76492</data>
+        </node>
+        <node id="69">
+            <data key="label">Houston</data>
+            <data key="d34">-95.36327</data>
+            <data key="d33">69</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">29.76328</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-147.74884</data>
+            <data key="y">141.54276</data>
+        </node>
+        <node id="70">
+            <data key="label">Tours</data>
+            <data key="d34">0.68333</data>
+            <data key="d33">70</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">France</data>
+            <data key="d30">47.38333</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-177.1177</data>
+            <data key="y">-292.40274</data>
+        </node>
+        <node id="71">
+            <data key="label">Nantes</data>
+            <data key="d34">-1.55336</data>
+            <data key="d33">71</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">France</data>
+            <data key="d30">47.21725</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">270.78552</data>
+            <data key="y">-59.558258</data>
+        </node>
+        <node id="72">
+            <data key="label">Rennes</data>
+            <data key="d34">-1.68333</data>
+            <data key="d33">72</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">France</data>
+            <data key="d30">48.08333</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-266.37805</data>
+            <data key="y">-446.5499</data>
+        </node>
+        <node id="73">
+            <data key="label">Caen</data>
+            <data key="d34">-0.35912</data>
+            <data key="d33">73</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">France</data>
+            <data key="d30">49.18585</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-347.31702</data>
+            <data key="y">303.30844</data>
+        </node>
+        <node id="74">
+            <data key="label">Rouen</data>
+            <data key="d34">1.09932</data>
+            <data key="d33">74</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">France</data>
+            <data key="d30">49.44313</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-470.8526</data>
+            <data key="y">-31.837494</data>
+        </node>
+        <node id="75">
+            <data key="label">Reims</data>
+            <data key="d34">4.03333</data>
+            <data key="d33">75</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">France</data>
+            <data key="d30">49.25</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-275.18488</data>
+            <data key="y">198.88028</data>
+        </node>
+        <node id="76">
+            <data key="label">Luxembourg</data>
+            <data key="d34">6.13</data>
+            <data key="d33">76</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Luxembourg</data>
+            <data key="d30">49.61167</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">207.00165</data>
+            <data key="y">403.32187</data>
+        </node>
+        <node id="77">
+            <data key="label">Frankfurt</data>
+            <data key="d34">8.68333</data>
+            <data key="d33">77</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">Germany</data>
+            <data key="d30">50.11667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-146.83038</data>
+            <data key="y">-326.26532</data>
+        </node>
+        <node id="78">
+            <data key="label">Bordeaux</data>
+            <data key="d34">-0.56667</data>
+            <data key="d33">78</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">France</data>
+            <data key="d30">44.83333</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-223.3887</data>
+            <data key="y">-342.2869</data>
+        </node>
+        <node id="79">
+            <data key="label">Poiters</data>
+            <data key="d34">0.33333</data>
+            <data key="d33">79</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">France</data>
+            <data key="d30">46.58333</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-153.00754</data>
+            <data key="y">79.56473</data>
+        </node>
+        <node id="80">
+            <data key="label">Miami</data>
+            <data key="d34">-80.19366</data>
+            <data key="d33">80</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">25.77427</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-363.63354</data>
+            <data key="y">-16.99884</data>
+        </node>
+        <node id="81">
+            <data key="label">Boca Raton</data>
+            <data key="d34">-80.0831</data>
+            <data key="d33">81</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">26.35869</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">290.52698</data>
+            <data key="y">345.0571</data>
+        </node>
+        <node id="82">
+            <data key="label">Atlanta</data>
+            <data key="d34">-84.38798</data>
+            <data key="d33">82</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">33.749</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-183.91913</data>
+            <data key="y">427.879</data>
+        </node>
+        <node id="83">
+            <data key="label">Charlotte</data>
+            <data key="d34">-80.84313</data>
+            <data key="d33">83</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">35.22709</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">384.80182</data>
+            <data key="y">-472.00122</data>
+        </node>
+        <node id="84">
+            <data key="label">Greensboro</data>
+            <data key="d34">-79.79198</data>
+            <data key="d33">84</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">36.07264</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">28.710821</data>
+            <data key="y">-143.9859</data>
+        </node>
+        <node id="85">
+            <data key="label">Raleigh</data>
+            <data key="d34">-78.63861</data>
+            <data key="d33">85</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">35.7721</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">462.58386</data>
+            <data key="y">352.96512</data>
+        </node>
+        <node id="86">
+            <data key="label">Tampa</data>
+            <data key="d34">-82.45843</data>
+            <data key="d33">86</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">27.94752</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">296.49963</data>
+            <data key="y">-191.52158</data>
+        </node>
+        <node id="87">
+            <data key="label">Orlando</data>
+            <data key="d34">-81.37924</data>
+            <data key="d33">87</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">28.53834</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">51.527653</data>
+            <data key="y">-309.08145</data>
+        </node>
+        <node id="88">
+            <data key="label">Jacksonville</data>
+            <data key="d34">-81.65565</data>
+            <data key="d33">88</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">30.33218</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-230.74622</data>
+            <data key="y">397.9479</data>
+        </node>
+        <node id="89">
+            <data key="label">Birmingham</data>
+            <data key="d36">US</data>
+            <data key="d34">-86.80249</data>
+            <data key="d33">89</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">33.52066</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-396.2858</data>
+            <data key="y">-30.725891</data>
+        </node>
+        <node id="90">
+            <data key="label">Nice</data>
+            <data key="d34">7.26608</data>
+            <data key="d33">90</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">France</data>
+            <data key="d30">43.70313</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">236.24707</data>
+            <data key="y">-280.19003</data>
+        </node>
+        <node id="91">
+            <data key="label">Grenoble</data>
+            <data key="d34">5.71667</data>
+            <data key="d33">91</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">France</data>
+            <data key="d30">45.16667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-215.80988</data>
+            <data key="y">314.46402</data>
+        </node>
+        <node id="92">
+            <data key="label">Lyon</data>
+            <data key="d34">4.85</data>
+            <data key="d33">92</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">France</data>
+            <data key="d30">45.75</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-251.71399</data>
+            <data key="y">-155.58215</data>
+        </node>
+        <node id="93">
+            <data key="label">Dijon</data>
+            <data key="d34">5.01667</data>
+            <data key="d33">93</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">France</data>
+            <data key="d30">47.31667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">516.7774</data>
+            <data key="y">-176.2398</data>
+        </node>
+        <node id="94">
+            <data key="label">Toulouse</data>
+            <data key="d34">1.44367</data>
+            <data key="d33">94</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">France</data>
+            <data key="d30">43.60426</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-287.23944</data>
+            <data key="y">315.0836</data>
+        </node>
+        <node id="95">
+            <data key="label">Montpellier</data>
+            <data key="d36">France</data>
+            <data key="d34">3.88333</data>
+            <data key="d33">95</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">France</data>
+            <data key="d30">43.6</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-177.65756</data>
+            <data key="y">-260.9089</data>
+        </node>
+        <node id="96">
+            <data key="label">Marseille</data>
+            <data key="d34">5.4</data>
+            <data key="d33">96</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">France</data>
+            <data key="d30">43.3</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-197.95688</data>
+            <data key="y">218.0015</data>
+        </node>
+        <node id="97">
+            <data key="label">Sophia</data>
+            <data key="d34">23.32415</data>
+            <data key="d33">97</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">Bulgaria</data>
+            <data key="d30">42.69751</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-147.12585</data>
+            <data key="y">452.8138</data>
+        </node>
+        <node id="98">
+            <data key="label">Prague</data>
+            <data key="d34">14.42076</data>
+            <data key="d33">98</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Czech Republic</data>
+            <data key="d30">50.08804</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">24.386236</data>
+            <data key="y">313.14706</data>
+        </node>
+        <node id="99">
+            <data key="label">Geneva</data>
+            <data key="d34">6.14569</data>
+            <data key="d33">99</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Switzerland</data>
+            <data key="d30">46.20222</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">424.1363</data>
+            <data key="y">213.88107</data>
+        </node>
+        <node id="100">
+            <data key="label">Bern</data>
+            <data key="d34">7.44744</data>
+            <data key="d33">100</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Switzerland</data>
+            <data key="d30">46.94809</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">346.511</data>
+            <data key="y">419.29642</data>
+        </node>
+        <node id="101">
+            <data key="label">Los Angeles</data>
+            <data key="d34">-118.24368</data>
+            <data key="d33">101</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">34.05223</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-219.67682</data>
+            <data key="y">122.56833</data>
+        </node>
+        <node id="102">
+            <data key="label">Orange County</data>
+            <data key="d34">-117.85311</data>
+            <data key="d33">102</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">33.78779</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">328.36505</data>
+            <data key="y">231.66415</data>
+        </node>
+        <node id="103">
+            <data key="label">San Francisco</data>
+            <data key="d34">-122.41942</data>
+            <data key="d33">103</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">37.77493</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">286.06146</data>
+            <data key="y">502.90244</data>
+        </node>
+        <node id="104">
+            <data key="label">Santa Clara</data>
+            <data key="d34">-121.95524</data>
+            <data key="d33">104</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">37.35411</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">333.06927</data>
+            <data key="y">17.257904</data>
+        </node>
+        <node id="105">
+            <data key="label">Sacramento</data>
+            <data key="d34">-121.4944</data>
+            <data key="d33">105</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">38.58157</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">234.26544</data>
+            <data key="y">24.16037</data>
+        </node>
+        <node id="106">
+            <data key="label">Oakland</data>
+            <data key="d34">-122.2708</data>
+            <data key="d33">106</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">37.80437</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">8.860784</data>
+            <data key="y">180.9006</data>
+        </node>
+        <node id="107">
+            <data key="label">Salt Lake City</data>
+            <data key="d34">-111.89105</data>
+            <data key="d33">107</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">40.76078</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-17.233637</data>
+            <data key="y">6.2832327</data>
+        </node>
+        <node id="108">
+            <data key="label">Boise</data>
+            <data key="d34">-116.20345</data>
+            <data key="d33">108</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">43.6135</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-95.1202</data>
+            <data key="y">-476.02765</data>
+        </node>
+        <node id="109">
+            <data key="label">San Diego</data>
+            <data key="d34">-117.15726</data>
+            <data key="d33">109</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">32.71533</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">188.302</data>
+            <data key="y">188.77707</data>
+        </node>
+        <node id="110">
+            <data key="label">Phoenix</data>
+            <data key="d34">-112.07404</data>
+            <data key="d33">110</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">33.44838</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">278.9353</data>
+            <data key="y">128.27457</data>
+        </node>
+        <node id="111">
+            <data key="label">Arezzo</data>
+            <data key="d34">11.87691</data>
+            <data key="d33">111</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Italy</data>
+            <data key="d30">43.46139</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-6.6352487</data>
+            <data key="y">-131.35187</data>
+        </node>
+        <node id="112">
+            <data key="label">Rome</data>
+            <data key="d34">12.4839</data>
+            <data key="d33">112</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Italy</data>
+            <data key="d30">41.89474</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">382.92572</data>
+            <data key="y">189.02335</data>
+        </node>
+        <node id="113">
+            <data key="label">Odessa</data>
+            <data key="d34">30.73262</data>
+            <data key="d33">113</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Ukraine</data>
+            <data key="d30">46.47747</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-360.42798</data>
+            <data key="y">-279.85214</data>
+        </node>
+        <node id="114">
+            <data key="label">Galati</data>
+            <data key="d34">28.05</data>
+            <data key="d33">114</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Romania</data>
+            <data key="d30">45.45</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-229.62216</data>
+            <data key="y">-206.17316</data>
+        </node>
+        <node id="115">
+            <data key="label">Balchik</data>
+            <data key="d34">28.16667</data>
+            <data key="d33">115</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Bulgaria</data>
+            <data key="d30">43.41667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">130.63629</data>
+            <data key="y">-202.42172</data>
+        </node>
+        <node id="116">
+            <data key="label">Constanta</data>
+            <data key="d34">28.65</data>
+            <data key="d33">116</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Romania</data>
+            <data key="d30">44.18333</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">460.60767</data>
+            <data key="y">-401.39395</data>
+        </node>
+        <node id="117">
+            <data key="label">Burgas</data>
+            <data key="d34">27.46781</data>
+            <data key="d33">117</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Bulgaria</data>
+            <data key="d30">42.50606</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">248.67657</data>
+            <data key="y">192.13602</data>
+        </node>
+        <node id="118">
+            <data key="label">Varna</data>
+            <data key="d34">27.91667</data>
+            <data key="d33">118</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Bulgaria</data>
+            <data key="d30">43.21667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">115.29499</data>
+            <data key="y">-413.23154</data>
+        </node>
+        <node id="119">
+            <data key="label">Sofia</data>
+            <data key="d34">23.32415</data>
+            <data key="d33">119</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Bulgaria</data>
+            <data key="d30">42.69751</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">439.52582</data>
+            <data key="y">-435.25113</data>
+        </node>
+        <node id="120">
+            <data key="label">Kapitan Andreevo</data>
+            <data key="d34">26.31667</data>
+            <data key="d33">120</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Bulgaria</data>
+            <data key="d30">41.71667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-264.1964</data>
+            <data key="y">-385.45383</data>
+        </node>
+        <node id="121">
+            <data key="label">McAllen</data>
+            <data key="d34">-98.23001</data>
+            <data key="d33">121</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">26.20341</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-174.14459</data>
+            <data key="y">309.0864</data>
+        </node>
+        <node id="122">
+            <data key="label">Laredo</data>
+            <data key="d34">-99.50754</data>
+            <data key="d33">122</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">27.50641</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-226.63321</data>
+            <data key="y">243.26083</data>
+        </node>
+        <node id="123">
+            <data key="label">Queretaro</data>
+            <data key="d34">-100.38333</data>
+            <data key="d33">123</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Mexico</data>
+            <data key="d30">20.6</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-118.65148</data>
+            <data key="y">412.40134</data>
+        </node>
+        <node id="124">
+            <data key="label">Monterrey</data>
+            <data key="d34">-100.31667</data>
+            <data key="d33">124</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Mexico</data>
+            <data key="d30">25.66667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-40.7019</data>
+            <data key="y">438.38058</data>
+        </node>
+        <node id="125">
+            <data key="label">Mexico City</data>
+            <data key="d34">-99.12766</data>
+            <data key="d33">125</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Mexico</data>
+            <data key="d30">19.42847</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">104.82197</data>
+            <data key="y">176.58633</data>
+        </node>
+        <node id="126">
+            <data key="label">Guadalajara</data>
+            <data key="d34">-103.33333</data>
+            <data key="d33">126</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Mexico</data>
+            <data key="d30">20.66667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-391.3244</data>
+            <data key="y">75.58493</data>
+        </node>
+        <node id="127">
+            <data key="label">Albuquerque</data>
+            <data key="d34">-106.65114</data>
+            <data key="d33">127</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">35.08449</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">370.10663</data>
+            <data key="y">-162.19357</data>
+        </node>
+        <node id="128">
+            <data key="label">El Paso</data>
+            <data key="d34">-106.48693</data>
+            <data key="d33">128</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">31.75872</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-371.5127</data>
+            <data key="y">-164.34549</data>
+        </node>
+        <node id="129">
+            <data key="label">Denver</data>
+            <data key="d34">-104.9847</data>
+            <data key="d33">129</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">39.73915</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">495.6635</data>
+            <data key="y">-219.70535</data>
+        </node>
+        <node id="130">
+            <data key="label">Colorado Springs</data>
+            <data key="d34">-104.82136</data>
+            <data key="d33">130</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">38.83388</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-29.985865</data>
+            <data key="y">-7.1438</data>
+        </node>
+        <node id="131">
+            <data key="label">Dresden</data>
+            <data key="d34">13.73832</data>
+            <data key="d33">131</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">51.05089</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-22.67547</data>
+            <data key="y">478.37393</data>
+        </node>
+        <node id="132">
+            <data key="label">Basel</data>
+            <data key="d34">7.6</data>
+            <data key="d33">132</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Switzerland</data>
+            <data key="d30">47.56667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-194.73352</data>
+            <data key="y">-194.40723</data>
+        </node>
+        <node id="133">
+            <data key="label">Strasbourg</data>
+            <data key="d34">7.75</data>
+            <data key="d33">133</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">France</data>
+            <data key="d30">48.58333</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-241.78749</data>
+            <data key="y">520.49634</data>
+        </node>
+        <node id="134">
+            <data key="label">Milan</data>
+            <data key="d34">9.18951</data>
+            <data key="d33">134</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Italy</data>
+            <data key="d30">45.46427</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">278.57874</data>
+            <data key="y">-296.559</data>
+        </node>
+        <node id="135">
+            <data key="label">Zurich</data>
+            <data key="d34">8.55</data>
+            <data key="d33">135</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Switzerland</data>
+            <data key="d30">47.36667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">371.80798</data>
+            <data key="y">70.06589</data>
+        </node>
+        <node id="136">
+            <data key="label">Zagreb</data>
+            <data key="d34">15.97798</data>
+            <data key="d33">136</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Croatia</data>
+            <data key="d30">45.81444</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">287.00574</data>
+            <data key="y">231.30063</data>
+        </node>
+        <node id="137">
+            <data key="label">Genoa</data>
+            <data key="d34">8.93386</data>
+            <data key="d33">137</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Italy</data>
+            <data key="d30">44.40632</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-212.70462</data>
+            <data key="y">-99.96155</data>
+        </node>
+        <node id="138">
+            <data key="label">Padua-Venice</data>
+            <data key="d34">12.32667</data>
+            <data key="d33">138</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Italy</data>
+            <data key="d30">45.43861</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">376.95398</data>
+            <data key="y">-240.76915</data>
+        </node>
+        <node id="139">
+            <data key="label">Ljubljana</data>
+            <data key="d34">14.50513</data>
+            <data key="d33">139</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Slovenia</data>
+            <data key="d30">46.05108</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-189.26602</data>
+            <data key="y">-298.2308</data>
+        </node>
+        <node id="140">
+            <data key="label">Florence</data>
+            <data key="d34">11.25</data>
+            <data key="d33">140</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Italy</data>
+            <data key="d30">43.76667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">509.51996</data>
+            <data key="y">295.65054</data>
+        </node>
+        <node id="141">
+            <data key="label">Bologna</data>
+            <data key="d34">11.33875</data>
+            <data key="d33">141</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Italy</data>
+            <data key="d30">44.49381</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-48.735134</data>
+            <data key="y">-286.69662</data>
+        </node>
+        <node id="142">
+            <data key="label">Berlin</data>
+            <data key="d34">13.41053</data>
+            <data key="d33">142</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">52.52437</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">143.29523</data>
+            <data key="y">351.93094</data>
+        </node>
+        <node id="143">
+            <data key="label">Hamburg</data>
+            <data key="d34">10.0</data>
+            <data key="d33">143</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">53.55</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">248.47717</data>
+            <data key="y">-161.71603</data>
+        </node>
+        <node id="144">
+            <data key="label">None</data>
+            <data key="d37">1</data>
+            <data key="d33">144</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-189.05957</data>
+            <data key="y">-301.98862</data>
+        </node>
+        <node id="145">
+            <data key="label">White Plains</data>
+            <data key="d34">-73.76291</data>
+            <data key="d33">145</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">41.03399</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-324.77753</data>
+            <data key="y">333.87607</data>
+        </node>
+        <node id="146">
+            <data key="label">Baltimore</data>
+            <data key="d34">-76.61219</data>
+            <data key="d33">146</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">39.29038</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">124.61506</data>
+            <data key="y">21.518982</data>
+        </node>
+        <node id="147">
+            <data key="label">None</data>
+            <data key="d37">1</data>
+            <data key="d33">147</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">379.57977</data>
+            <data key="y">-165.41638</data>
+        </node>
+        <node id="148">
+            <data key="label">None</data>
+            <data key="d37">1</data>
+            <data key="d33">148</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-64.60702</data>
+            <data key="y">-43.023743</data>
+        </node>
+        <node id="149">
+            <data key="label">None</data>
+            <data key="d37">1</data>
+            <data key="d33">149</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">210.3371</data>
+            <data key="y">-51.438324</data>
+        </node>
+        <node id="150">
+            <data key="label">None</data>
+            <data key="d37">1</data>
+            <data key="d33">150</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">193.07996</data>
+            <data key="y">-312.9691</data>
+        </node>
+        <node id="151">
+            <data key="label">Newark</data>
+            <data key="d34">-74.17237</data>
+            <data key="d33">151</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">40.73566</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-317.72934</data>
+            <data key="y">-85.99634</data>
+        </node>
+        <node id="152">
+            <data key="label">Philadelphia</data>
+            <data key="d34">-75.16379</data>
+            <data key="d33">152</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">39.95234</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-94.610374</data>
+            <data key="y">334.24484</data>
+        </node>
+        <node id="153">
+            <data key="label">Harrisburg</data>
+            <data key="d34">-76.88442</data>
+            <data key="d33">153</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">40.2737</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-219.33405</data>
+            <data key="y">-164.59097</data>
+        </node>
+        <node id="154">
+            <data key="label">Washington</data>
+            <data key="d34">-77.03637</data>
+            <data key="d33">154</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">38.89511</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">479.2237</data>
+            <data key="y">-340.17075</data>
+        </node>
+        <node id="155">
+            <data key="label">Boston</data>
+            <data key="d34">-71.05977</data>
+            <data key="d33">155</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">42.35843</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-221.06036</data>
+            <data key="y">-166.9855</data>
+        </node>
+        <node id="156">
+            <data key="label">Providence</data>
+            <data key="d34">-71.41283</data>
+            <data key="d33">156</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">41.82399</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-358.15997</data>
+            <data key="y">164.81686</data>
+        </node>
+        <node id="157">
+            <data key="label">Stamford</data>
+            <data key="d34">-73.53873</data>
+            <data key="d33">157</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">41.05343</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-451.11563</data>
+            <data key="y">33.397064</data>
+        </node>
+        <node id="158">
+            <data key="label">New York</data>
+            <data key="d34">-74.00597</data>
+            <data key="d33">158</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">40.71427</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">85.98316</data>
+            <data key="y">-450.4893</data>
+        </node>
+        <node id="159">
+            <data key="label">Herndon</data>
+            <data key="d34">-77.3861</data>
+            <data key="d33">159</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">38.96955</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-320.02582</data>
+            <data key="y">-294.7648</data>
+        </node>
+        <node id="160">
+            <data key="label">Pittsburgh</data>
+            <data key="d34">-79.99589</data>
+            <data key="d33">160</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">United States</data>
+            <data key="d30">40.44062</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-39.411434</data>
+            <data key="y">-371.3468</data>
+        </node>
+        <node id="161">
+            <data key="label">Cologne</data>
+            <data key="d34">6.95</data>
+            <data key="d33">161</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">50.93333</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">92.33039</data>
+            <data key="y">1.4398491</data>
+        </node>
+        <node id="162">
+            <data key="label">Dusseldorf</data>
+            <data key="d34">6.77616</data>
+            <data key="d33">162</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">51.22172</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">337.4635</data>
+            <data key="y">222.60934</data>
+        </node>
+        <node id="163">
+            <data key="label">Amsterdam</data>
+            <data key="d34">4.88969</data>
+            <data key="d33">163</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Netherlands</data>
+            <data key="d30">52.37403</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-272.63638</data>
+            <data key="y">-292.6558</data>
+        </node>
+        <node id="164">
+            <data key="label">Cambridge</data>
+            <data key="d34">0.11667</data>
+            <data key="d33">164</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United Kingdom</data>
+            <data key="d30">52.2</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-175.61618</data>
+            <data key="y">248.95981</data>
+        </node>
+        <node id="165">
+            <data key="label">London</data>
+            <data key="d34">-0.12574</data>
+            <data key="d33">165</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United Kingdom</data>
+            <data key="d30">51.50853</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">330.77057</data>
+            <data key="y">114.36716</data>
+        </node>
+        <node id="166">
+            <data key="label">Slough</data>
+            <data key="d34">-0.58333</data>
+            <data key="d33">166</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United Kingdom</data>
+            <data key="d30">51.5</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-433.66187</data>
+            <data key="y">224.25113</data>
+        </node>
+        <node id="167">
+            <data key="label">Essen</data>
+            <data key="d34">7.01667</data>
+            <data key="d33">167</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">51.45</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">304.4782</data>
+            <data key="y">-360.45682</data>
+        </node>
+        <node id="168">
+            <data key="label">Dortmund</data>
+            <data key="d34">7.45</data>
+            <data key="d33">168</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">51.51667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-20.813837</data>
+            <data key="y">-347.7479</data>
+        </node>
+        <node id="169">
+            <data key="label">Munster</data>
+            <data key="d34">7.62571</data>
+            <data key="d33">169</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">51.96236</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">97.293465</data>
+            <data key="y">93.535736</data>
+        </node>
+        <node id="170">
+            <data key="label">Rotterdam</data>
+            <data key="d34">4.47917</data>
+            <data key="d33">170</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Netherlands</data>
+            <data key="d30">51.9225</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-306.20917</data>
+            <data key="y">322.91666</data>
+        </node>
+        <node id="171">
+            <data key="label">None</data>
+            <data key="d37">1</data>
+            <data key="d33">171</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-371.57172</data>
+            <data key="y">-436.76953</data>
+        </node>
+        <node id="172">
+            <data key="label">None</data>
+            <data key="d37">1</data>
+            <data key="d33">172</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">353.72015</data>
+            <data key="y">375.3552</data>
+        </node>
+        <node id="173">
+            <data key="label">None</data>
+            <data key="d37">1</data>
+            <data key="d33">173</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-206.26361</data>
+            <data key="y">-280.27133</data>
+        </node>
+        <node id="174">
+            <data key="label">None</data>
+            <data key="d37">1</data>
+            <data key="d33">174</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">105.904976</data>
+            <data key="y">88.46799</data>
+        </node>
+        <node id="175">
+            <data key="label">None</data>
+            <data key="d37">1</data>
+            <data key="d33">175</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">191.4104</data>
+            <data key="y">-11.459962</data>
+        </node>
+        <node id="176">
+            <data key="label">None</data>
+            <data key="d37">1</data>
+            <data key="d33">176</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-148.8222</data>
+            <data key="y">-245.504</data>
+        </node>
+        <node id="177">
+            <data key="label">Dublin</data>
+            <data key="d34">-6.26719</data>
+            <data key="d33">177</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Ireland</data>
+            <data key="d30">53.34399</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-177.94754</data>
+            <data key="y">425.99844</data>
+        </node>
+        <node id="178">
+            <data key="label">Seattle</data>
+            <data key="d34">-122.33207</data>
+            <data key="d33">178</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">47.60621</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-419.59302</data>
+            <data key="y">-336.4045</data>
+        </node>
+        <node id="179">
+            <data key="label">Portland</data>
+            <data key="d34">-122.67621</data>
+            <data key="d33">179</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">45.52345</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-332.55328</data>
+            <data key="y">334.40274</data>
+        </node>
+        <node id="180">
+            <data key="label">Las Vegas</data>
+            <data key="d34">-115.13722</data>
+            <data key="d33">180</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">36.17497</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">411.97882</data>
+            <data key="y">181.64462</data>
+        </node>
+        <node id="181">
+            <data key="label">Montreal</data>
+            <data key="d34">-73.58781</data>
+            <data key="d33">181</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Canada</data>
+            <data key="d30">45.50884</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-266.97632</data>
+            <data key="y">-381.88995</data>
+        </node>
+        <node id="182">
+            <data key="label">Tallinn</data>
+            <data key="d34">24.75353</data>
+            <data key="d33">182</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Estonia</data>
+            <data key="d30">59.43696</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">267.6704</data>
+            <data key="y">138.8422</data>
+        </node>
+        <node id="183">
+            <data key="label">Paris</data>
+            <data key="d34">2.3488</data>
+            <data key="d33">183</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">France</data>
+            <data key="d30">48.85341</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">350.92352</data>
+            <data key="y">-366.21445</data>
+        </node>
+        <node id="184">
+            <data key="label">Lille</data>
+            <data key="d34">3.06667</data>
+            <data key="d33">184</data>
+            <data key="d32">On-Net and Off-Net Market with Cogent Data Center(s)</data>
+            <data key="d31">France</data>
+            <data key="d30">50.63333</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">476.49445</data>
+            <data key="y">263.2598</data>
+        </node>
+        <node id="185">
+            <data key="label">Bremen</data>
+            <data key="d34">8.80777</data>
+            <data key="d33">185</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Germany</data>
+            <data key="d30">53.07516</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">283.72644</data>
+            <data key="y">-179.75946</data>
+        </node>
+        <node id="186">
+            <data key="label">Brussels</data>
+            <data key="d34">4.34878</data>
+            <data key="d33">186</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Belgium</data>
+            <data key="d30">50.85045</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-20.114008</data>
+            <data key="y">191.36008</data>
+        </node>
+        <node id="187">
+            <data key="label">Antwerp</data>
+            <data key="d34">4.41667</data>
+            <data key="d33">187</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Belgium</data>
+            <data key="d30">51.21667</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">443.33514</data>
+            <data key="y">-293.23477</data>
+        </node>
+        <node id="188">
+            <data key="label">Porto</data>
+            <data key="d34">-8.61667</data>
+            <data key="d33">188</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Portugal</data>
+            <data key="d30">41.15</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">226.64087</data>
+            <data key="y">-333.40414</data>
+        </node>
+        <node id="189">
+            <data key="label">Helsinki</data>
+            <data key="d34">24.93545</data>
+            <data key="d33">189</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Finland</data>
+            <data key="d30">60.16952</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-154.84415</data>
+            <data key="y">-6.4088755</data>
+        </node>
+        <node id="190">
+            <data key="label">Kharkiv</data>
+            <data key="d34">36.25</data>
+            <data key="d33">190</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Ukraine</data>
+            <data key="d30">50.0</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">292.30457</data>
+            <data key="y">-102.44379</data>
+        </node>
+        <node id="191">
+            <data key="label">Kiev</data>
+            <data key="d34">30.5238</data>
+            <data key="d33">191</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Ukraine</data>
+            <data key="d30">50.45466</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-245.35971</data>
+            <data key="y">274.093</data>
+        </node>
+        <node id="192">
+            <data key="label">Warsaw</data>
+            <data key="d34">21.01178</data>
+            <data key="d33">192</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Poland</data>
+            <data key="d30">52.22977</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">235.24823</data>
+            <data key="y">-311.27322</data>
+        </node>
+        <node id="193">
+            <data key="label">Krakow</data>
+            <data key="d34">19.91667</data>
+            <data key="d33">193</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Poland</data>
+            <data key="d30">50.08333</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-148.58517</data>
+            <data key="y">-374.43198</data>
+        </node>
+        <node id="194">
+            <data key="label">Brno</data>
+            <data key="d34">16.60796</data>
+            <data key="d33">194</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">Czech Republic</data>
+            <data key="d30">49.19522</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">210.45929</data>
+            <data key="y">-120.21591</data>
+        </node>
+        <node id="195">
+            <data key="label">Worcester</data>
+            <data key="d34">-2.22001</data>
+            <data key="d33">195</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United Kingdom</data>
+            <data key="d30">52.18935</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-364.36438</data>
+            <data key="y">-266.09433</data>
+        </node>
+        <node id="196">
+            <data key="label">Albany</data>
+            <data key="d34">-73.75623</data>
+            <data key="d33">196</data>
+            <data key="d32">On-Net and Off-Net Market</data>
+            <data key="d31">United States</data>
+            <data key="d30">42.65258</data>
+            <data key="d29">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">402.11212</data>
+            <data key="y">-166.55612</data>
+        </node>
+        <edge id="132" source="0" target="176">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e62</data>
+        </edge>
+        <edge id="133" source="0" target="9">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e61</data>
+        </edge>
+        <edge id="134" source="1" target="8">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e59</data>
+        </edge>
+        <edge id="135" source="1" target="176">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e64</data>
+        </edge>
+        <edge id="136" source="1" target="114">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e63</data>
+        </edge>
+        <edge id="137" source="1" target="116">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e65</data>
+        </edge>
+        <edge id="138" source="1" target="175">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e66</data>
+        </edge>
+        <edge id="139" source="2" target="76">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e50</data>
+        </edge>
+        <edge id="140" source="2" target="77">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e49</data>
+        </edge>
+        <edge id="141" source="3" target="4">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e51</data>
+        </edge>
+        <edge id="142" source="3" target="77">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e52</data>
+        </edge>
+        <edge id="143" source="4" target="6">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e54</data>
+        </edge>
+        <edge id="144" source="4" target="135">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e53</data>
+        </edge>
+        <edge id="145" source="5" target="131">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e11</data>
+        </edge>
+        <edge id="146" source="5" target="6">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e55</data>
+        </edge>
+        <edge id="147" source="6" target="7">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e56</data>
+        </edge>
+        <edge id="148" source="7" target="8">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e57</data>
+        </edge>
+        <edge id="149" source="7" target="174">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e58</data>
+        </edge>
+        <edge id="150" source="8" target="194">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e7</data>
+        </edge>
+        <edge id="151" source="8" target="191">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e3</data>
+        </edge>
+        <edge id="152" source="8" target="9">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e60</data>
+        </edge>
+        <edge id="153" source="10" target="11">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e180</data>
+        </edge>
+        <edge id="154" source="10" target="13">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e178</data>
+        </edge>
+        <edge id="155" source="11" target="16">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e181</data>
+        </edge>
+        <edge id="156" source="12" target="32">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e172</data>
+        </edge>
+        <edge id="157" source="12" target="13">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e176</data>
+        </edge>
+        <edge id="158" source="12" target="30">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e174</data>
+        </edge>
+        <edge id="159" source="13" target="16">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e179</data>
+        </edge>
+        <edge id="160" source="13" target="15">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e177</data>
+        </edge>
+        <edge id="161" source="14" target="64">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e183</data>
+        </edge>
+        <edge id="162" source="14" target="129">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e185</data>
+        </edge>
+        <edge id="163" source="14" target="15">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e184</data>
+        </edge>
+        <edge id="164" source="16" target="17">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e182</data>
+        </edge>
+        <edge id="165" source="18" target="19">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e186</data>
+        </edge>
+        <edge id="166" source="18" target="30">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e175</data>
+        </edge>
+        <edge id="167" source="19" target="89">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e187</data>
+        </edge>
+        <edge id="168" source="19" target="68">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e188</data>
+        </edge>
+        <edge id="169" source="19" target="82">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e189</data>
+        </edge>
+        <edge id="170" source="20" target="21">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e124</data>
+        </edge>
+        <edge id="171" source="20" target="23">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e125</data>
+        </edge>
+        <edge id="172" source="21" target="26">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e123</data>
+        </edge>
+        <edge id="173" source="22" target="188">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e127</data>
+        </edge>
+        <edge id="174" source="22" target="23">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e126</data>
+        </edge>
+        <edge id="175" source="24" target="27">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e119</data>
+        </edge>
+        <edge id="176" source="25" target="171">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e118</data>
+        </edge>
+        <edge id="177" source="25" target="55">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e117</data>
+        </edge>
+        <edge id="178" source="26" target="27">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e120</data>
+        </edge>
+        <edge id="179" source="26" target="28">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e122</data>
+        </edge>
+        <edge id="180" source="26" target="29">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e121</data>
+        </edge>
+        <edge id="181" source="28" target="51">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e128</data>
+        </edge>
+        <edge id="182" source="28" target="54">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e129</data>
+        </edge>
+        <edge id="183" source="29" target="78">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e103</data>
+        </edge>
+        <edge id="184" source="30" target="35">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e173</data>
+        </edge>
+        <edge id="185" source="31" target="37">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e164</data>
+        </edge>
+        <edge id="186" source="32" target="33">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e171</data>
+        </edge>
+        <edge id="187" source="32" target="37">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e166</data>
+        </edge>
+        <edge id="188" source="34" target="37">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e168</data>
+        </edge>
+        <edge id="189" source="35" target="37">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e167</data>
+        </edge>
+        <edge id="190" source="36" target="38">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e170</data>
+        </edge>
+        <edge id="191" source="36" target="39">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e169</data>
+        </edge>
+        <edge id="192" source="37" target="160">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e163</data>
+        </edge>
+        <edge id="193" source="37" target="38">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e165</data>
+        </edge>
+        <edge id="194" source="38" target="196">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e147</data>
+        </edge>
+        <edge id="195" source="39" target="181">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e145</data>
+        </edge>
+        <edge id="196" source="40" target="41">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e19</data>
+        </edge>
+        <edge id="197" source="40" target="42">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e17</data>
+        </edge>
+        <edge id="198" source="41" target="43">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e18</data>
+        </edge>
+        <edge id="199" source="41" target="189">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e1</data>
+        </edge>
+        <edge id="200" source="42" target="43">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e16</data>
+        </edge>
+        <edge id="201" source="42" target="143">
+            <data key="weight">2.0</data>
+            <data key="d39">1</data>
+            <data key="d38">e14</data>
+        </edge>
+        <edge id="203" source="44" target="45">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e23</data>
+        </edge>
+        <edge id="204" source="44" target="47">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e22</data>
+        </edge>
+        <edge id="205" source="45" target="48">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e24</data>
+        </edge>
+        <edge id="206" source="45" target="164">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e25</data>
+        </edge>
+        <edge id="207" source="46" target="49">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e20</data>
+        </edge>
+        <edge id="208" source="46" target="47">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e21</data>
+        </edge>
+        <edge id="209" source="48" target="155">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e27</data>
+        </edge>
+        <edge id="210" source="48" target="181">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e26</data>
+        </edge>
+        <edge id="211" source="49" target="177">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e28</data>
+        </edge>
+        <edge id="212" source="49" target="147">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e29</data>
+        </edge>
+        <edge id="213" source="49" target="165">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e30</data>
+        </edge>
+        <edge id="214" source="50" target="57">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e137</data>
+        </edge>
+        <edge id="215" source="50" target="51">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e138</data>
+        </edge>
+        <edge id="216" source="51" target="188">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e139</data>
+        </edge>
+        <edge id="217" source="52" target="53">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e132</data>
+        </edge>
+        <edge id="218" source="52" target="55">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e131</data>
+        </edge>
+        <edge id="219" source="53" target="58">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e133</data>
+        </edge>
+        <edge id="220" source="54" target="55">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e130</data>
+        </edge>
+        <edge id="221" source="56" target="57">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e136</data>
+        </edge>
+        <edge id="222" source="56" target="59">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e135</data>
+        </edge>
+        <edge id="223" source="58" target="59">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e134</data>
+        </edge>
+        <edge id="224" source="60" target="61">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e216</data>
+        </edge>
+        <edge id="225" source="60" target="69">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e215</data>
+        </edge>
+        <edge id="226" source="61" target="128">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e218</data>
+        </edge>
+        <edge id="227" source="61" target="122">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e217</data>
+        </edge>
+        <edge id="228" source="62" target="144">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e204</data>
+        </edge>
+        <edge id="229" source="62" target="86">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e201</data>
+        </edge>
+        <edge id="230" source="62" target="63">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e205</data>
+        </edge>
+        <edge id="231" source="63" target="68">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e207</data>
+        </edge>
+        <edge id="232" source="63" target="149">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e206</data>
+        </edge>
+        <edge id="233" source="64" target="65">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e208</data>
+        </edge>
+        <edge id="234" source="64" target="67">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e209</data>
+        </edge>
+        <edge id="235" source="64" target="68">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e210</data>
+        </edge>
+        <edge id="236" source="65" target="66">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e211</data>
+        </edge>
+        <edge id="237" source="66" target="67">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e212</data>
+        </edge>
+        <edge id="238" source="67" target="69">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e213</data>
+        </edge>
+        <edge id="239" source="69" target="144">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e214</data>
+        </edge>
+        <edge id="240" source="70" target="183">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e100</data>
+        </edge>
+        <edge id="241" source="70" target="79">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e101</data>
+        </edge>
+        <edge id="242" source="71" target="72">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e98</data>
+        </edge>
+        <edge id="243" source="71" target="79">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e99</data>
+        </edge>
+        <edge id="244" source="72" target="73">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e97</data>
+        </edge>
+        <edge id="245" source="73" target="74">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e95</data>
+        </edge>
+        <edge id="246" source="74" target="183">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e96</data>
+        </edge>
+        <edge id="247" source="75" target="173">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e94</data>
+        </edge>
+        <edge id="248" source="75" target="183">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e93</data>
+        </edge>
+        <edge id="249" source="76" target="173">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e92</data>
+        </edge>
+        <edge id="250" source="77" target="152">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e91</data>
+        </edge>
+        <edge id="251" source="77" target="162">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e47</data>
+        </edge>
+        <edge id="252" source="77" target="133">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e90</data>
+        </edge>
+        <edge id="253" source="78" target="94">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e104</data>
+        </edge>
+        <edge id="254" source="78" target="79">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e102</data>
+        </edge>
+        <edge id="255" source="80" target="81">
+            <data key="weight">2.0</data>
+            <data key="d39">1</data>
+            <data key="d38">e202</data>
+        </edge>
+        <edge id="257" source="80" target="86">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e200</data>
+        </edge>
+        <edge id="258" source="80" target="87">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e199</data>
+        </edge>
+        <edge id="259" source="82" target="88">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e194</data>
+        </edge>
+        <edge id="260" source="82" target="83">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e192</data>
+        </edge>
+        <edge id="261" source="82" target="150">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e195</data>
+        </edge>
+        <edge id="262" source="83" target="148">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e193</data>
+        </edge>
+        <edge id="263" source="84" target="148">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e191</data>
+        </edge>
+        <edge id="264" source="84" target="85">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e190</data>
+        </edge>
+        <edge id="265" source="86" target="87">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e198</data>
+        </edge>
+        <edge id="266" source="87" target="88">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e197</data>
+        </edge>
+        <edge id="267" source="89" target="150">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e196</data>
+        </edge>
+        <edge id="268" source="90" target="172">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e111</data>
+        </edge>
+        <edge id="269" source="91" target="99">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e113</data>
+        </edge>
+        <edge id="270" source="91" target="92">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e112</data>
+        </edge>
+        <edge id="271" source="92" target="96">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e109</data>
+        </edge>
+        <edge id="272" source="92" target="93">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e115</data>
+        </edge>
+        <edge id="273" source="92" target="183">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e114</data>
+        </edge>
+        <edge id="274" source="94" target="171">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e105</data>
+        </edge>
+        <edge id="275" source="95" target="96">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e106</data>
+        </edge>
+        <edge id="276" source="95" target="171">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e107</data>
+        </edge>
+        <edge id="277" source="96" target="97">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e108</data>
+        </edge>
+        <edge id="278" source="97" target="172">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e110</data>
+        </edge>
+        <edge id="279" source="98" target="194">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e8</data>
+        </edge>
+        <edge id="280" source="98" target="131">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e9</data>
+        </edge>
+        <edge id="281" source="99" target="100">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e116</data>
+        </edge>
+        <edge id="282" source="100" target="132">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e88</data>
+        </edge>
+        <edge id="283" source="101" target="104">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e236</data>
+        </edge>
+        <edge id="284" source="101" target="180">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e238</data>
+        </edge>
+        <edge id="285" source="101" target="102">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e237</data>
+        </edge>
+        <edge id="286" source="102" target="109">
+            <data key="weight">1.0</data>
+            <data key="d40">Leased Wavelength/Managed Service</data>
+            <data key="d39">0</data>
+        </edge>
+        <edge id="287" source="103" target="104">
+            <data key="weight">1.0</data>
+            <data key="d40">Leased Wavelength/Managed Service</data>
+            <data key="d39">0</data>
+        </edge>
+        <edge id="288" source="103" target="106">
+            <data key="weight">1.0</data>
+            <data key="d40">Leased Wavelength/Managed Service</data>
+            <data key="d39">0</data>
+        </edge>
+        <edge id="289" source="105" target="106">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e232</data>
+        </edge>
+        <edge id="290" source="105" target="107">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e230</data>
+        </edge>
+        <edge id="291" source="105" target="179">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e233</data>
+        </edge>
+        <edge id="292" source="107" target="108">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e229</data>
+        </edge>
+        <edge id="293" source="107" target="129">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e228</data>
+        </edge>
+        <edge id="294" source="108" target="179">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e231</data>
+        </edge>
+        <edge id="295" source="109" target="110">
+            <data key="weight">1.0</data>
+            <data key="d40">Leased Wavelength/Managed Service</data>
+            <data key="d39">0</data>
+        </edge>
+        <edge id="296" source="110" target="128">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e225</data>
+        </edge>
+        <edge id="297" source="111" target="112">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e75</data>
+        </edge>
+        <edge id="298" source="111" target="140">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e77</data>
+        </edge>
+        <edge id="299" source="112" target="137">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e76</data>
+        </edge>
+        <edge id="300" source="113" target="114">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e67</data>
+        </edge>
+        <edge id="301" source="113" target="191">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e4</data>
+        </edge>
+        <edge id="302" source="115" target="116">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e68</data>
+        </edge>
+        <edge id="303" source="115" target="118">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e69</data>
+        </edge>
+        <edge id="304" source="117" target="120">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e71</data>
+        </edge>
+        <edge id="305" source="117" target="118">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e70</data>
+        </edge>
+        <edge id="306" source="119" target="176">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e73</data>
+        </edge>
+        <edge id="307" source="119" target="175">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e74</data>
+        </edge>
+        <edge id="308" source="120" target="175">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e72</data>
+        </edge>
+        <edge id="309" source="121" target="122">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e219</data>
+        </edge>
+        <edge id="310" source="121" target="124">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e220</data>
+        </edge>
+        <edge id="311" source="123" target="124">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e221</data>
+        </edge>
+        <edge id="312" source="123" target="125">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e223</data>
+        </edge>
+        <edge id="313" source="123" target="126">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e222</data>
+        </edge>
+        <edge id="314" source="127" target="128">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e224</data>
+        </edge>
+        <edge id="315" source="127" target="130">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e226</data>
+        </edge>
+        <edge id="316" source="129" target="130">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e227</data>
+        </edge>
+        <edge id="317" source="131" target="142">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e10</data>
+        </edge>
+        <edge id="318" source="132" target="135">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e87</data>
+        </edge>
+        <edge id="319" source="133" target="173">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e89</data>
+        </edge>
+        <edge id="320" source="134" target="137">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e84</data>
+        </edge>
+        <edge id="321" source="134" target="138">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e80</data>
+        </edge>
+        <edge id="322" source="134" target="135">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e86</data>
+        </edge>
+        <edge id="323" source="136" target="139">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e83</data>
+        </edge>
+        <edge id="324" source="137" target="172">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e85</data>
+        </edge>
+        <edge id="325" source="138" target="174">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e81</data>
+        </edge>
+        <edge id="326" source="138" target="141">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e79</data>
+        </edge>
+        <edge id="327" source="139" target="174">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e82</data>
+        </edge>
+        <edge id="328" source="140" target="141">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e78</data>
+        </edge>
+        <edge id="329" source="142" target="143">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e12</data>
+        </edge>
+        <edge id="330" source="143" target="185">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e15</data>
+        </edge>
+        <edge id="331" source="144" target="149">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e244</data>
+        </edge>
+        <edge id="332" source="145" target="157">
+            <data key="weight">1.0</data>
+            <data key="d40">Leased Wavelength/Managed Service</data>
+            <data key="d39">0</data>
+        </edge>
+        <edge id="333" source="146" target="152">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e157</data>
+        </edge>
+        <edge id="334" source="146" target="154">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e162</data>
+        </edge>
+        <edge id="335" source="147" target="166">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e33</data>
+        </edge>
+        <edge id="336" source="147" target="177">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e242</data>
+        </edge>
+        <edge id="337" source="148" target="154">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e160</data>
+        </edge>
+        <edge id="338" source="149" target="150">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e243</data>
+        </edge>
+        <edge id="339" source="151" target="152">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e155</data>
+        </edge>
+        <edge id="340" source="152" target="153">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e156</data>
+        </edge>
+        <edge id="341" source="153" target="160">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e159</data>
+        </edge>
+        <edge id="342" source="153" target="154">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e158</data>
+        </edge>
+        <edge id="343" source="154" target="183">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e144</data>
+        </edge>
+        <edge id="344" source="154" target="159">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e161</data>
+        </edge>
+        <edge id="345" source="155" target="195">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e150</data>
+        </edge>
+        <edge id="346" source="155" target="156">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e151</data>
+        </edge>
+        <edge id="347" source="155" target="165">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e37</data>
+        </edge>
+        <edge id="348" source="156" target="157">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e152</data>
+        </edge>
+        <edge id="349" source="157" target="158">
+            <data key="weight">1.0</data>
+            <data key="d40">Leased Wavelength/Managed Service</data>
+            <data key="d39">0</data>
+        </edge>
+        <edge id="350" source="158" target="165">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e38</data>
+        </edge>
+        <edge id="351" source="158" target="196">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e148</data>
+        </edge>
+        <edge id="352" source="158" target="183">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e143</data>
+        </edge>
+        <edge id="353" source="161" target="162">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e48</data>
+        </edge>
+        <edge id="354" source="162" target="163">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e41</data>
+        </edge>
+        <edge id="355" source="162" target="167">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e46</data>
+        </edge>
+        <edge id="356" source="163" target="187">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e42</data>
+        </edge>
+        <edge id="357" source="163" target="164">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e40</data>
+        </edge>
+        <edge id="358" source="165" target="177">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e39</data>
+        </edge>
+        <edge id="359" source="165" target="181">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e36</data>
+        </edge>
+        <edge id="360" source="165" target="184">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e35</data>
+        </edge>
+        <edge id="361" source="165" target="186">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e34</data>
+        </edge>
+        <edge id="362" source="166" target="170">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e31</data>
+        </edge>
+        <edge id="363" source="166" target="183">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e32</data>
+        </edge>
+        <edge id="364" source="167" target="168">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e45</data>
+        </edge>
+        <edge id="365" source="168" target="169">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e43</data>
+        </edge>
+        <edge id="366" source="169" target="185">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e44</data>
+        </edge>
+        <edge id="367" source="178" target="179">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e241</data>
+        </edge>
+        <edge id="368" source="181" target="196">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e146</data>
+        </edge>
+        <edge id="369" source="182" target="189">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e0</data>
+        </edge>
+        <edge id="370" source="183" target="184">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e142</data>
+        </edge>
+        <edge id="371" source="183" target="186">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e141</data>
+        </edge>
+        <edge id="372" source="186" target="187">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e140</data>
+        </edge>
+        <edge id="373" source="190" target="191">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e2</data>
+        </edge>
+        <edge id="374" source="192" target="193">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e5</data>
+        </edge>
+        <edge id="375" source="193" target="194">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e6</data>
+        </edge>
+        <edge id="376" source="195" target="196">
+            <data key="weight">1.0</data>
+            <data key="d39">0</data>
+            <data key="d38">e149</data>
+        </edge>
+    </graph>
+</graphml>
