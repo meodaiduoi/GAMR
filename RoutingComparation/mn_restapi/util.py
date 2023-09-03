@@ -1,6 +1,21 @@
 import time
 import logging
 import networkx as nx
+import re
+
+def command_sanitization(cmd: str, open_in_term=False):
+    '''
+        sanitization for remote json request \n
+        external_scr: \n
+            True if open in external terminal (ex: xterm, gnome-terminal)
+            False for direct execution
+    '''
+    # remove json format
+    cmd = re.sub(r'\n|\\|\s\s\**', '', cmd)
+    # convert char " ' " and " " " into \' and \"
+    if open_in_term == True:
+        cmd = cmd.replace(r'"', r'\"')
+    return cmd
 
 def convert_network(net):
     '''
@@ -24,10 +39,10 @@ def link_exist(net, node1, node2):
         return True
     except KeyError:
         return False
-    
+
 def enable_stp(net):
     '''
-    
+
     '''
     for switch in net.switches:
         switch.cmd(f'ovs-vsctl set bridge {switch.name} stp_enable=true')

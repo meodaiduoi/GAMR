@@ -16,6 +16,7 @@ from mn_restapi.util import *
 
 import networkx as nx
 import logging
+import re
 
 class RestHookMN(FastAPI):
     def __init__(self, net: Mininet):
@@ -29,10 +30,11 @@ class RestHookMN(FastAPI):
                 Using poepn to run task with option to returing result
             '''
             host: Host = self.net.getNodeByName(task.hostname)
-            proc: Popen = host.popen(task.cmd)
+            command = command_sanitization(task.cmd)
+            proc: Popen = host.popen([command], shell=True)
             if task.wait == True:
                 result, err = proc.communicate()
-            
+
             return { 'result': result.decode("latin-1"),
                      'error': err.decode("latin-1")}
 
@@ -42,7 +44,27 @@ class RestHookMN(FastAPI):
                 Run command with the given hostsname
             '''
             host: Host = self.net.getNodeByName(task.hostname)
-            host.cmd(task.cmd)
+            command = command_sanitization(task.cmd)
+            host.cmd(command)
+
+        @self.post('/run_xterm')
+        async def run_xterm(task: CmdTask):
+            '''
+                Open command in xterm \n
+
+            '''
+            try:
+                if task.cmd != '':
+                    command = command_sanitization(task.cmd, open_in_term=True)
+                    net.getNodeByName(f'{task.hostname}').cmd(
+                        f'xterm -e "{command}; bash" &'
+                    )
+                else:
+                    net.getNodeByName(f'{task.hostname}').cmd('xterm &')
+                return {'status': 'ok'}
+            except KeyError:
+                logging.error("Invalid hostname")
+                return {'status': 500}
 
         @self.post('/ping')
         def ping(task: Ping):
@@ -72,7 +94,7 @@ class RestHookMN(FastAPI):
                 'hostname': host_names,
                 'switchname': switch_names
             }
-        
+
         @self.post('/address')
         async def address(name: str):
             '''
@@ -83,7 +105,7 @@ class RestHookMN(FastAPI):
                 'mac': device.MAC(),
                 'ip': device.IP()
             }
-        
+
         @self.get('/graph')
         async def get_graph():
             '''
@@ -93,15 +115,15 @@ class RestHookMN(FastAPI):
             # Serialize the JSON object
             graph_json = nx.node_link_data(graph)
             return graph_json
-        
+
         @self.post('config_link_status')
         def set_link(config: ConfigLink):
             '''
                 turn on/off a link between 2 nodes
-            ''' 
+            '''
             net.configLinkStatus(config.name1, config.name2, config.status)
             return {'status': 'ok'}
-        
+
         # @self.get('/link_probing')
         # def link_probing():
         #     '''
@@ -114,16 +136,16 @@ class RestHookMN(FastAPI):
         #     for link in stree.solution_invert()[0]:
         #         print(link)
         #         self.net.configLinkStatus(link[0], link[1], 'down')
-                
+
         #     net.pingAll('1')
-            
+
         #     for link in stree.solution_invert()[0]:
         #         print(link)
         #         self.net.configLinkStatus(link[0], link[1], 'up')
-            
+
         #     # return stree value as json
         #     return { stree.solution_as_networkx() }
-        
+
         @self.get('/link_quality')
         async def link_quality():
             '''
@@ -133,24 +155,5 @@ class RestHookMN(FastAPI):
                 return net.topo.link_quality
             except NameError:
                 logging.error('Topo object not implemented')
-                return 
-        
-        @self.post('/open_xterm')
-        async def open_xterm(cmd: CmdTask):
-            '''
-                Open command in xterm \n
-                for reading the output of xterm before window
-                closing add "(your command) ; sleep 5" or
-                "(your command) ; sleep 5" at the end.
-            '''
-            try:
-                if cmd.cmd != '':
-                    net.getNodeByName(f'{cmd.hostname}').cmd(
-                        f'xterm -e "{cmd.cmd}"'
-                    )
-                else:
-                    net.getNodeByName(f'{cmd.hostname}').cmd('xterm &')
-                return {'status': 'ok'}
-            except KeyError:
-                logging.error("Invalid hostname")
-                return {'status': 500}
+                return
+

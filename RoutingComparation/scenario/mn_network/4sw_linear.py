@@ -5,7 +5,6 @@ from mininet.net import Mininet
 from mininet.node import Node , Controller, RemoteController, OVSSwitch
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
-from mininet.util import irange
 from mininet.link import TCLink
 
 from extras.utils import *
@@ -52,16 +51,14 @@ if __name__ == '__main__':
     try:
         c0 = RemoteController('c0', ip='0.0.0.0', port=OFP_PORT)
         net = Mininet( topo=MyTopo(), 
-                       controller=c0, 
+                    #    controller=c0, 
                       switch=OVSSwitch,
                       autoSetMacs=True,
                       link=TCLink,
                       ipBase='10.0.0.0')
         net.staticArp()
         net.start()
-        
-        net.getNodeByName('h1').cmd('xterm -e ech')
-        
+
         # app = RestHookMN(net=net)
         # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
         CLI(net)

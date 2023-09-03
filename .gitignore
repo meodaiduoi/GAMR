@@ -1,6 +1,7 @@
-#
+# ignore temp files/folders
 **/temp.*
 **/temps.*
+**/temp/**
 
 # sql, db,.. file
 **/*..Db
