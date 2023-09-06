@@ -23,6 +23,7 @@ import random
 # random.seed(69)
 
 from extras.utils import *
+from scenario.common.utils import *
 from mn_restapi.util import * 
 from mn_restapi.mn_restapi_hook import *
 import uvicorn
@@ -77,15 +78,19 @@ class MyTopo(Topo):
             n1 = int(n1) + 1
             n2 = int(n2) + 1
             
-            loss = random.randint(0, 4)
-            delay = random.randint(10, 50)
-            bw = random.randint(50, 100)
+            loss = np.random.choice(
+                        [0, 1, 2, 4, 5, 7],
+                        p=[0.37, 0.23, 0.15, 0.12, 0.08, 0.05]
+                    )
+            delay = normdist_array_genparam(range(5, 100))
+            bw = normdist_array_genparam(range(30, 200))
             
             self.addLink(f's{n1}', f's{n2}',
                         bw=bw,
                         delay=f'{delay}ms',
                         loss=loss,
                         max_queue_size=1000, use_htb=True)
+            
             data = {'src.dpid': n1, 'dst.dpid': n2, 
                     'packet_loss': loss, 'delay': delay, 'bandwidth': bw }
             self.link_quality.append(data)

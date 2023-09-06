@@ -30,7 +30,7 @@ EXPORT_PYTHONPATH = f'export PYTHONPATH={os.getenv("PYTHONPATH")}'
 print(EXPORT_PYTHONPATH)
 # create startup sequence
 
-startup_seq = [2]
+startup_seq = [1, 2, 3]
 
 # ryu startup
 if 1 in startup_seq:

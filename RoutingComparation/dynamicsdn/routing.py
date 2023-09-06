@@ -1,5 +1,5 @@
-from common.utils import *
-from common.models import *
+from dynamicsdn.common.utils import *
+from dynamicsdn.common.models import *
 
 from fastapi import FastAPI
 import uvicorn
@@ -9,12 +9,10 @@ import requests as rq
 
 import argparse
 
-from compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver
-from compare_algorithm.ga.module_memset import MemSet
+from dynamicsdn.compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver
+from dynamicsdn.compare_algorithm.ga.ga_solver import ga_solver
+from dynamicsdn.compare_algorithm.ga.module_memset import MemSet
 memset = MemSet()
-
-from compare_algorithm.ga.ga_solver import ga_solver
-
 
 argParser = argparse.ArgumentParser()
 argParser.add_argument("rest_port", type=int, help="dynamicsdn startup rest api port")
@@ -74,16 +72,27 @@ async def routing_min_hop(tasks: RouteTasks):
 @app.post('/routing/dijkstra')
 async def routing_dijkstra(task: RouteTasks):
     '''
-        Dijkstra routing
+        Dijkstra algorithm routing
     '''
     return dijkstra_solver(task)
     
 @app.post('/routing/ga')
 async def routing_ga(task: RouteTasks):
     '''
-        Ga
+        Ga algorithm routing
     '''
     return ga_solver(task, memset)
+    
+@app.get('/routing/add_flow_all')
+async def add_flow_all():
+    '''
+        Not yet implemented
+    '''
+    ...
+
+@app.get('/routing/add_flow_adj')
+async def add_flow_adj():
+    ...
     
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=DYNAMICSDN_PORT)

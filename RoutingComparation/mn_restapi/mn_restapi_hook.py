@@ -67,21 +67,47 @@ class RestHookMN(FastAPI):
                 return {'status': 500}
 
         @self.post('/ping')
-        def ping(task: Ping):
+        def mn_ping(task: Ping):
             '''
-                Ping between a list of given hostsname then return average packetloss percentage on each host
+                Ping (mininet func)  between a list of given hostsname 
+                then return average packetloss percentage 
+                on hosts
             '''
             hosts = [net.getNodeByName(hostname) for hostname in task.hostname_list]
             result = net.ping(hosts, task.timeout)
             return { 'packetloss': result }
 
         @self.post('/pingall')
-        def pingall(task: Pingall):
+        def mn_pingall(task: Pingall):
             '''
-                Pingall then return average packetloss percentage on each host
+                Pingall (mininet func) then return average 
+                packetloss percentage on hosts
             '''
             result = self.net.pingAll(timeout=task.timeout)
             return {'packetloss': result}
+        
+        @self.post('/ping_single')
+        def ping_single(task: PingSingle):
+            
+            src_host = net.getNodeByName(src_host)
+            dst_host = net.getNodeByName(dst_host)
+            
+            output = src_host.popen(
+                f'ping {dst_host.IP} -c {task.count} -W {task.timeout}',
+                shell=True).communicate()[0].decode('latin-1')
+            
+            # Extract packet loss percentage
+            packet_loss = re.search(r"(\d+)% packet loss", output).group(1)
+            # print("Packet Loss Percentage:", packet_loss)
+            
+            # Extract average RTT
+            avg_rtt = re.search(r"avg\/max\/mdev = (\d+\.\d+)", output).group(1)
+            # print("Average RTT:", avg_rtt, "ms")
+            
+            return {
+                'packet_loss': packet_loss,
+                'delay': avg_rtt
+            }
 
         @self.get('/device_name')
         async def device_name():

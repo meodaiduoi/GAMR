@@ -47,17 +47,25 @@ class MyTopo( Topo ):
                  (h3, s3), (s1, s2), (s2, s3)]
         
         for a, b in links:
-            self.addLink(a, b)
+            loss = random.randint(0, 5)
+            delay = random.randint(10, 200)
+            bw = random.randint(50, 100)
+            self.addLink(a, b, 
+                         loss=loss,
+                         delay=f'{delay}ms',
+                         bw=bw)
             
 if __name__ == '__main__':
     setLogLevel( 'info' )
     # add ccontroller and build the network
     c0 = RemoteController('c0', ip='0.0.0.0')
-    net = Mininet( topo=MyTopo(), controller=c0, 
-                    autoSetMacs=True,
-                    ipBase='10.0.0.0')
+    net = Mininet( topo=MyTopo(), 
+                #  controller=c0, 
+                   autoSetMacs=True,
+                   link=TCLink,
+                   ipBase='10.0.0.0')
     net.start()
-    app = RestHookMN(net=net)
-    uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
+    # app = RestHookMN(net=net)
+    # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
     CLI(net)
     net.stop()

@@ -13,6 +13,12 @@ class Ping(BaseModel):
     hostname_list: list[str] 
     timeout: str | None = None
 
+class PingSingle(BaseModel):
+    src_hostname: str
+    dst_hostname: str
+    timeout: float
+    count: int
+
 class Pingall(BaseModel):
     timeout: str | None = None
 
