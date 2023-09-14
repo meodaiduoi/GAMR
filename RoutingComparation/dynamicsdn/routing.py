@@ -1,6 +1,8 @@
 from dynamicsdn.common.utils import *
 from dynamicsdn.common.models import *
 
+import asyncio
+from typing import Optional
 from fastapi import FastAPI
 import uvicorn
 
@@ -12,6 +14,7 @@ import argparse
 from dynamicsdn.compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver
 from dynamicsdn.compare_algorithm.ga.ga_solver import ga_solver
 from dynamicsdn.compare_algorithm.ga.module_memset import MemSet
+import logging
 memset = MemSet()
 
 argParser = argparse.ArgumentParser()
@@ -22,6 +25,7 @@ args = argParser.parse_args()
 DYNAMICSDN_PORT = args.rest_port
 RYU_PORT = args.ryu_port
 
+logging.basicConfig(level=logging.INFO)
 
 app = FastAPI(
     title='Routing Api Network',
@@ -29,6 +33,39 @@ app = FastAPI(
     summary="..."
 )
 
+async def add_flow_adj():
+    while True:
+        try:
+            adj_no_dup: dict = rq.get('http://0.0.0.0:8000/adj_list/True').json()
+            debug_host_mapping = rq.get('http://0.0.0.0:8000/debug_switch_mapping').json()
+            switchname_mapping =  rq.get('http://0.0.0.0:8000/switch_dpid').json()
+            solutions = {'route': []}
+            for node1, adj_nodes in adj_no_dup.items():
+                for node2 in adj_nodes:
+                    logging.info(f'add debug flow from {switchname_mapping[node1]} to {switchname_mapping[node2]}')
+                    solution = {
+                            'src_host':debug_host_mapping[node1],
+                            'dst_host':debug_host_mapping[node2],
+                            'path_dpid':[switchname_mapping[node1], 
+                                        switchname_mapping[node2]]
+                    }
+                    solutions['route'].append(solution)
+            send_flowrule(create_flowrule_json(solutions, get_host(), get_link_to_port()))
+            logging.info('Debug flow added sucessfully')
+            await asyncio.sleep(500)
+        except (rq.ConnectionError, rq.ConnectTimeout) as e:
+            logging.error(f"Connection error retrying...")
+            await asyncio.sleep(3)
+        
+@app.on_event("startup")
+async def startup_event():
+    '''
+        Startup event \n
+    '''
+    asyncio.create_task(add_flow_adj())
+    logging.info("Startup event")
+    
+    
 @app.get('/')
 async def hello():
     return {'hello': 'world'}
@@ -37,7 +74,6 @@ async def hello():
 async def routing_manual(tasks: ManualRouteTasks):
     '''
     Manual routing \n
-    
     '''
     mapping, graph = get_full_topo_graph()
     
@@ -82,7 +118,7 @@ async def routing_ga(task: RouteTasks):
         Ga algorithm routing
     '''
     return ga_solver(task, memset)
-    
+
 @app.get('/routing/add_flow_all')
 async def add_flow_all():
     '''
@@ -90,9 +126,5 @@ async def add_flow_all():
     '''
     ...
 
-@app.get('/routing/add_flow_adj')
-async def add_flow_adj():
-    ...
-    
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=DYNAMICSDN_PORT)

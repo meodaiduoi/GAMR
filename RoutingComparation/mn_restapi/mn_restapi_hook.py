@@ -8,21 +8,59 @@ from pydantic import BaseModel
 
 import mininet
 from mininet.net import Mininet, Host, Node, Link
-from subprocess import Popen
 
 from mn_restapi.mn_restapi_model import *
 from mn_restapi.util import *
 # from mn_restapi.spanning_tree import SpanningTree, convert_network
+
+from mn_restapi.routes import info
+
+from subprocess import Popen
+import concurrent.futures
 
 import networkx as nx
 import logging
 import re
 
 class RestHookMN(FastAPI):
-    def __init__(self, net: Mininet):
-        super().__init__(title='fastapi hook for mininet',
-                         description='')
+    def __init__(self, net, *args, **params):
         self.net = net
+        self.link_ping_stat = {}
+        self.sw_mapping = self.net.topo.debug_sw_host_mapping
+        super(RestHookMN, self).__init__(title='fastapi hook for mininet',
+                         description='', *args, **params)
+
+        # self.include_router(info.router)
+
+        # Startup event section
+        async def update_link_ping_stat():
+            while True:
+                graph = topo_to_nx(self.net, include_host=False)
+                adj_list = adj_dict(graph)
+                adj_no_dup = adj_ls_no_dup_route(adj_list)
+                tasks = []
+                stat = {}
+                with concurrent.futures.ThreadPoolExecutor(
+                    max_workers=20) as pool:
+                    for node1, adj_nodes in adj_no_dup.items():
+                        for node2 in adj_nodes:
+                            tasks.append(
+                                pool.submit(
+                                    host_popen_ping,
+                                    net,
+                                    self.sw_mapping[node1],
+                                    self.sw_mapping[node2],
+                                    return_link=True))
+                    for task in concurrent.futures.as_completed(tasks):
+                        stat.update(task.result())
+                self.link_ping_stat = stat
+                logging.info(f'Update link ping stat')
+                logging.debug(self.link_ping_stat)
+                await asyncio.sleep(5)  # Update the variable every 5 seconds
+
+        @self.on_event("startup")
+        async def startup_event():
+            asyncio.create_task(update_link_ping_stat())
 
         @self.post('/run_popen')
         def run_popen(task: PopenTask):
@@ -51,7 +89,6 @@ class RestHookMN(FastAPI):
         async def run_xterm(task: CmdTask):
             '''
                 Open command in xterm \n
-
             '''
             try:
                 if task.cmd != '':
@@ -69,8 +106,8 @@ class RestHookMN(FastAPI):
         @self.post('/ping')
         def mn_ping(task: Ping):
             '''
-                Ping (mininet func)  between a list of given hostsname 
-                then return average packetloss percentage 
+                Ping (mininet func)  between a list of given hostsname
+                then return average packetloss percentage
                 on hosts
             '''
             hosts = [net.getNodeByName(hostname) for hostname in task.hostname_list]
@@ -80,34 +117,24 @@ class RestHookMN(FastAPI):
         @self.post('/pingall')
         def mn_pingall(task: Pingall):
             '''
-                Pingall (mininet func) then return average 
+                Pingall (mininet func) then return average
                 packetloss percentage on hosts
             '''
             result = self.net.pingAll(timeout=task.timeout)
             return {'packetloss': result}
-        
+
         @self.post('/ping_single')
         def ping_single(task: PingSingle):
-            
-            src_host = net.getNodeByName(src_host)
-            dst_host = net.getNodeByName(dst_host)
-            
-            output = src_host.popen(
-                f'ping {dst_host.IP} -c {task.count} -W {task.timeout}',
-                shell=True).communicate()[0].decode('latin-1')
-            
-            # Extract packet loss percentage
-            packet_loss = re.search(r"(\d+)% packet loss", output).group(1)
-            # print("Packet Loss Percentage:", packet_loss)
-            
-            # Extract average RTT
-            avg_rtt = re.search(r"avg\/max\/mdev = (\d+\.\d+)", output).group(1)
-            # print("Average RTT:", avg_rtt, "ms")
-            
-            return {
-                'packet_loss': packet_loss,
-                'delay': avg_rtt
-            }
+            '''
+                Using Popen to run ping conmmand on src host:
+                "ping {dst_host_ip} -c {count} -W {timeout}"
+            '''
+            return host_popen_ping(
+                net,
+                task.src_hostname, task.dst_hostname,
+                count=task.count,
+                timeout=task.timeout
+            )
 
         @self.get('/device_name')
         async def device_name():
@@ -120,13 +147,23 @@ class RestHookMN(FastAPI):
                 'hostname': host_names,
                 'switchname': switch_names
             }
-
+        
+        @self.get('/switch_dpid')
+        async def switch_dpid():
+            '''
+                get lists of all switch dpid \n
+            '''
+            dpid = {}
+            for switch in net.switches:
+                dpid[switch.name] = mac_to_int(switch.dpid)
+            return dpid
+                    
         @self.post('/address')
         async def address(name: str):
             '''
-                Get MAC and IP address of a given hostname/switch/nod
+                Get MAC and IP address of a given hostname
             '''
-            device = net.getNodeByName(name)
+            device: Host | Node = net.getNodeByName(name)
             return {
                 'mac': device.MAC(),
                 'ip': device.IP()
@@ -137,7 +174,7 @@ class RestHookMN(FastAPI):
             '''
                 Return Mininet network graph
             '''
-            graph = convert_network(self.net)
+            graph = topo_to_nx(self.net)
             # Serialize the JSON object
             graph_json = nx.node_link_data(graph)
             return graph_json
@@ -150,28 +187,6 @@ class RestHookMN(FastAPI):
             net.configLinkStatus(config.name1, config.name2, config.status)
             return {'status': 'ok'}
 
-        # @self.get('/link_probing')
-        # def link_probing():
-        #     '''
-        #         Using spanning tree algrothim to cut off loop on the network
-        #         then pingall
-        #     '''
-        #     graph = convert_network(self.net)
-        #     stree = SpanningTree(graph)
-
-        #     for link in stree.solution_invert()[0]:
-        #         print(link)
-        #         self.net.configLinkStatus(link[0], link[1], 'down')
-
-        #     net.pingAll('1')
-
-        #     for link in stree.solution_invert()[0]:
-        #         print(link)
-        #         self.net.configLinkStatus(link[0], link[1], 'up')
-
-        #     # return stree value as json
-        #     return { stree.solution_as_networkx() }
-
         @self.get('/link_quality')
         async def link_quality():
             '''
@@ -182,4 +197,46 @@ class RestHookMN(FastAPI):
             except NameError:
                 logging.error('Topo object not implemented')
                 return
+
+        @self.get('/link_ping_stat')
+        async def link_ping_stat():
+            '''
+                return link ping stat
+            '''
+            return self.link_ping_stat
+
+        @self.get('/adj_list/{no_dup}')
+        async def adj_list(no_dup: bool | None = False):
+            '''
+                Get adjacency list of all nodes \n
+                no_dup link param:
+                    True: remove duplicate route
+                    False: return all route
+            '''
+            graph = topo_to_nx(self.net, include_host=False)
+            adj_list = adj_dict(graph)
+            if no_dup == True:
+                return adj_ls_no_dup_route(adj_list)
+            return adj_list
+
+
+        @self.get('/debug_switch_mapping')
+        async def debug_switch_mapping():
+            '''
+                Debug switch mapping
+            '''
+            new_dict = {}
+            for switch, host in self.sw_mapping.items():
+                # switch_dpid = net.get(switch).dpid
+                host_mac = net.get(host).MAC()
+                new_dict[switch] = mac_to_int(host_mac)
+            return new_dict
+
+        @self.get('/link_to_port')
+        async def link_to_port():
+            '''
+                Bypass sdn api by get
+                it directly from mininet
+            '''
+            ...
 

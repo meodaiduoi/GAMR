@@ -3,6 +3,10 @@ import logging
 import networkx as nx
 import re
 
+import mininet
+from mininet.net import Mininet, Host, Node, Link
+from extras.utils import mac_to_int, int_to_mac
+
 def command_sanitization(cmd: str, open_in_term=False):
     '''
         sanitization for remote json request \n
@@ -17,7 +21,8 @@ def command_sanitization(cmd: str, open_in_term=False):
         cmd = cmd.replace(r'"', r'\"')
     return cmd
 
-def convert_network(net):
+def topo_to_nx(net: Mininet,
+                    include_host=True) -> nx.Graph:
     '''
         converting Mininet network to networkx graph
     '''
@@ -28,17 +33,60 @@ def convert_network(net):
         dst = link.intf2.node.name
         graph.add_edge(src, dst)
         graph.add_edge(dst, src)
+    if include_host == False:
+        host_names = [host.name for host in net.hosts]
+        # remove hosts from graph
+        for host_name in host_names:
+            graph.remove_node(host_name)
     return graph
 
-def link_exist(net, node1, node2):
+def adj_dict(graph: nx.Graph) -> dict:
     '''
-        Check if Link between 2 given node exist or not
+        For getting adj switch list
+        Return ex: 
+        {'s1': ['s2'], 's2': ['s1', 's3'], 
+        's3': ['s2', 's4'], 's4': ['s3']}
     '''
-    try:
-        net.linkInfo('h1', 's3')
-        return True
-    except KeyError:
-        return False
+    adj_list = {}
+    for node in graph.nodes:
+        adj_list[node] = list(graph.neighbors(node))
+    return adj_list
+
+def adj_ls_no_dup_route(adj_dict: dict) -> dict:
+    '''
+        Remove duplicate route from adj list \n
+        Return ex:
+        {'s1': ['s2'], 's2': ['s3'], 's3': ['s4']}
+    '''
+    key_list = adj_dict.keys()
+    edge_list_visted = []
+    
+    filter_dict = {}
+    for node1, adj_node_ls in adj_dict.items():
+        for node2 in adj_node_ls:
+            if ((node2, node1) not in edge_list_visted) and \
+                ((node1, node2) not in edge_list_visted):
+                edge_list_visted.append((node1, node2))
+                if node1 not in filter_dict.keys():
+                    filter_dict[node1] = [node2]
+                else:
+                    filter_dict[node1].append(node2)
+    return filter_dict
+
+def get_hostnames_and_switchnames(net: Mininet):
+    host_names = [host.name for host in net.hosts]
+    switch_names = [switch.name for switch in net.switches]
+    return host_names, switch_names
+    
+# def link_exist(net: Mininet, node1, node2):
+#     '''
+#         Check if Link between 2 given node exist or not
+#     '''
+#     try:
+#         net.linkInfo('h1', 's3')
+#         return True
+#     except KeyError:
+#         return False
 
 def enable_stp(net):
     '''
@@ -62,3 +110,56 @@ def wait_for_stp(net):
     while not stp_check_forward_state(net):
         time.sleep(1)
     logging.info("STP is in FOWARD state")
+    
+    
+def host_popen_ping(net: Mininet,
+                    node1, node2,
+                    count=3, timeout=1,
+                    return_link=False):
+    '''
+        Ping between 2 given host
+    '''
+    host1 = net.getNodeByName(node1)
+    host2 = net.getNodeByName(node2)
+    result = host1.popen(
+        f'ping {host2.IP()} -c {count} -W {timeout}',
+        shell=True).communicate()
+    
+    output = result[0].decode('latin-1')
+    err = result[1].decode('latin-1')
+    # Extract packet loss percentage
+    packet_loss = re.search(r"(\d+)% packet loss", output).group(1)
+    # print("Packet Loss Percentage:", packet_loss)
+    
+    # Extract average RTT
+    try:
+        avg_rtt = re.search(r"avg\/max\/mdev = (\d+\.\d+)", output).group(1)
+    except AttributeError:
+        avg_rtt = None
+        logging.error("Error: Cannot find avg/max/mdev in ping output, Try to add flow")
+    # print("Average RTT:", avg_rtt, "ms")
+    
+    int_node1 = mac_to_int(host1.MAC())
+    int_name2 = mac_to_int(host2.MAC())
+    
+    if return_link == True:
+        return {
+            int_node1: {
+                int_name2 : {
+                    'packet_loss': packet_loss,
+                    'delay': avg_rtt
+                }
+            },
+            int_name2: {
+                int_node1 : {
+                    'packet_loss': packet_loss,
+                    'delay': avg_rtt
+                }  
+            }
+        }
+        
+    return {
+        'packet_loss': packet_loss,
+        'delay': avg_rtt
+    }  
+    

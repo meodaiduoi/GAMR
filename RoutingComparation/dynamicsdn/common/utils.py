@@ -68,10 +68,10 @@ def result_to_json(result, mapping):
     print(result_list)
     return result_json  
 
-def create_flowrule_json(solutions, host_json, link_to_port):
+def create_flowrule_json(solutions, host_json, link_to_port, important=False):
     flowrules = []
     for solution in solutions['route']:
-        path_dpid = solution['path_dpid']
+        path_dpid = [int(dpid) for dpid in solution['path_dpid']]
         hostmac_src = hostid_to_mac(solution['src_host'])
         hostmac_dst = hostid_to_mac(solution['dst_host'])
 
@@ -134,4 +134,3 @@ def send_flowrule(flowrules, ryu_ip='0.0.0.0', ryu_rest_port=8080):
             'flowrule': flowrule
         })
     return status
-            

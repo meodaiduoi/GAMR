@@ -9,12 +9,14 @@ from mininet.link import TCLink
 
 from extras.utils import *
 from mn_restapi.util import * 
-from mn_restapi.mn_restapi_hook import *
+# from mn_restapi.mn_restapi_hook import *
+from mn_restapi.util import *
 import uvicorn
 
 import time
 import sys
 import os
+from networkx.readwrite import json_graph
 
 import argparse
 argParser = argparse.ArgumentParser()
@@ -45,7 +47,7 @@ class MyTopo(Topo):
             self.addLink(d1, d2)
         for d1, d2 in link_route:
             self.addLink(d1, d2, loss=5, bandwidth=20, delay='20ms')
-
+        
 if __name__ == '__main__':
     setLogLevel( 'info' )
     try:
@@ -58,10 +60,14 @@ if __name__ == '__main__':
                       ipBase='10.0.0.0')
         net.staticArp()
         net.start()
-
+        print(topo_to_nx(net, include_host=False))
+        # convert to json 
+        graph = topo_to_nx(net, include_host=False)
+        # print(json_graph.node_link_data(graph))
+        
         # app = RestHookMN(net=net)
         # uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
-        CLI(net)
+        # CLI(net)
         net.stop()
     
     except Exception as e:

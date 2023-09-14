@@ -30,7 +30,7 @@ EXPORT_PYTHONPATH = f'export PYTHONPATH={os.getenv("PYTHONPATH")}'
 print(EXPORT_PYTHONPATH)
 # create startup sequence
 
-startup_seq = [1, 2, 3]
+startup_seq = [1,2,3]
 
 # ryu startup
 if 1 in startup_seq:
@@ -55,10 +55,11 @@ if 2 in startup_seq:
   subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
                     f'sudo PYTHONPATH={os.getenv("PYTHONPATH")} \
                       {VENV11} ./scenario/mn_network/networkfromfile.py \
-                      ./scenario/mn_network/graphml_ds/HostwayInternational.graphml -apip \
+                      ./scenario/mn_network/graphml_ds/4sw_linear.graphml -apip \
                       {RESTHOOKMN_PORT} -ofp {OFP_PORT};\
                       read -p "press any key to close"'],
                       stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+  # HostwayInternational.graphml
   time.sleep(5)
 
 if 3 in startup_seq:

@@ -47,30 +47,46 @@ class MyTopo(Topo):
     def __init__(self, graph: nx.Graph, *args, **params):
         self.graph = graph
         self.link_quality = []
+        self.debug_sw_host_mapping = {}
         super(MyTopo, self).__init__(*args, **params)
         
     def build(self, *args, **params):
         # Construct mininet
         for n in self.graph.nodes:
             '''
-            Overide start index from 0 to 1 for 
-            mininet convention host and sw starting from 1
+                Overide start index from 0 to 1 for 
+                mininet convention host and sw starting from 1
             '''
             n = int(n) + 1
             
             # set switch dpid and host mac addr
-            self.addSwitch(f"s{n}", dpid=str(n).zfill(16), stp=True)
+            sw = self.addSwitch(f"s{n}", dpid=str(n).zfill(16), stp=True)
             # Add single host on designated switches
-            self.addHost(f"h{n}", mac=int_to_mac(n))
+            hs = self.addHost(f"h{n}", mac=int_to_mac(n))
             
             '''
-            directly add the link between hosts and their gateways
-            There is no point adding spec at endpoint because 
-            we cant mesuare it anyway
+                Directly add the link between hosts and their gateways
+                there is no point adding spec at endpoint because 
+                we cant mesuare it anyway
             '''
             self.addLink(f's{n}', f'h{n}',
                         max_queue_size=1000, use_htb=True)
-        
+
+            '''
+                This section is for adding dummy hosts for
+                debugging purpose do not use these hosts in
+                runtime. (Currently using for mesuaring link
+                delay and packet loss)
+            '''
+            # Convention id
+            debug_id = n*1000
+            debug_host = self.addHost(f"h{debug_id}", mac=int_to_mac(debug_id))
+            # Add debug dummy host to switch
+            self.addLink(f's{n}', f'h{debug_id}',
+                         max_queue_size=1000, use_htb=True)
+            # Save mapping for later use
+            self.debug_sw_host_mapping[sw] = debug_host            
+            
         # Connect your switches to each other as defined in networkx graph
         for (n1, n2) in self.graph.edges:
             
@@ -78,6 +94,7 @@ class MyTopo(Topo):
             n1 = int(n1) + 1
             n2 = int(n2) + 1
             
+            # link param using norm dist
             loss = np.random.choice(
                         [0, 1, 2, 4, 5, 7],
                         p=[0.37, 0.23, 0.15, 0.12, 0.08, 0.05]
@@ -85,12 +102,14 @@ class MyTopo(Topo):
             delay = normdist_array_genparam(range(5, 100))
             bw = normdist_array_genparam(range(30, 200))
             
+            # add link with these following param
             self.addLink(f's{n1}', f's{n2}',
                         bw=bw,
                         delay=f'{delay}ms',
                         loss=loss,
                         max_queue_size=1000, use_htb=True)
             
+            # Save link stats for later use
             data = {'src.dpid': n1, 'dst.dpid': n2, 
                     'packet_loss': loss, 'delay': delay, 'bandwidth': bw }
             self.link_quality.append(data)
