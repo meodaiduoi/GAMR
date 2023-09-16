@@ -43,7 +43,7 @@ class RestHookMN(FastAPI):
                 tasks = []
                 stats = []
                 with concurrent.futures.ThreadPoolExecutor(
-                    max_workers=20) as pool:
+                    max_workers=40) as pool:
                     for node1, adj_nodes in adj_no_dup.items():
                         for node2 in adj_nodes:
                             tasks.append(
@@ -52,8 +52,8 @@ class RestHookMN(FastAPI):
                                     net,
                                     self.sw_mapping[node1],
                                     self.sw_mapping[node2],
-                                    count=100,
-                                    interval=0.01,
+                                    count=30,
+                                    # interval=0.05,
                                     return_hostname=True))
                     for task in concurrent.futures.as_completed(tasks):
                         result = task.result()
@@ -62,13 +62,13 @@ class RestHookMN(FastAPI):
                         stats.append({
                             'src.host': mac_to_int(net.get(node1).dpid),
                             'dst.host': mac_to_int(net.get(node2).dpid),
-                            'packet_loss': result['packet_loss']/100,
+                            'packet_loss': result['packet_loss'],
                             'delay': result['delay'],
                         })
                         stats.append({
                             'src.host': mac_to_int(net.get(node2).dpid),
                             'dst.host': mac_to_int(net.get(node1).dpid),
-                            'packet_loss': result['packet_loss']/100,
+                            'packet_loss': result['packet_loss'],
                             'delay': result['delay'],
                         })
                 

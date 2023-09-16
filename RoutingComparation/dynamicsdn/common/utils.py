@@ -78,6 +78,7 @@ def create_flowrule_json(solutions, host_json, link_to_port, important=False):
         if (hostmac_src or hostmac_dst) == None or hostmac_src == hostmac_dst:
             raise (ValueError("invaild host mac"))
         
+        print('endpoint info' , hostmac_src, hostmac_dst)
         _, src_endpoint_port = get_endpoint_info(hostmac_src, host_json)
         _, dst_endpoint_port = get_endpoint_info(hostmac_dst, host_json)
         

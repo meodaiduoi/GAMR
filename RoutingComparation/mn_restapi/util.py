@@ -105,7 +105,7 @@ def wait_for_stp(net):
 def host_popen_ping(net: Mininet,
                     node1, node2,
                     count=10, timeout=1,
-                    interval=0.05,
+                    # interval=0.05,
                     return_hostname=False):
     '''
         Ping between 2 given host
@@ -113,35 +113,44 @@ def host_popen_ping(net: Mininet,
     host1 = net.getNodeByName(node1)
     host2 = net.getNodeByName(node2)
     result = host1.popen(
-        f'ping {host2.IP()} -i {interval} -c {count} -W {timeout}',
+        # f'ping {host2.IP()} -i {interval} -c {count} -W {timeout}',
+        f'ping {host2.IP()} -A -c {count} -W {timeout}',
         shell=True).communicate()
     
     output = result[0].decode('latin-1')
     err = result[1].decode('latin-1')
     # Extract packet loss percentage
-    packet_loss = re.search(r"(\d+)% packet loss", output).group(1)
-    # print("Packet Loss Percentage:", packet_loss)
-    
-    # Extract average RTT
     try:
-        avg_rtt = re.search(r"avg\/max\/mdev = (\d+\.\d+)", output).group(1)
+        packet_loss = re.search(r"(\d+)% packet loss", output).group(1)
+        packet_loss = float(packet_loss) / 100
+        # print("Packet Loss Percentage:", packet_loss)
     except AttributeError:
+        packet_loss = None
+        logging.error("Error: Cannot find packet loss in ping output, Try to add flow")
+
+    try: 
+        avg_rtt = re.search(r"avg\/max\/mdev = (\d+\.\d+)", output).group(1)
+        avg_rtt = float(avg_rtt)
+    except AttributeError:
+        # Extract average RTT
         avg_rtt = None
+        # print("Average RTT:", avg_rtt, "ms")
         logging.error("Error: Cannot find avg/max/mdev in ping output, Try to add flow")
-    # print("Average RTT:", avg_rtt, "ms")
     
-    if return_hostname==True:
+    print(err)
+
+    if return_hostname == True:
         src_hostname = str(host1)
         dst_hostname = str(host2)
 
-    if return_hostname==False:
+    if return_hostname == False:
         src_hostname = mac_to_int(host1.MAC())
         dst_hostname = mac_to_int(host2.MAC())
         
     return {
         'src_host': src_hostname,
         'dst_host': dst_hostname,
-        'packet_loss': float(packet_loss),
-        'delay': float(avg_rtt) if avg_rtt else None
+        'packet_loss': packet_loss,
+        'delay': avg_rtt
     }  
     

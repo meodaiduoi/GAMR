@@ -64,9 +64,10 @@ def create_host_list(routes, timeout):
     return result
 
 url_addflow_GA = "http://0.0.0.0:8001/routing/ga"
+url_addflow_minhop = "http://0.0.0.0:8001/routing/min_hop"
 url_addflow_dijsktra = "http://0.0.0.0:8001/routing/dijkstra"
 url_ping = "http://0.0.0.0:8000/ping"
-fix_number_hosts, fix_number_request = 20, 10
+fix_number_hosts, fix_number_request = 16, 100
 
 def make_api_call():
     routes = create_route_list(fix_number_hosts, fix_number_request)
@@ -93,7 +94,7 @@ def make_api_call():
 
 start_time = time.time()
 
-while time.time() - start_time < 3600:
+while time.time() - start_time < 1800:
     is_break = make_api_call()
     time.sleep(3)
     

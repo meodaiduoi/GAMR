@@ -55,7 +55,10 @@ async def add_flow_adj():
             await asyncio.sleep(500)
         except (rq.ConnectionError, rq.ConnectTimeout) as e:
             logging.error(f"Connection error retrying...")
-            await asyncio.sleep(3)
+            await asyncio.sleep(5)
+        except TypeError as e:
+            logging.error(f'Controller not ready retrying...')
+            await asyncio.sleep(5)
         
 @app.on_event("startup")
 async def startup_event():

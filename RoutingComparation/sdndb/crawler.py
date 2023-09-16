@@ -44,7 +44,7 @@ except sqlite3.OperationalError:
 # Update data to db
 timeID_initial = 0
 start_time = time.time()
-while time.time() - start_time < 3650:
+while time.time() - start_time < 1850:
     try:
         data = get_link_quality()
         for item in data:
