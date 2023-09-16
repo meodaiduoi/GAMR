@@ -48,6 +48,12 @@ def hostid_to_mac(host_id):
     mac_str = ":".join(mac_hex[i:i+2] for i in range(0, len(mac_hex), 2))
     return mac_str
 
+def find_key_from_value(dic, value):
+    for key, val in dic.items():
+        if val == value:
+            return key
+    return None
+
 '''
     Topology stat
 '''
@@ -113,10 +119,12 @@ def get_link_quality():
 
     link_quality_controller = rq.get('http://0.0.0.0:8080/link_quality').json()
     link_quality_mininet = rq.get('http://0.0.0.0:8000/link_quality').json()
-
+    link_ping_stat = rq.get('http://0.0.0.0:8000/link_ping_stat').json()
+    
     lqc_hmap = {}
     lqm_hmap = {}
-
+    lps_hmap = {}
+    
     for d in link_quality_controller:
         key = (d['src.dpid'], d['dst.dpid'])
         lqc_hmap[key] = d
@@ -124,16 +132,21 @@ def get_link_quality():
     for d in link_quality_mininet:
         key = (d['src.dpid'], d['dst.dpid'])
         lqm_hmap[key] = d
+    
+    for d in link_ping_stat:
+        key = (d['src.host'], d['dst.host'])
+        lps_hmap[key] = d
 
     link_quality = []
     for key, lqc_value in lqc_hmap.items():
         lqm_value = lqm_hmap.get(key)
+        lps_value = lps_hmap.get(key)
         if lqm_value == None: continue  
         link_quality.append({
             'src.dpid': key[0],
             'dst.dpid': key[1],
-            'packet_loss': lqm_value.get('packet_loss', None),
-            'delay': lqc_value.get('delay', None),
+            'packet_loss': lps_value.get('packet_loss', None),
+            'delay': lps_value.get('delay', None),
             'bandwidth': lqm_value.get('bandwidth', 1),
             'link_usage': lqc_value.get('link_usage', 0),
             'link_utilization': lqc_value.get('link_usage', 0) / lqm_value.get('bandwidth', 1) * 100,

@@ -62,7 +62,7 @@ class MyTopo(Topo):
             # set switch dpid and host mac addr
             sw = self.addSwitch(f"s{n}", dpid=str(n).zfill(16), stp=True)
             # Add single host on designated switches
-            hs = self.addHost(f"h{n}", mac=int_to_mac(n))
+            self.addHost(f"h{n}", mac=int_to_mac(n))
             
             '''
                 Directly add the link between hosts and their gateways
@@ -85,7 +85,7 @@ class MyTopo(Topo):
             self.addLink(f's{n}', f'h{debug_id}',
                          max_queue_size=1000, use_htb=True)
             # Save mapping for later use
-            self.debug_sw_host_mapping[sw] = debug_host            
+            self.debug_sw_host_mapping[str(sw)] = str(debug_host)         
             
         # Connect your switches to each other as defined in networkx graph
         for (n1, n2) in self.graph.edges:
@@ -95,10 +95,10 @@ class MyTopo(Topo):
             n2 = int(n2) + 1
             
             # link param using norm dist
-            loss = np.random.choice(
+            loss = int(np.random.choice(
                         [0, 1, 2, 4, 5, 7],
                         p=[0.37, 0.23, 0.15, 0.12, 0.08, 0.05]
-                    )
+                    ))
             delay = normdist_array_genparam(range(5, 100))
             bw = normdist_array_genparam(range(30, 200))
             
@@ -119,7 +119,7 @@ class MyTopo(Topo):
             
 if __name__ == '__main__':
     setLogLevel( 'info' )
-    
+    logging.basicConfig(level=logging.DEBUG)
     # You can change this function for your own file format
     graph: nx.Graph = nx.read_graphml(FILEPATH)
     

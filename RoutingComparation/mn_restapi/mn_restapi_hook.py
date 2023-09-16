@@ -18,6 +18,8 @@ from mn_restapi.routes import info
 from subprocess import Popen
 import concurrent.futures
 
+from extras.utils import find_key_from_value
+
 import networkx as nx
 import logging
 import re
@@ -39,7 +41,7 @@ class RestHookMN(FastAPI):
                 adj_list = adj_dict(graph)
                 adj_no_dup = adj_ls_no_dup_route(adj_list)
                 tasks = []
-                stat = {}
+                stats = []
                 with concurrent.futures.ThreadPoolExecutor(
                     max_workers=20) as pool:
                     for node1, adj_nodes in adj_no_dup.items():
@@ -50,10 +52,27 @@ class RestHookMN(FastAPI):
                                     net,
                                     self.sw_mapping[node1],
                                     self.sw_mapping[node2],
-                                    return_link=True))
+                                    count=100,
+                                    interval=0.01,
+                                    return_hostname=True))
                     for task in concurrent.futures.as_completed(tasks):
-                        stat.update(task.result())
-                self.link_ping_stat = stat
+                        result = task.result()
+                        node1 = find_key_from_value(self.sw_mapping, result['src_host'])
+                        node2 = find_key_from_value(self.sw_mapping, result['dst_host'])
+                        stats.append({
+                            'src.host': mac_to_int(net.get(node1).dpid),
+                            'dst.host': mac_to_int(net.get(node2).dpid),
+                            'packet_loss': result['packet_loss']/100,
+                            'delay': result['delay'],
+                        })
+                        stats.append({
+                            'src.host': mac_to_int(net.get(node2).dpid),
+                            'dst.host': mac_to_int(net.get(node1).dpid),
+                            'packet_loss': result['packet_loss']/100,
+                            'delay': result['delay'],
+                        })
+                
+                self.link_ping_stat = stats
                 logging.info(f'Update link ping stat')
                 logging.debug(self.link_ping_stat)
                 await asyncio.sleep(5)  # Update the variable every 5 seconds
