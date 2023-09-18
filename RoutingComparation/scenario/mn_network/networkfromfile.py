@@ -96,7 +96,8 @@ class MyTopo(Topo):
             
             # link param using norm dist
             loss = int(np.random.choice(
-                        [0, 1, 2, 4, 5, 7],
+                        # [0, 1, 2, 4, 5, 7],
+                        [4, 8, 6, 3, 2, 5],
                         p=[0.37, 0.23, 0.15, 0.12, 0.08, 0.05]
                     ))
             delay = normdist_array_genparam(range(5, 100))

@@ -121,8 +121,8 @@ def host_popen_ping(net: Mininet,
     err = result[1].decode('latin-1')
     # Extract packet loss percentage
     try:
-        packet_loss = re.search(r"(\d+)% packet loss", output).group(1)
-        packet_loss = float(packet_loss) / 100
+        packet_loss = re.search(r"([0-9]*\.[0-9]+%) packet loss", output).group(1)
+        packet_loss = float(packet_loss.replace('%', 'e-2'))
         # print("Packet Loss Percentage:", packet_loss)
     except AttributeError:
         packet_loss = None
