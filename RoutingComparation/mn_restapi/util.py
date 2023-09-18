@@ -105,25 +105,32 @@ def wait_for_stp(net):
 def host_popen_ping(net: Mininet,
                     node1, node2,
                     count=10, timeout=1,
-                    # interval=0.05,
+                    interval=0.1,
                     return_hostname=False):
     '''
         Ping between 2 given host
     '''
     host1 = net.getNodeByName(node1)
     host2 = net.getNodeByName(node2)
+
+    cmd = f'ping {host2.IP()} -c {count} -W {timeout}'
+    if interval <= 0.01:
+        cmd += ' -A'
+    else:
+        cmd += f' -i {interval}'
     result = host1.popen(
-        # f'ping {host2.IP()} -i {interval} -c {count} -W {timeout}',
-        f'ping {host2.IP()} -A -c {count} -W {timeout}',
+        cmd,
         shell=True).communicate()
     
     output = result[0].decode('latin-1')
+    print(output)
     err = result[1].decode('latin-1')
     # Extract packet loss percentage
     try:
-        packet_loss = re.search(r"([0-9]*\.[0-9]+%) packet loss", output).group(1)
-        packet_loss = float(packet_loss.replace('%', 'e-2'))
-        # print("Packet Loss Percentage:", packet_loss)
+        packet_loss = re.search(r"([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[Ee]([+-]?\d+))?% packet loss", output).group(1)
+        print("Packet Loss Percentage:", packet_loss)
+        packet_loss = float(packet_loss) / 100
+        print("Packet Loss Percentage 2:", packet_loss)
     except AttributeError:
         packet_loss = None
         logging.error("Error: Cannot find packet loss in ping output, Try to add flow")

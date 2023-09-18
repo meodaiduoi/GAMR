@@ -53,7 +53,7 @@ class RestHookMN(FastAPI):
                                     self.sw_mapping[node1],
                                     self.sw_mapping[node2],
                                     count=30,
-                                    # interval=0.05,
+                                    interval=0.02,
                                     return_hostname=True))
                     for task in concurrent.futures.as_completed(tasks):
                         result = task.result()
