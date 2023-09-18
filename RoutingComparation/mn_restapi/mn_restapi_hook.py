@@ -43,7 +43,7 @@ class RestHookMN(FastAPI):
                 tasks = []
                 stats = []
                 with concurrent.futures.ThreadPoolExecutor(
-                    max_workers=40) as pool:
+                    max_workers=45) as pool:
                     for node1, adj_nodes in adj_no_dup.items():
                         for node2 in adj_nodes:
                             tasks.append(
@@ -53,7 +53,7 @@ class RestHookMN(FastAPI):
                                     self.sw_mapping[node1],
                                     self.sw_mapping[node2],
                                     count=30,
-                                    interval=0.02,
+                                    interval=0.05,
                                     return_hostname=True))
                     for task in concurrent.futures.as_completed(tasks):
                         result = task.result()
