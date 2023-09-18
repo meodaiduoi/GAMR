@@ -128,9 +128,7 @@ def host_popen_ping(net: Mininet,
     # Extract packet loss percentage
     try:
         packet_loss = re.search(r"([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[Ee]([+-]?\d+))?% packet loss", output).group(1)
-        print("Packet Loss Percentage:", packet_loss)
         packet_loss = float(packet_loss) / 100
-        print("Packet Loss Percentage 2:", packet_loss)
     except AttributeError:
         packet_loss = None
         logging.error("Error: Cannot find packet loss in ping output, Try to add flow")

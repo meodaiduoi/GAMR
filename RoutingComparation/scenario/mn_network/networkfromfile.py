@@ -95,11 +95,7 @@ class MyTopo(Topo):
             n2 = int(n2) + 1
             
             # link param using norm dist
-            loss = int(np.random.choice(
-                        # [0, 1, 2, 4, 5, 7],
-                        [4, 8, 6, 3, 2, 5],
-                        p=[0.37, 0.23, 0.15, 0.12, 0.08, 0.05]
-                    ))
+            loss = normdist_array_genparam([0.1, 0.5, 1, 2, 3, 4, 5, 7, 9, 10])
             delay = normdist_array_genparam(range(5, 100))
             bw = normdist_array_genparam(range(30, 200))
             
