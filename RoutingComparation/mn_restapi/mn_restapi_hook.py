@@ -19,6 +19,7 @@ from subprocess import Popen
 import concurrent.futures
 
 from extras.utils import find_key_from_value
+from statistics import mean
 
 import networkx as nx
 import logging
@@ -36,6 +37,7 @@ class RestHookMN(FastAPI):
 
         # Startup event section
         async def update_link_ping_stat():
+            temporal_packetloss = {}
             while True:
                 graph = topo_to_nx(self.net, include_host=False)
                 adj_list = adj_dict(graph)
@@ -52,23 +54,31 @@ class RestHookMN(FastAPI):
                                     net,
                                     self.sw_mapping[node1],
                                     self.sw_mapping[node2],
-                                    count=30,
+                                    count=20,
                                     interval=0.05,
                                     return_hostname=True))
                     for task in concurrent.futures.as_completed(tasks):
                         result = task.result()
                         node1 = find_key_from_value(self.sw_mapping, result['src_host'])
                         node2 = find_key_from_value(self.sw_mapping, result['dst_host'])
+
+                        # using past result to calculate new packetloss for improving the precision.
+                        if (node1, node2) not in temporal_packetloss.keys():
+                            temporal_packetloss.setdefault((node1, node2), [])
+                        temporal_packetloss[(node1, node2)].append(result['packet_loss'])
+                        if len(temporal_packetloss[(node1, node2)]) > 51:
+                            temporal_packetloss[(node1, node2)].pop(0)
+                                                
                         stats.append({
                             'src.host': mac_to_int(net.get(node1).dpid),
                             'dst.host': mac_to_int(net.get(node2).dpid),
-                            'packet_loss': result['packet_loss'],
+                            'packet_loss': mean(temporal_packetloss[(node1, node2)]),
                             'delay': result['delay'],
                         })
                         stats.append({
                             'src.host': mac_to_int(net.get(node2).dpid),
                             'dst.host': mac_to_int(net.get(node1).dpid),
-                            'packet_loss': result['packet_loss'],
+                            'packet_loss': mean(temporal_packetloss[(node1, node2)]),
                             'delay': result['delay'],
                         })
                 
