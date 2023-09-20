@@ -45,7 +45,7 @@ class RestHookMN(FastAPI):
                 tasks = []
                 stats = []
                 with concurrent.futures.ThreadPoolExecutor(
-                    max_workers=45) as pool:
+                    max_workers=40) as pool:
                     for node1, adj_nodes in adj_no_dup.items():
                         for node2 in adj_nodes:
                             tasks.append(
@@ -54,8 +54,8 @@ class RestHookMN(FastAPI):
                                     net,
                                     self.sw_mapping[node1],
                                     self.sw_mapping[node2],
-                                    count=20,
-                                    interval=0.05,
+                                    count=10,
+                                    interval=0.1,
                                     return_hostname=True))
                     for task in concurrent.futures.as_completed(tasks):
                         result = task.result()
@@ -66,7 +66,7 @@ class RestHookMN(FastAPI):
                         if (node1, node2) not in temporal_packetloss.keys():
                             temporal_packetloss.setdefault((node1, node2), [])
                         temporal_packetloss[(node1, node2)].append(result['packet_loss'])
-                        if len(temporal_packetloss[(node1, node2)]) > 51:
+                        if len(temporal_packetloss[(node1, node2)]) > 41:
                             temporal_packetloss[(node1, node2)].pop(0)
                                                 
                         stats.append({
