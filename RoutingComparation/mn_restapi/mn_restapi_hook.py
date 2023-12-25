@@ -26,10 +26,11 @@ import logging
 import re
 
 class RestHookMN(FastAPI):
-    def __init__(self, net, *args, **params):
+    def __init__(self, net, ctrler_sw_mapping = None, *args, **params):
         self.net = net
         self.link_ping_stat = {}
         self.sw_mapping = self.net.topo.debug_sw_host_mapping
+        self.ctrler_sw_mapping = ...
         super(RestHookMN, self).__init__(title='fastapi hook for mininet',
                          description='', *args, **params)
 
@@ -216,6 +217,45 @@ class RestHookMN(FastAPI):
             net.configLinkStatus(config.name1, config.name2, config.status)
             return {'status': 'ok'}
 
+        @self.post('/link_info')
+        async def link_info_post(link: LinkName):
+            '''
+                Return info of single link
+                {
+                    'bw': mbps,
+                    'delay': ms,
+                    'loss': %
+                    ...
+                    port1: (src port of sender swtich) replacment for switch port mapping
+                    port2: (dst port of reciver swtich) replacment for switch port mapping
+                }
+            '''
+            try:
+                graph: nx.Graph = topo_to_nx(self.net)
+                if link.name_node1 in graph.neighbors(link.name_node2):
+                    return net.topo.linkInfo(link.name_node1, link.name_node2)
+                else: return "Link not valid"
+            except KeyError:
+                return "Invalid Node name" 
+            
+        @self.get('/link_info')
+        async def link_info_get(): 
+                '''
+                    Return info of all
+                    links in the network
+                '''
+                graph: nx.Graph = topo_to_nx(self.net)
+                edges = list(graph.edges())
+                links_info = []            
+                for node1, node2 in edges:
+                    print(node1, node2)
+                    print(net.topo.linkInfo(node1, node2))
+                    links_info.append(net.topo.linkInfo(node1, node2))
+                    links_info.append(net.topo.linkInfo(node2, node1))
+                return links_info
+                    
+
+        # NOTE! DEPRECATE Soon and will be replace by 
         @self.get('/link_quality')
         async def link_quality():
             '''
@@ -261,11 +301,16 @@ class RestHookMN(FastAPI):
                 new_dict[switch] = mac_to_int(host_mac)
             return new_dict
 
-        @self.get('/link_to_port')
-        async def link_to_port():
-            '''
-                Bypass sdn api by get
-                it directly from mininet
-            '''
-            ...
+        @self.get('/links')     
+        async def link():
+            return net.topo.links()
+        
+        
+        # @self.get('/link_to_port')
+        # async def link_to_port():
+            # '''
+                # Bypass sdn api by get
+                # it directly from mininet
+            # '''
+            # ...
 

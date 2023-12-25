@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?><graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+    <key attr.name="label" attr.type="string" for="node" id="label"/>
+    <key attr.name="Edge Label" attr.type="string" for="edge" id="edgelabel"/>
+    <key attr.name="weight" attr.type="double" for="edge" id="weight"/>
+    <key attr.name="r" attr.type="int" for="node" id="r"/>
+    <key attr.name="g" attr.type="int" for="node" id="g"/>
+    <key attr.name="b" attr.type="int" for="node" id="b"/>
+    <key attr.name="x" attr.type="float" for="node" id="x"/>
+    <key attr.name="y" attr.type="float" for="node" id="y"/>
+    <key attr.name="size" attr.type="float" for="node" id="size"/>
+    <key attr.name="Longitude" attr.type="double" for="node" id="d32"/>
+    <key attr.name="id" attr.type="int" for="node" id="d31"/>
+    <key attr.name="Country" attr.type="string" for="node" id="d30"/>
+    <key attr.name="Latitude" attr.type="double" for="node" id="d29"/>
+    <key attr.name="Internal" attr.type="int" for="node" id="d28"/>
+    <key attr.name="key" attr.type="int" for="edge" id="d35"/>
+    <key attr.name="id" attr.type="string" for="edge" id="d34"/>
+    <graph edgedefault="undirected">
+        <node id="0">
+            <data key="label">Hamburg</data>
+            <data key="d32">10.0</data>
+            <data key="d31">0</data>
+            <data key="d30">Germany</data>
+            <data key="d29">53.55</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">193.91821</data>
+            <data key="y">-372.42386</data>
+        </node>
+        <node id="1">
+            <data key="label">Hannover</data>
+            <data key="d32">9.73322</data>
+            <data key="d31">1</data>
+            <data key="d30">Germany</data>
+            <data key="d29">52.37052</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-155.29453</data>
+            <data key="y">-14.3428755</data>
+        </node>
+        <node id="2">
+            <data key="label">Stuttgart</data>
+            <data key="d32">9.17702</data>
+            <data key="d31">2</data>
+            <data key="d30">Germany</data>
+            <data key="d29">48.78232</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-297.77225</data>
+            <data key="y">311.6443</data>
+        </node>
+        <node id="3">
+            <data key="label">Munich</data>
+            <data key="d32">11.57549</data>
+            <data key="d31">3</data>
+            <data key="d30">Germany</data>
+            <data key="d29">48.13743</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">138.72473</data>
+            <data key="y">463.00317</data>
+        </node>
+        <node id="4">
+            <data key="label">Berlin</data>
+            <data key="d32">13.41053</data>
+            <data key="d31">4</data>
+            <data key="d30">Germany</data>
+            <data key="d29">52.52437</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-545.74426</data>
+            <data key="y">-290.31506</data>
+        </node>
+        <node id="5">
+            <data key="label">Cologne</data>
+            <data key="d32">6.95</data>
+            <data key="d31">5</data>
+            <data key="d30">Germany</data>
+            <data key="d29">50.93333</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-193.29398</data>
+            <data key="y">-278.66232</data>
+        </node>
+        <node id="6">
+            <data key="label">Frankfurt</data>
+            <data key="d32">8.68333</data>
+            <data key="d31">6</data>
+            <data key="d30">Germany</data>
+            <data key="d29">50.11667</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-112.76294</data>
+            <data key="y">8.9505205</data>
+        </node>
+        <node id="7">
+            <data key="label">Dublin</data>
+            <data key="d32">-6.26719</data>
+            <data key="d31">7</data>
+            <data key="d30">Ireland</data>
+            <data key="d29">53.34399</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">250.2005</data>
+            <data key="y">-146.63072</data>
+        </node>
+        <node id="8">
+            <data key="label">London</data>
+            <data key="d32">-0.12574</data>
+            <data key="d31">8</data>
+            <data key="d30">United Kingdom</data>
+            <data key="d29">51.50853</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">251.2439</data>
+            <data key="y">-89.217445</data>
+        </node>
+        <node id="9">
+            <data key="label">Paris</data>
+            <data key="d32">2.3488</data>
+            <data key="d31">9</data>
+            <data key="d30">France</data>
+            <data key="d29">48.85341</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-295.0943</data>
+            <data key="y">-401.1458</data>
+        </node>
+        <node id="10">
+            <data key="label">Rotterdam</data>
+            <data key="d32">4.47917</data>
+            <data key="d31">10</data>
+            <data key="d30">Netherlands</data>
+            <data key="d29">51.9225</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">58.45312</data>
+            <data key="y">115.77813</data>
+        </node>
+        <node id="11">
+            <data key="label">The Hague</data>
+            <data key="d32">4.29861</data>
+            <data key="d31">11</data>
+            <data key="d30">Netherlands</data>
+            <data key="d29">52.07667</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">-102.264465</data>
+            <data key="y">-377.11942</data>
+        </node>
+        <node id="12">
+            <data key="label">Amsterdam</data>
+            <data key="d32">4.88969</data>
+            <data key="d31">12</data>
+            <data key="d30">Netherlands</data>
+            <data key="d29">52.37403</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">399.6861</data>
+            <data key="y">89.84185</data>
+        </node>
+        <node id="13">
+            <data key="label">Utrecht</data>
+            <data key="d32">5.12222</data>
+            <data key="d31">13</data>
+            <data key="d30">Netherlands</data>
+            <data key="d29">52.09083</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">261.7292</data>
+            <data key="y">436.13782</data>
+        </node>
+        <node id="14">
+            <data key="label">Dusseldorf</data>
+            <data key="d32">6.77616</data>
+            <data key="d31">14</data>
+            <data key="d30">Germany</data>
+            <data key="d29">51.22172</data>
+            <data key="d28">1</data>
+            <data key="size">10.0</data>
+            <data key="r">0</data>
+            <data key="g">0</data>
+            <data key="b">0</data>
+            <data key="x">148.271</data>
+            <data key="y">544.50183</data>
+        </node>
+        <edge id="7" source="0" target="4">
+            <data key="weight">1.0</data>
+            <data key="d35">0</data>
+            <data key="d34">e18</data>
+        </edge>
+        <edge id="8" source="0" target="14">
+            <data key="weight">1.0</data>
+            <data key="d35">0</data>
+            <data key="d34">e12</data>
+        </edge>
+        <edge id="9" source="2" target="3">
+            <data key="weight">1.0</data>
+            <data key="d35">0</data>
+            <data key="d34">e16</data>
+        </edge>
+        <edge id="10" source="2" target="6">
+            <data key="weight">1.0</data>
+            <data key="d35">0</data>
+            <data key="d34">e15</data>
+        </edge>
+        <edge id="11" source="3" target="4">
+            <data key="weight">1.0</data>
+            <data key="d35">0</data>
+            <data key="d34">e17</data>
+        </edge>
+        <edge id="12" source="5" target="6">
+            <data key="weight">2.0</data>
+            <data key="d35">1</data>
+            <data key="d34">e14</data>
+        </edge>
+        <edge id="14" source="5" target="14">
+            <data key="weight">2.0</data>
+            <data key="d35">1</data>
+            <data key="d34">e10</data>
+        </edge>
+        <edge id="16" source="6" target="9">
+            <data key="weight">1.0</data>
+            <data key="d35">0</data>
+            <data key="d34">e5</data>
+        </edge>
+        <edge id="17" source="7" target="8">
+            <data key="weight">2.0</data>
+            <data key="d35">1</data>
+            <data key="d34">e0</data>
+        </edge>
+        <edge id="19" source="8" target="9">
+            <data key="weight">1.0</data>
+            <data key="d35">0</data>
+            <data key="d34">e2</data>
+        </edge>
+        <edge id="20" source="8" target="12">
+            <data key="weight">1.0</data>
+            <data key="d35">0</data>
+            <data key="d34">e3</data>
+        </edge>
+        <edge id="21" source="9" target="10">
+            <data key="weight">1.0</data>
+            <data key="d35">0</data>
+            <data key="d34">e4</data>
+        </edge>
+        <edge id="22" source="10" target="11">
+            <data key="weight">1.0</data>
+            <data key="d35">0</data>
+            <data key="d34">e6</data>
+        </edge>
+        <edge id="23" source="11" target="12">
+            <data key="weight">1.0</data>
+            <data key="d35">0</data>
+            <data key="d34">e7</data>
+        </edge>
+        <edge id="24" source="12" target="13">
+            <data key="weight">1.0</data>
+            <data key="d35">0</data>
+            <data key="d34">e8</data>
+        </edge>
+        <edge id="25" source="13" target="14">
+            <data key="weight">1.0</data>
+            <data key="d35">0</data>
+            <data key="d34">e9</data>
+        </edge>
+    </graph>
+</graphml>

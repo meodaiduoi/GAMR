@@ -40,4 +40,11 @@ class ConfigLink(BaseModel):
     name_node1: str
     name_node2: str
     status: str | None = 'up'
-    
+
+class LinkName(BaseModel):
+    '''
+        name_node1: name of node1
+        name_node2: name of node2
+    '''
+    name_node1: str
+    name_node2: str

@@ -2,6 +2,7 @@ import numpy as np
 from random import normalvariate
 import networkx as nx
 from networkx.readwrite import json_graph
+import pymetis
 
 def normdist_param(mean, std_dev, round=2):
     '''
@@ -49,3 +50,22 @@ def read_graph_file(filename):
                 except nx.NetworkXError:
                     return "Error: Unsupported file format"
     return graph
+
+def generate_adjlist(graph, to_int=True):
+	adj_list = []
+	for _, nbrs in graph.adjacency():
+		node_list = []
+		for node, _ in nbrs.items():
+			if to_int:
+				node_list.append(int(node))
+			else:
+				node_list.append(node)
+		adj_list.append(node_list)
+	return adj_list
+
+def part_graph(adj_list, num_parts):
+    n_cuts, membership = pymetis.part_graph(num_parts, adjacency=adj_list)
+    parts = []
+    for i in range(num_parts):
+        parts.append(np.argwhere(np.array(membership) == i).ravel())
+    return parts

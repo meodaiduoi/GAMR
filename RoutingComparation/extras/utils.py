@@ -110,6 +110,7 @@ def get_full_topo_graph(max_display_mac=100) -> tuple[dict, nx.DiGraph]:
 
     return mapping, graph
 
+# !Note Deprecate soon 
 def get_link_quality():
     '''
         Get from data from /link_quality
@@ -120,6 +121,51 @@ def get_link_quality():
     link_quality_controller = rq.get('http://0.0.0.0:8080/link_quality').json()
     link_quality_mininet = rq.get('http://0.0.0.0:8000/link_quality').json()
     link_ping_stat = rq.get('http://0.0.0.0:8000/link_ping_stat').json()
+    
+    lqc_hmap = {}
+    lqm_hmap = {}
+    lps_hmap = {}
+    
+    for d in link_quality_controller:
+        key = (d['src.dpid'], d['dst.dpid'])
+        lqc_hmap[key] = d
+
+    for d in link_quality_mininet:
+        key = (d['src.dpid'], d['dst.dpid'])
+        lqm_hmap[key] = d
+    
+    for d in link_ping_stat:
+        key = (d['src.host'], d['dst.host'])
+        lps_hmap[key] = d
+
+    link_quality = []
+    for key, lqc_value in lqc_hmap.items():
+        lqm_value = lqm_hmap.get(key)
+        lps_value = lps_hmap.get(key)
+        if lqm_value == None: continue  
+        link_quality.append({
+            'src.dpid': key[0],
+            'dst.dpid': key[1],
+            'packet_loss': lps_value.get('packet_loss', None),
+            'delay': lps_value.get('delay', None),
+            'bandwidth': lqm_value.get('bandwidth', 1),
+            'link_usage': lqc_value.get('link_usage', 0),
+            'link_utilization': lqc_value.get('link_usage', 0) / lqm_value.get('bandwidth', 1) * 100,
+        })
+        
+    return link_quality
+
+# Will be replacement for get_link_quality
+def get_link_info(mn_rest_addr: str = "0.0.0.0:8080"):
+    '''
+        Get from data from /link_quality
+        currently working as a workaround 
+        for link utilization
+    '''
+
+    link_quality_controller = rq.get(f'http://{mn_rest_addr}/link_quality').json()
+    link_quality_mininet = rq.get(f'http://{mn_rest_addr}/link_info').json()
+    link_ping_stat = rq.get(f'http://{mn_rest_addr}/link_ping_stat').json()
     
     lqc_hmap = {}
     lqm_hmap = {}
