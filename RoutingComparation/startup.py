@@ -55,7 +55,7 @@ if 2 in startup_seq:
   subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
                     f'sudo PYTHONPATH={os.getenv("PYTHONPATH")} \
                       {VENV11} ./scenario/mn_network/networkfromfile.py \
-                      ./scenario/mn_network/graphml_ds/4sw_linear.graphml -apip \
+                      ./scenario/mn_network/graphml_ds/Epoch.graphml -apip \
                       {RESTHOOKMN_PORT} -ofp {OFP_PORT};\
                       read -p "press any key to close"'],
                       stderr=subprocess.STDOUT, stdout=subprocess.PIPE)

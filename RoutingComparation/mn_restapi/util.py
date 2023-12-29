@@ -22,23 +22,57 @@ def command_sanitization(cmd: str, open_in_term=False):
     return cmd
 
 def topo_to_nx(net: Mininet,
-                    include_host=True) -> nx.Graph:
+                    include_host=True,
+                    sw_name_is_dpid=False) -> nx.Graph:
     '''
         converting Mininet network to networkx graph
     '''
     graph = nx.DiGraph()
     for link in net.links:
-         # Add edges to the graph
+        # Add edges to the graph
         src = link.intf1.node.name
         dst = link.intf2.node.name
+
+        if sw_name_is_dpid:
+            try:
+                src = int(net.get(src).dpid)
+            except: AttributeError
+                
+            try:
+                dst = int(net.get(dst).dpid)
+            except: AttributeError
+        
         graph.add_edge(src, dst)
         graph.add_edge(dst, src)
+
     if include_host == False:
         host_names = [host.name for host in net.hosts]
         # remove hosts from graph
         for host_name in host_names:
             graph.remove_node(host_name)
     return graph
+
+def sw_to_ctrler_mapping_converter(sw_parted_ls):
+    """
+        Convert parted list from part_graph()
+        from 2d list into switch to controller mapping
+        used for pushing flow rule the right controller
+        (domain)
+        
+        ex: [[1,2,3][4,5,6,7]...]
+        key(switch): value(controller)
+        to -> {1: 0, 2: 0, 3:0, 4:1, 5:1, ...}
+    """
+    mapping = {}
+    for idx, sw_parted in enumerate(sw_parted_ls):
+        mapping[idx] = sw_parted
+    
+    inverted_dict = {}
+    for key, value_list in mapping.items():
+        for value in value_list:
+            inverted_dict[value] = key
+    return inverted_dict
+    
 
 def adj_dict(graph: nx.Graph) -> dict:
     '''

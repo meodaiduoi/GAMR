@@ -19,11 +19,13 @@ memset = MemSet()
 
 argParser = argparse.ArgumentParser()
 argParser.add_argument("rest_port", type=int, help="dynamicsdn startup rest api port")
-argParser.add_argument("ryu_port", type=int, help="remote ryu rest api port")
+argParser.add_argument("ryu_port", type=int, help="remote ryu rest api port or start port if multi_domain==True")
+argParser.add_argument("-md", "--multi_domain", type=bool, default=False, help="if network has more than 1 controller")
 args = argParser.parse_args()
 
 DYNAMICSDN_PORT = args.rest_port
 RYU_PORT = args.ryu_port
+MULTI_DOMAIN= args.multi_domain
 
 logging.basicConfig(level=logging.INFO)
 
@@ -39,6 +41,12 @@ async def add_flow_adj():
             adj_no_dup: dict = rq.get('http://0.0.0.0:8000/adj_list/True').json()
             debug_host_mapping = rq.get('http://0.0.0.0:8000/debug_switch_mapping').json()
             switchname_mapping =  rq.get('http://0.0.0.0:8000/switch_dpid').json()
+            if MULTI_DOMAIN == True:
+                host_mn = rq.get('http://0.0.0.0:8000/host').json()
+                switch_dpid_mn = rq.get('http://0.0.0.0:8000/switch_dpid')
+                sw_ctrler_mapping = rq.get('http://0.0.0.0:8000/sw_ctrler_mapping').json()
+                link_info =  get_link_info('http://localhost:8000/link_info')
+                
             solutions = {'route': []}
             for node1, adj_nodes in adj_no_dup.items():
                 for node2 in adj_nodes:
@@ -50,7 +58,15 @@ async def add_flow_adj():
                                         switchname_mapping[node2]]
                     }
                     solutions['route'].append(solution)
-            send_flowrule(create_flowrule_json(solutions, get_host(), get_link_to_port()))
+            if MULTI_DOMAIN == False:
+                send_flowrule(
+                    create_flowrule_json(solutions, get_host(), get_link_to_port()))
+            else:
+                send_flowrule_multidomain_localhost(
+                    create_flowrule_multidomain_json(solutions, 
+                                                    host_mn,
+                                                    link_info),
+                                                    sw_ctrler_mapping, RYU_PORT)
             logging.info('Debug flow added sucessfully')
             await asyncio.sleep(500)
         except (rq.ConnectionError, rq.ConnectTimeout) as e:
@@ -98,7 +114,7 @@ async def routing_min_hop(tasks: RouteTasks):
     solutions = {'route': []}
     flowrules = []
     for task in tasks.route:
-        if nx.has_path(graph, task.src_host, task.dst_host):
+        if nx.has_path(graph, f'h{task.src_host}', f'h{task.dst_host}'):
             path = list(nx.shortest_path(graph, f'h{task.src_host}', f'h{task.dst_host}'))
             solutions['route'].append({
                 'src_host': task.src_host,

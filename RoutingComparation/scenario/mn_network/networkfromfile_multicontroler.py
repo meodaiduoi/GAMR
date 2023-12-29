@@ -150,18 +150,16 @@ if __name__ == '__main__':
             logging.info(f'sw_id {sw_id} connected to c{idx}')
             net.get(f's{sw_id+1}').start([net.get(f'c{idx}')])
 
+    # convert partion graph into switch to host mapping
+    sw_ctrler_mapping = sw_to_ctrler_mapping_converter(graph_partitions)
+    
     # Enable spanning tree protocol (optional)
     # enable_stp(net)
     # wait_for_stp(net)
     
     # Using prebuilt restapi (fastapi) Optional
-    app = RestHookMN(net=net)
+    app = RestHookMN(net, sw_ctrler_mapping)
     uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
-    
-    # print('test',
-    #     #   net.topo.linkInfo('s1', 's2')
-    #       net.topo.links()
-    #       )
     
     # Check switch-controller connection status
     # net.get('s1').cmdPrint('ovs-vsctl show')

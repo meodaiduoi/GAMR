@@ -1,0 +1,245 @@
+[
+  {
+    "status": 200,
+    "flowrule": {
+      "dpid": 1,
+      "cookie": 1,
+      "cookie_mask": 1,
+      "table_id": 0,
+      "idle_timeout": 3000,
+      "hard_timeout": 3000,
+      "priority": 1,
+      "flags": 1,
+      "match": {
+        "in_port": 1,
+        "dl_src": "00:00:00:00:00:01",
+        "dl_dst": "00:00:00:00:00:03"
+      },
+      "actions": [
+        {
+          "type": "OUTPUT",
+          "port": 4
+        }
+      ]
+    }
+  },
+  {
+    "status": 200,
+    "flowrule": {
+      "dpid": 1,
+      "cookie": 1,
+      "cookie_mask": 1,
+      "table_id": 0,
+      "idle_timeout": 3000,
+      "hard_timeout": 3000,
+      "priority": 1,
+      "flags": 1,
+      "match": {
+        "in_port": 4,
+        "dl_src": "00:00:00:00:00:03",
+        "dl_dst": "00:00:00:00:00:01"
+      },
+      "actions": [
+        {
+          "type": "OUTPUT",
+          "port": 1
+        }
+      ]
+    }
+  },
+  {
+    "status": 200,
+    "flowrule": {
+      "dpid": 3,
+      "cookie": 1,
+      "cookie_mask": 1,
+      "table_id": 0,
+      "idle_timeout": 3000,
+      "hard_timeout": 3000,
+      "priority": 1,
+      "flags": 1,
+      "match": {
+        "in_port": 3,
+        "dl_src": "00:00:00:00:00:01",
+        "dl_dst": "00:00:00:00:00:03"
+      },
+      "actions": [
+        {
+          "type": "OUTPUT",
+          "port": 1
+        }
+      ]
+    }
+  },
+  {
+    "status": 200,
+    "flowrule": {
+      "dpid": 3,
+      "cookie": 1,
+      "cookie_mask": 1,
+      "table_id": 0,
+      "idle_timeout": 3000,
+      "hard_timeout": 3000,
+      "priority": 1,
+      "flags": 1,
+      "match": {
+        "in_port": 1,
+        "dl_src": "00:00:00:00:00:03",
+        "dl_dst": "00:00:00:00:00:01"
+      },
+      "actions": [
+        {
+          "type": "OUTPUT",
+          "port": 3
+        }
+      ]
+    }
+  }
+]
+
+[
+  {
+    "status": 200,
+    "flowrule": {
+      "dpid": 1,
+      "cookie": 1,
+      "cookie_mask": 1,
+      "table_id": 0,
+      "idle_timeout": 3000,
+      "hard_timeout": 3000,
+      "priority": 1,
+      "flags": 1,
+      "match": {
+        "in_port": 1,
+        "dl_src": "00:00:00:00:00:01",
+        "dl_dst": "00:00:00:00:00:06"
+      },
+      "actions": [
+        {
+          "type": "OUTPUT",
+          "port": 3
+        }
+      ]
+    }
+  },
+  {
+    "status": 200,
+    "flowrule": {
+      "dpid": 1,
+      "cookie": 1,
+      "cookie_mask": 1,
+      "table_id": 0,
+      "idle_timeout": 3000,
+      "hard_timeout": 3000,
+      "priority": 1,
+      "flags": 1,
+      "match": {
+        "in_port": 3,
+        "dl_src": "00:00:00:00:00:06",
+        "dl_dst": "00:00:00:00:00:01"
+      },
+      "actions": [
+        {
+          "type": "OUTPUT",
+          "port": 1
+        }
+      ]
+    }
+  },
+  {
+    "status": 200,
+    "flowrule": {
+      "dpid": 2,
+      "cookie": 1,
+      "cookie_mask": 1,
+      "table_id": 0,
+      "idle_timeout": 3000,
+      "hard_timeout": 3000,
+      "priority": 1,
+      "flags": 1,
+      "match": {
+        "in_port": 3,
+        "dl_src": "00:00:00:00:00:01",
+        "dl_dst": "00:00:00:00:00:06"
+      },
+      "actions": [
+        {
+          "type": "OUTPUT",
+          "port": 4
+        }
+      ]
+    }
+  },
+  {
+    "status": 200,
+    "flowrule": {
+      "dpid": 2,
+      "cookie": 1,
+      "cookie_mask": 1,
+      "table_id": 0,
+      "idle_timeout": 3000,
+      "hard_timeout": 3000,
+      "priority": 1,
+      "flags": 1,
+      "match": {
+        "in_port": 4,
+        "dl_src": "00:00:00:00:00:06",
+        "dl_dst": "00:00:00:00:00:01"
+      },
+      "actions": [
+        {
+          "type": "OUTPUT",
+          "port": 3
+        }
+      ]
+    }
+  },
+  {
+    "status": 200,
+    "flowrule": {
+      "dpid": 6,
+      "cookie": 1,
+      "cookie_mask": 1,
+      "table_id": 0,
+      "idle_timeout": 3000,
+      "hard_timeout": 3000,
+      "priority": 1,
+      "flags": 1,
+      "match": {
+        "in_port": 3,
+        "dl_src": "00:00:00:00:00:01",
+        "dl_dst": "00:00:00:00:00:06"
+      },
+      "actions": [
+        {
+          "type": "OUTPUT",
+          "port": 1
+        }
+      ]
+    }
+  },
+  {
+    "status": 200,
+    "flowrule": {
+      "dpid": 6,
+      "cookie": 1,
+      "cookie_mask": 1,
+      "table_id": 0,
+      "idle_timeout": 3000,
+      "hard_timeout": 3000,
+      "priority": 1,
+      "flags": 1,
+      "match": {
+        "in_port": 1,
+        "dl_src": "00:00:00:00:00:06",
+        "dl_dst": "00:00:00:00:00:01"
+      },
+      "actions": [
+        {
+          "type": "OUTPUT",
+          "port": 3
+        }
+      ]
+    }
+  }
+]

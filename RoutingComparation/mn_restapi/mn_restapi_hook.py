@@ -26,11 +26,11 @@ import logging
 import re
 
 class RestHookMN(FastAPI):
-    def __init__(self, net, ctrler_sw_mapping = None, *args, **params):
+    def __init__(self, net, sw_ctrler_mapping = None, *args, **params):
         self.net = net
         self.link_ping_stat = {}
         self.sw_mapping = self.net.topo.debug_sw_host_mapping
-        self.ctrler_sw_mapping = ...
+        self.sw_ctrler_mapping = sw_ctrler_mapping
         super(RestHookMN, self).__init__(title='fastapi hook for mininet',
                          description='', *args, **params)
 
@@ -166,6 +166,13 @@ class RestHookMN(FastAPI):
                 timeout=task.timeout
             )
 
+        @self.get('/sw_ctrler_mapping')
+        async def get_sw_ctrler_mapping():
+            '''
+                get mapping of switch to controler
+            '''
+            return self.sw_ctrler_mapping
+        
         @self.get('/device_name')
         async def device_name():
             '''
@@ -177,6 +184,25 @@ class RestHookMN(FastAPI):
                 'hostname': host_names,
                 'switchname': switch_names
             }
+        
+        @self.get('/host')
+        async def get_host_list():
+            '''
+                Return json of hosts info
+                ex: {
+                    h1: {
+                        'mac': ...
+                        'ip': ...
+                    }
+                }
+            '''
+            hosts = {}
+            for host in net.hosts:
+                hosts[host.name] = {
+                    'mac': host.MAC(),
+                    'ip': host.IP()
+                }
+            return hosts
         
         @self.get('/switch_dpid')
         async def switch_dpid():
@@ -204,7 +230,8 @@ class RestHookMN(FastAPI):
             '''
                 Return Mininet network graph
             '''
-            graph = topo_to_nx(self.net)
+            graph = topo_to_nx(self.net,
+                               sw_name_is_dpid=True)
             # Serialize the JSON object
             graph_json = nx.node_link_data(graph)
             return graph_json
@@ -251,7 +278,6 @@ class RestHookMN(FastAPI):
                     print(node1, node2)
                     print(net.topo.linkInfo(node1, node2))
                     links_info.append(net.topo.linkInfo(node1, node2))
-                    links_info.append(net.topo.linkInfo(node2, node1))
                 return links_info
                     
 

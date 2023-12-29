@@ -54,25 +54,7 @@ subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
 
 # input('press enter to continue')
 
-
-
-# DEbug
-# subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-#                   f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest {RYUAPP_DIR}/simple_switch_13.py {RYUAPP_FLOWMANAGER} {RYUAPP_CONTROLLERREST};\
-#                   read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-
-time.sleep(1)
-
-# mininet + mnresthook startup
-# subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
-#                   f'{VENV11} ./scenario/mn_network/med_15sw_net.py {RESTHOOKMN_PORT} {OFP_PORT};\
-#                   read -p "press any key to close"'], 
-#                  stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-
-
-
-
-# time.sleep(5)
+time.sleep(5)
 # dynamicsdn startup
 # subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
 #                   f'{EXPORT_PYTHONPATH};\

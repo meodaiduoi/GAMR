@@ -69,3 +69,4 @@ def part_graph(adj_list, num_parts):
     for i in range(num_parts):
         parts.append(np.argwhere(np.array(membership) == i).ravel())
     return parts
+
