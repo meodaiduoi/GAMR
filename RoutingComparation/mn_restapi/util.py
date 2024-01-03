@@ -70,7 +70,10 @@ def sw_to_ctrler_mapping_converter(sw_parted_ls):
     inverted_dict = {}
     for key, value_list in mapping.items():
         for value in value_list:
-            inverted_dict[value] = key
+            # dpid start from 1 convention and 
+            # numpy.int64 convert into int for json
+            # serialization.
+            inverted_dict[int(value)+1] = int(key)
     return inverted_dict
     
 

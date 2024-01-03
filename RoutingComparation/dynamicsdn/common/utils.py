@@ -52,7 +52,7 @@ def get_link_info(link_info_url):
         li_map[key2] = d.copy()
         li_map[key2]['node1'], li_map[key2]['node2'] = li_map[key2]['node2'], li_map[key2]['node1']
         li_map[key2]['port1'], li_map[key2]['port2'] = li_map[key2]['port2'], li_map[key2]['port1']
-
+    return li_map
     
 def result_to_json(result, mapping):
     result_list = []
@@ -231,15 +231,18 @@ def create_flowrule_multidomain_json(solutions, host_json_mn,
 def send_flowrule_multidomain_localhost(flowrules, sw_ctrler_mapping, ryu_rest_port):
     status = []
     for flowrule in flowrules:
-        
         result = rq.post(
-            f'http://0.0.0.0:{ryu_rest_port+sw_ctrler_mapping[flowrule["dpid"]]}/stats/flowentry/add', 
+            # When request sw_ctrler_mapping from mn api, key(aka switch)
+            # are number in str type so flowrule['dpid'] need to be converted
+            # into str to access key value dict
+            f'http://0.0.0.0:{ryu_rest_port+sw_ctrler_mapping[str(flowrule["dpid"])]}/stats/flowentry/add', 
             data=json.dumps(flowrule))
         
         status.append({
             'status': result.status_code,
             'flowrule': flowrule
         })
+    print(status)
     return status    
 
 def send_flowrule_multidomain_remote(flowrule):

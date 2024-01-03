@@ -275,8 +275,6 @@ class RestHookMN(FastAPI):
                 edges = list(graph.edges())
                 links_info = []            
                 for node1, node2 in edges:
-                    print(node1, node2)
-                    print(net.topo.linkInfo(node1, node2))
                     links_info.append(net.topo.linkInfo(node1, node2))
                 return links_info
                     

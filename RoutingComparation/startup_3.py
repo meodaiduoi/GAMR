@@ -56,11 +56,12 @@ subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
 
 time.sleep(5)
 # dynamicsdn startup
-# subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-#                   f'{EXPORT_PYTHONPATH};\
-#                     {VENV11} ./dynamicsdn/routing.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
-#                     read -p "press any key to close"'], 
-#                     stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
+                  f'{EXPORT_PYTHONPATH};\
+                    {VENV11} ./dynamicsdn/routing.py {RESTDYNAMICSDN_PORT} {RYU_PORT} \
+                      -md true;\
+                    read -p "press any key to close"'], 
+                    stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 # time.sleep(1)
 # # sdn_db startup
