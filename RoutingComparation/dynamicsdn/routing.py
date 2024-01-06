@@ -45,7 +45,6 @@ async def add_flow_adj():
             switchname_mapping =  rq.get('http://0.0.0.0:8000/switch_dpid').json()
             if MULTI_DOMAIN == True:
                 host_mn = rq.get('http://0.0.0.0:8000/host').json()
-                switch_dpid_mn = rq.get('http://0.0.0.0:8000/switch_dpid').json()
                 sw_ctrler_mapping = rq.get('http://0.0.0.0:8000/sw_ctrler_mapping').json()
                 link_info = get_link_info('http://localhost:8000/link_info')
                 
@@ -74,10 +73,10 @@ async def add_flow_adj():
         except (rq.ConnectionError, rq.ConnectTimeout) as e:
             logging.error(f"Connection error retrying...")
             await asyncio.sleep(5)
-        # except TypeError as e:
-        #     print(e)
-        #     logging.error(f'Controller not ready retrying...')
-        #     await asyncio.sleep(5)
+        except TypeError as e:
+            print(e)
+            logging.error(f'Controller not ready retrying...')
+            await asyncio.sleep(5)
         
 @app.on_event("startup")
 async def startup_event():

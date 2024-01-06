@@ -164,5 +164,5 @@ if __name__ == '__main__':
     # Check switch-controller connection status
     # net.get('s1').cmdPrint('ovs-vsctl show')
     
-    # CLI(net)
+    CLI(net)
     net.stop()

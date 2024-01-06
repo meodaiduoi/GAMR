@@ -146,6 +146,7 @@ def send_flowrule(flowrules, ryu_ip='0.0.0.0', ryu_rest_port=8080):
             'status': result.status_code,
             'flowrule': flowrule
         })
+    print(status)
     return status
 """
 {'dpid': 2,
@@ -213,7 +214,7 @@ def create_flowrule_multidomain_json(solutions, host_json_mn,
             # finish
             if i >= len(path_dpid)-2:
                 # print(f'finish {i+1}')
-                out_port = links_info[(f's{path_dpid[i]}',
+                in_port = links_info[(f's{path_dpid[i]}',
                                       f's{path_dpid[i+1]}')]['port2']
                 out_port = dst_endpoint_port
                 # +1 for -2
