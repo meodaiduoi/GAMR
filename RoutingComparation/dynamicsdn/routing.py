@@ -7,8 +7,10 @@ from fastapi import FastAPI
 import uvicorn
 
 import networkx as nx
+from networkx.readwrite import json_graph
 import requests as rq
 
+import time
 import argparse
 
 from dynamicsdn.compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver
@@ -36,6 +38,19 @@ app = FastAPI(
     description='Routing Api for networking application',
     summary="..."
 )
+
+while True:
+    try:
+        MAPPING, GRAPH = get_full_topo_graph()
+        if MULTI_DOMAIN == True:
+            GRAPH = json_graph.node_link_graph(
+                rq.get('http://0.0.0.0:8000/graph').json()
+            )
+        break
+    except (rq.ConnectionError, rq.ConnectTimeout):
+        logging.error('Wait for server connecting...')
+        time.sleep(5)
+        continue
 
 async def add_flow_adj():
     while True:
@@ -96,13 +111,12 @@ async def routing_manual(tasks: ManualRouteTasks):
     '''
     Manual routing \n
     '''
-    mapping, graph = get_full_topo_graph()
     
     flowrules = []
     for task in tasks.route:
         path = [task.src_host] + task.path_dpid + [task.dst_host]
         task.model_dump()
-        if nx.is_path(graph, task.path_dpid):
+        if nx.is_path(GRAPH, task.path_dpid):
             flowrules.append(create_flowrule_json(task.model_dump(), get_host(), get_link_to_port()))
     return send_flowrule(flowrules, ryu_rest_port=RYU_PORT)
 
@@ -111,13 +125,12 @@ async def routing_min_hop(tasks: RouteTasks):
     '''
     Min-hop routing \n
     '''
-    mapping, graph = get_full_topo_graph()
     
     solutions = {'route': []}
     flowrules = []
     for task in tasks.route:
-        if nx.has_path(graph, f'h{task.src_host}', f'h{task.dst_host}'):
-            path = list(nx.shortest_path(graph, f'h{task.src_host}', f'h{task.dst_host}'))
+        if nx.has_path(GRAPH, f'h{task.src_host}', f'h{task.dst_host}'):
+            path = list(nx.shortest_path(GRAPH, f'h{task.src_host}', f'h{task.dst_host}'))
             solutions['route'].append({
                 'src_host': task.src_host,
                 'dst_host': task.dst_host,
