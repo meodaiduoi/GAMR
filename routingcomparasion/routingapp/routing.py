@@ -1,5 +1,5 @@
-from dynamicsdn.common.utils import *
-from dynamicsdn.common.models import *
+from routingapp.common.utils import *
+from routingapp.common.models import *
 
 import asyncio
 from typing import Optional
@@ -13,9 +13,9 @@ import requests as rq
 import time
 import argparse
 
-from dynamicsdn.compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver
-from dynamicsdn.compare_algorithm.ga.ga_solver import ga_solver
-from dynamicsdn.compare_algorithm.ga.module_memset import MemSet
+from routingapp.compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver
+from routingapp.compare_algorithm.gamr.ga_solver import gamr_solver
+from routingapp.compare_algorithm.gamr.module_memset import MemSet
 # from dynamicsdn.compare_algorithm.MultiBandits ?
 
 import logging
@@ -146,12 +146,12 @@ async def routing_dijkstra(task: RouteTasks):
     '''
     return dijkstra_solver(task)
     
-@app.post('/routing/ga')
+@app.post('/routing/gamr')
 async def routing_ga(task: RouteTasks):
     '''
         Ga algorithm routing
     '''
-    return ga_solver(task, memset)
+    return gamr_solver(task, memset)
 
 @app.get('/routing/add_flow_all')
 async def add_flow_all():
@@ -159,6 +159,14 @@ async def add_flow_all():
         Not yet implemented
     '''
     ...
+
+@app.post('/routing/nsga-iii')
+async def nsga3():
+    '''
+        nsga-iii algrithm
+    '''
+    
+
 
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=DYNAMICSDN_PORT)

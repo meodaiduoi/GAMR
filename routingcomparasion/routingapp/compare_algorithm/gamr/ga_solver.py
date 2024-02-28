@@ -1,21 +1,22 @@
 import networkx as nx
 from extras.utils import *
-from dynamicsdn.common.utils import *
-from dynamicsdn.common.models import RouteTasks
+from routingapp.common.utils import *
+from routingapp.common.models import RouteTasks
 
-from compare_algorithm.nsga_ii_origin.function_nsga_ii_origin import Function
-from compare_algorithm.nsga_ii_origin.evole_nsga_ii_origin import Evolutionary
-from compare_algorithm.nsga_ii_origin.population_nsga_ii_origin import Population
-from compare_algorithm.nsga_ii_origin.graph_nsga_ii_origin import Graph
+from routingapp.compare_algorithm.gamr.module_function import Function
+from routingapp.compare_algorithm.gamr.module_evole import Evolutionary
+from routingapp.compare_algorithm.gamr.module_memset import MemSet
+from routingapp.compare_algorithm.gamr.module_population import Population
+from routingapp.compare_algorithm.gamr.module_graph import Graph
 
-def ga_solver(task: RouteTasks):
+def gamr_solver(task: RouteTasks, memset: MemSet):
     '''
         Routing using GA alogrithm
     '''
     
     _, graph = get_topo()
     host_json = get_host()
-    link_qualitys = get_link_quality()
+    link_info = get_link_info()
 
     # Add host to graph
     for host in host_json['hosts']:
@@ -48,7 +49,7 @@ def ga_solver(task: RouteTasks):
     update_delay = []
     update_link_utilization = []
     update_loss = []
-    for stat in link_qualitys:
+    for stat in link_info:
         src = mapping[stat['src.dpid']]
         dst = mapping[stat['dst.dpid']]
         if src != dst:
@@ -85,11 +86,13 @@ def ga_solver(task: RouteTasks):
 
     graph_gen.updateGraph(update_delay, update_loss, update_link_utilization) 
     pop = Population()
-    pop.generate_population(graph_gen, func, 50, len(request), request)
+    pop.generate_population(graph_gen, func, 50, len(request), request, memset)
 
     evol = Evolutionary()
     solutions = evol.evolve1(pop, func, graph_gen, 50, 50, 0.1, 10)
     result = func.select_solution(solutions)
+
+    memset.addAllPath(solutions, request)
 
     # return flowrule based on json result format
     result = result_to_json(result, mapping)

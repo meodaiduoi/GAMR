@@ -2,7 +2,6 @@ import numpy as np
 import random 
 from collections import deque
 
-
 class Function:
     def bfs(self, graph, start, goal):
         visited = set()  # Danh sách các đỉnh đã được duyệt

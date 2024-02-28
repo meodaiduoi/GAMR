@@ -1,14 +1,21 @@
 import networkx as nx
 from extras.utils import *
-from dynamicsdn.common.utils import *
-from dynamicsdn.common.models import RouteTasks
-# from dy.com.dijkstra_cost_normalise import *
-from dynamicsdn.compare_algorithm.dijkstra.dijkstra_cost_normalise import Graph, routing_k
+from routingapp.common.utils import *
+from routingapp.common.models import RouteTasks
 
-def dijkstra_solver(task: RouteTasks):
+from routingapp.compare_algorithm.moea_d.function_moead import Function
+from routingapp.compare_algorithm.moea_d.evole_moead import Evolutionary
+from routingapp.compare_algorithm.moea_d.population_moead import Population
+from routingapp.compare_algorithm.moea_d.graph_moead import Graph
+
+def moead_solver(task: RouteTasks):
+    '''
+        Routing using GA alogrithm
+    '''
+    
     _, graph = get_topo()
     host_json = get_host()
-    link_qualitys = get_link_quality()
+    link_info = get_link_info()
 
     # Add host to graph
     for host in host_json['hosts']:
@@ -23,7 +30,7 @@ def dijkstra_solver(task: RouteTasks):
         graph.add_edge(dpid_int, f'h{host_int}', type='host')
 
     # print graph to json
-    # print(nx.node_link_data(graph))
+    print(nx.node_link_data(graph))
     
     # Mapping host h{int} to int
     mapping = dict(zip(graph.nodes(), range(1, len(graph.nodes())+1)))
@@ -36,12 +43,12 @@ def dijkstra_solver(task: RouteTasks):
         for j in range(1, number_node+1):
             if bin_matrix[i-1][j-1] == 1:
                 adj_matrix[i].append(j)
-
+   
     # Get from data from /link_quality
     update_delay = []
     update_link_utilization = []
     update_loss = []
-    for stat in link_qualitys:
+    for stat in link_info:
         src = mapping[stat['src.dpid']]
         dst = mapping[stat['dst.dpid']]
         if src != dst:
@@ -72,32 +79,20 @@ def dijkstra_solver(task: RouteTasks):
     clients = []
     servers = []
     graph_gen = Graph(number_node, 10, 10, 10, clients, servers, adj_matrix)
-    graph_gen.updateGraph(update_delay, update_link_utilization, update_loss)
-    result = routing_k(graph_gen,request, 1)
+    print("Danh sach ke:", graph_gen.adj_matrix)
+
+    func = Function()
+
+    graph_gen.updateGraph(update_delay, update_loss, update_link_utilization) 
+    pop = Population(3,50)
+    pop.generate_population(graph_gen, func, 50, len(request), request)
+
+    evol = Evolutionary()
+    solutions = evol.evolve1(pop, func, graph_gen, 50, 50, 0.1, 10)
+    result = func.select_solution(solutions)
 
     # return flowrule based on json result format
-    result_list = []
-    # print(result.chromosome)
-    # print(mapping)
-    for request in result:
-        print("Request", request)
-        src = get_key(mapping,request[0])
-        dst = get_key(mapping,request[1])
-        src = int(src[1:])
-        dst = int(dst[1:])
-        request_result_map = []
-        for i in request[2][1:-1]:
-            request_result_map.append(int(get_key(mapping, i)))
-        # print("Hello")
-        route = {
-            'src_host': src,
-            'dst_host': dst,
-            'path_dpid': request_result_map
-        }
-        result_list.append(route)
-    result_json = {
-        'route': result_list
-    }
+    result = result_to_json(result, mapping)
     print(f"result: {result}")
-    flowrules = create_flowrule_json(result_json, host_json, get_link_to_port())
-    return flowrules
+    flowrules = create_flowrule_json(result, host_json, get_link_to_port())
+    return send_flowrule(flowrules)

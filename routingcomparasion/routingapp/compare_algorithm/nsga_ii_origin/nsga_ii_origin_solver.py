@@ -1,15 +1,14 @@
 import networkx as nx
 from extras.utils import *
-from dynamicsdn.common.utils import *
-from dynamicsdn.common.models import RouteTasks
+from routingapp.common.utils import *
+from routingapp.common.models import RouteTasks
 
-from compare_algorithm.ga.module_function import Function
-from compare_algorithm.ga.module_evole import Evolutionary
-from compare_algorithm.ga.module_memset import MemSet
-from compare_algorithm.ga.module_population import Population
-from compare_algorithm.ga.module_graph import Graph
+from routingapp.compare_algorithm.nsga_ii_origin.function_nsga_ii_origin import Function
+from routingapp.compare_algorithm.nsga_ii_origin.evole_nsga_ii_origin import Evolutionary
+from routingapp.compare_algorithm.nsga_ii_origin.population_nsga_ii_origin import Population
+from routingapp.compare_algorithm.nsga_ii_origin.graph_nsga_ii_origin import Graph
 
-def ga_solver(task: RouteTasks, memset: MemSet):
+def ga_solver(task: RouteTasks):
     '''
         Routing using GA alogrithm
     '''
@@ -86,13 +85,11 @@ def ga_solver(task: RouteTasks, memset: MemSet):
 
     graph_gen.updateGraph(update_delay, update_loss, update_link_utilization) 
     pop = Population()
-    pop.generate_population(graph_gen, func, 50, len(request), request, memset)
+    pop.generate_population(graph_gen, func, 50, len(request), request)
 
     evol = Evolutionary()
     solutions = evol.evolve1(pop, func, graph_gen, 50, 50, 0.1, 10)
     result = func.select_solution(solutions)
-
-    memset.addAllPath(solutions, request)
 
     # return flowrule based on json result format
     result = result_to_json(result, mapping)

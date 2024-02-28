@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "routingcomparison"
+version = "0.1.0"
+description = ""
+authors = ["meodaiduoi <meodaiduoi22@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+mininet = "^2.3.0.dev6"
+numpy = "^1.26.4"
+networkx = "^3.2.1"
+fastapi = {extras = ["all"], version = "^0.110.0"}
+pymetis = "^2023.1.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

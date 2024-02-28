@@ -2,10 +2,10 @@ import numpy as np
 import networkx as nx
 import json
 
-from compare_algorithm.ga.module_graph import Graph
+from routingapp.compare_algorithm.gamr.module_graph import Graph
 
-from dynamicsdn.common.utils import *
-from dynamicsdn.common.models import *
+from routingapp.common.utils import *
+from routingapp.common.models import *
 from extras.utils import *
 
 def normalize_weight(graph, priority):

@@ -1,4 +1,5 @@
 import numpy as np
+
 class Graph:
     def __init__(self, number_nodes, number_clients, number_servers, number_switch, clients, servers, adj_matrix):
         self.number_nodes = number_nodes

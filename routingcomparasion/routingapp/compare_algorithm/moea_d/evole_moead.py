@@ -1,4 +1,4 @@
-from .individual_moead import *
+from routingapp.compare_algorithm.moea_d.individual_moead import *
 import random
 
 class Evolutionary:

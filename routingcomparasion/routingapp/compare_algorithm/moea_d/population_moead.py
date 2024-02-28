@@ -1,9 +1,8 @@
-from .individual_moead import Individual
+from routingapp.compare_algorithm.moea_d.individual_moead import Individual
 import numpy as np
 import sys
 
 import random
-
 
 def init_weights_vectors_3d(pop_size):
     wvs = []

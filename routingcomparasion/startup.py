@@ -36,7 +36,7 @@ startup_seq = [1,2,3]
 if 1 in startup_seq:
   subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
                     f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} ryu.app.ofctl_rest {RYUAPP_DIR}/manualswitch.py \
-                      {RYUAPP_DIR}/temp.py {RYUAPP_FLOWMANAGER} {RYUAPP_CONTROLLERREST};\
+                      {RYUAPP_FLOWMANAGER} {RYUAPP_CONTROLLERREST};\
                       read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
   # DEbug
   # subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
@@ -66,7 +66,7 @@ if 3 in startup_seq:
   # dynamicsdn startup
   subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
                     f'{EXPORT_PYTHONPATH};\
-                      {VENV11} ./dynamicsdn/routing.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
+                      {VENV11} ./routingapp/routing.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
                       read -p "press any key to close"'],
                       stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
