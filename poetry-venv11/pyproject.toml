@@ -12,6 +12,7 @@ numpy = "^1.26.4"
 networkx = "^3.2.1"
 fastapi = {extras = ["all"], version = "^0.110.0"}
 pymetis = "^2023.1.1"
+deap = "^1.4.1"
 
 
 [build-system]

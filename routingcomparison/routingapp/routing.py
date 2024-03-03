@@ -160,7 +160,14 @@ async def add_flow_all():
     '''
     ...
 
-@app.post('/routing/nsga-iii')
+
+@app.post('/routing/nsga2_origin')
+async def nsga2_origin():
+    '''
+        nsga2_origin algrithm
+    '''
+
+@app.post('/routing/nsga3')
 async def nsga3():
     '''
         nsga-iii algrithm

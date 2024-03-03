@@ -1,7 +1,8 @@
-from .individual_age import Individual
 import numpy as np
 import time
 import random
+
+from routingapp.compare_algorithm.age.individual_age import Individual
 
 class Population:
     def __init__(self, pop_size):

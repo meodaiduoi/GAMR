@@ -15,7 +15,7 @@ def ga_solver(task: RouteTasks):
     
     _, graph = get_topo()
     host_json = get_host()
-    link_qualitys = get_link_quality()
+    link_info = get_link_info()
 
     # Add host to graph
     for host in host_json['hosts']:
@@ -48,7 +48,7 @@ def ga_solver(task: RouteTasks):
     update_delay = []
     update_link_utilization = []
     update_loss = []
-    for stat in link_qualitys:
+    for stat in link_info:
         src = mapping[stat['src.dpid']]
         dst = mapping[stat['dst.dpid']]
         if src != dst:
