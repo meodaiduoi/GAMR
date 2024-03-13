@@ -1,6 +1,6 @@
 import networkx as nx
 from extras.utils import *
-from routingapp.common.utils import *
+from routingapp.common.routing_utils import *
 from routingapp.common.models import RouteTasks
 
 from routingapp.compare_algorithm.moea_d.function_moead import Function

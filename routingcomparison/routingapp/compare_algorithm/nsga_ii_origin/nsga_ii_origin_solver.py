@@ -1,6 +1,6 @@
 import networkx as nx
 from extras.utils import *
-from routingapp.common.utils import *
+from routingapp.common.routing_utils import *
 from routingapp.common.models import RouteTasks
 
 from routingapp.compare_algorithm.nsga_ii_origin.function_nsga_ii_origin import Function
@@ -8,7 +8,7 @@ from routingapp.compare_algorithm.nsga_ii_origin.evole_nsga_ii_origin import Evo
 from routingapp.compare_algorithm.nsga_ii_origin.population_nsga_ii_origin import Population
 from routingapp.compare_algorithm.nsga_ii_origin.graph_nsga_ii_origin import Graph
 
-def ga_solver(task: RouteTasks):
+def nsga_ii_origin_solver(task: RouteTasks):
     '''
         Routing using GA alogrithm
     '''

@@ -66,7 +66,7 @@ if 3 in startup_seq:
   # dynamicsdn startup
   subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
                     f'{EXPORT_PYTHONPATH};\
-                      {VENV11} ./routingapp/routing.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
+                      {VENV11} ./routingapp/main.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
                       read -p "press any key to close"'],
                       stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 

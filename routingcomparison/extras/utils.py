@@ -1,3 +1,8 @@
+'''
+    Extra function utility
+    for cross app usage
+'''
+
 import requests as rq
 import networkx as nx
 import os
@@ -111,6 +116,7 @@ def get_full_topo_graph(max_display_mac=100) -> tuple[dict, nx.DiGraph]:
     return mapping, graph
 
 # !Note Deprecate soon 
+# 
 def get_link_quality():
     '''
         Get from data from /link_quality
@@ -156,7 +162,7 @@ def get_link_quality():
     return link_quality
 
 # Will be replacement for get_link_quality
-def get_link_info(mn_rest_addr: str = "0.0.0.0:8080"):
+def get_link_info(mn_rest_addr: str = "0.0.0.0:8000"):
     '''
         Get from data from /link_quality
         currently working as a workaround 

@@ -62,7 +62,7 @@ time.sleep(5)
 # dynamicsdn startup
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
                   f'{EXPORT_PYTHONPATH};\
-                    {VENV11} ./dynamicsdn/routing.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
+                    {VENV11} ./routingapp/main.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
                     read -p "press any key to close"'], 
                     stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
