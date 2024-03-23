@@ -1,6 +1,6 @@
 [service-port]
 resthookmn = 8000
-dynamicsdn = 8001
+routingapp = 8001
 simplehttpserver = 8000
 ryu = 8080
 ofp = 6653
@@ -11,16 +11,18 @@ venv7 = "../../venv7/bin/python3.7"
 ryu-manager-python7 = '../../venv7/bin/ryu-manager'
 ryu-manager-python9 = '../../venv9/bin/ryu-manager'
 
-# PYTHONPATH for python project
-python-path = "~/Desktop/ryu/RoutingComparasion/RoutingComparasion"
-
+[app-setting]
+scenario-multidomain = false
+scenario-num-domain = 3
+# By default topology file stored at 
+# ./scenario/mn_network/graphds/<filename>.ds
+# for alternative location please use abspath
+scenario-topo-file = ''
 
 [app-path]
 simplehttpserver = "./scenario/simplehttpserver/http_file_transfer.py"
-
 scenario-dir = './scenario/scenario'
 ryuapp-dir = '../../Yet-Another-Ryu-Simple-Network-Monitor/src/ryu-app'
-
 ryuapp-controllerrest = "../../Yet-Another-Ryu-Simple-Network-Monitor/src/ryu-app/controller_rest.py"
 ryuapp-flowmanager = '../../flowmanager/flowmanager.py'
 sdndb = './sdndb/crawler.py'

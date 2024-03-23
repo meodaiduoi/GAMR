@@ -1,6 +1,6 @@
 from routingapp.common.routing_utils import *
 from routingapp.common.models import *
-
+from routingapp.dependencies import *
 import asyncio
 from typing import Optional
 from fastapi import FastAPI
@@ -12,33 +12,36 @@ import requests as rq
 
 import time
 import argparse
-
+from functools import lru_cache
 
 
 # from dynamicsdn.compare_algorithm.MultiBandits ?
 import logging
 
-argParser = argparse.ArgumentParser()
-argParser.add_argument("rest_port", type=int, help="dynamicsdn startup rest api port")
-argParser.add_argument("ryu_port", type=int, help="remote ryu rest api port or start port if multi_domain==True")
-argParser.add_argument("-md", "--multi_domain", type=bool, default=False, help="if network has more than 1 controller")
-args = argParser.parse_args()
+# argParser = argparse.ArgumentParser()
+# argParser.add_argument("rest_port", type=int, help="dynamicsdn startup rest api port")
+# argParser.add_argument("ryu_port", type=int, help="remote ryu rest api port or start port if multi_domain==True")
+# argParser.add_argument("-md", "--multi_domain", type=bool, default=False, help="if network has more than 1 controller")
+# args = argParser.parse_args()
 
-APP_API_PORT = args.rest_port
-RYU_PORT = args.ryu_port
-MULTI_DOMAIN= args.multi_domain
+# APP_API_PORT = args.rest_port
+# RYU_PORT = args.ryu_port
+# MULTI_DOMAIN= args.multi_domain
 
 logging.basicConfig(level=logging.INFO)
 
 app = FastAPI(
     title='Routing Api Network',
     description='Routing Api for networking application',
-    summary="...")
+    summary="..."
+)
+
+setting: config.Setting = get_app_setting()
 
 while True:
     try:
         MAPPING, GRAPH = get_full_topo_graph()
-        if MULTI_DOMAIN == True:
+        if setting.MULTI_DOMAIN == True:
             GRAPH = json_graph.node_link_graph(
                 rq.get('http://0.0.0.0:8000/graph').json()
             )
@@ -54,7 +57,7 @@ async def add_flow_adj():
             adj_no_dup: dict = rq.get('http://0.0.0.0:8000/adj_list/True').json()
             debug_host_mapping = rq.get('http://0.0.0.0:8000/debug_switch_mapping').json()
             switchname_mapping =  rq.get('http://0.0.0.0:8000/switch_dpid').json()
-            if MULTI_DOMAIN == True:
+            if setting.MULTI_DOMAIN == True:
                 host_mn = rq.get('http://0.0.0.0:8000/host').json()
                 sw_ctrler_mapping = rq.get('http://0.0.0.0:8000/sw_ctrler_mapping').json()
                 link_info = get_link_info('http://localhost:8000/link_info')
@@ -70,7 +73,7 @@ async def add_flow_adj():
                                         switchname_mapping[node2]]
                     }
                     solutions['route'].append(solution)
-            if MULTI_DOMAIN == False:
+            if setting.MULTI_DOMAIN == False:
                 send_flowrule(
                     create_flowrule_json(solutions, get_host(), get_link_to_port()))
             else:
@@ -78,7 +81,8 @@ async def add_flow_adj():
                     create_flowrule_multidomain_json(solutions,
                                                     host_mn,
                                                     link_info),
-                                                    sw_ctrler_mapping, RYU_PORT)
+                                                    sw_ctrler_mapping, 
+                                                    setting.RYU_PORT)
             logging.info('Debug flow added sucessfully')
             await asyncio.sleep(500)
         except (rq.ConnectionError, rq.ConnectTimeout) as e:
@@ -116,7 +120,8 @@ app.include_router(ga.router, prefix='/ga', tags=["Genetic Alogrithm"])
 # test api
 @app.get('/')
 async def hello():
-    return {'hello': 'world'}
+    return setting
+
 
 if __name__ == '__main__':
-    uvicorn.run(app, host="0.0.0.0", port=APP_API_PORT)
+    uvicorn.run(app, host="0.0.0.0", port=setting.ROUTING_APP_PORT)

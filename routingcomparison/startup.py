@@ -22,7 +22,7 @@ SDNDB = toml_dict['app-path']['sdndb']
 
 RYU_PORT = toml_dict['service-port']['ryu']
 RESTHOOKMN_PORT = toml_dict['service-port']['resthookmn']
-RESTDYNAMICSDN_PORT = toml_dict['service-port']['dynamicsdn']
+RESTDYNAMICSDN_PORT = toml_dict['service-port']['routingapp']
 OFP_PORT = toml_dict['service-port']['ofp']
 
 
@@ -63,7 +63,7 @@ if 2 in startup_seq:
   time.sleep(5)
 
 if 3 in startup_seq:
-  # dynamicsdn startup
+  # routingapp startup
   subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
                     f'{EXPORT_PYTHONPATH};\
                       {VENV11} ./routingapp/main.py {RESTDYNAMICSDN_PORT} {RYU_PORT};\
