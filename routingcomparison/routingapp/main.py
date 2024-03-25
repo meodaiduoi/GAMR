@@ -91,7 +91,8 @@ async def add_flow_adj():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await add_flow_adj()
+    # Create async background task for adding adj flow
+    asyncio.create_task(add_flow_adj())
     yield
     
 
@@ -100,12 +101,14 @@ app = FastAPI(lifespan=lifespan)
 from routingapp.routers.pathfinder import simplerouting, ga
 from routingapp.routers.legacy import simplerouting_legacy, ga_legacy
 from routingapp.routers import debugdata
+
 # Debug api
 app.include_router(debugdata.router, prefix='/debug', tags=['debug'])
 
-# Legacy api
-app.include_router(simplerouting_legacy.router, prefix="/legacy/simplerouting", tags=["Legacy"]) 
-app.include_router(ga_legacy.router, prefix="/legacy/ga", tags=["Legacy"]) 
+# Legacy api (only support single domain)
+if setting.MULTI_DOMAIN is False:
+    app.include_router(simplerouting_legacy.router, prefix="/legacy/simplerouting", tags=["Legacy"]) 
+    app.include_router(ga_legacy.router, prefix="/legacy/ga", tags=["Legacy"]) 
 
 # New multidomain api
 app.include_router(simplerouting.router, prefix="/simplerouting", tags=["Simple routing"])
@@ -115,7 +118,6 @@ app.include_router(ga.router, prefix='/ga', tags=["Genetic Alogrithm"])
 @app.get('/')
 async def hello():
     return setting
-
 
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=setting.ROUTING_APP_PORT)
