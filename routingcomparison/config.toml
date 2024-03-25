@@ -14,10 +14,10 @@ ryu-manager-python9 = '../../venv9/bin/ryu-manager'
 [app-setting]
 scenario-multidomain = false
 scenario-num-domain = 3
-# By default topology file stored at 
+
+# Topology file stored at 
 # ./scenario/mn_network/graphds/<filename>.ds
-# for alternative location please use abspath
-scenario-topo-file = ''
+scenario-topo-file = 'Epoch.graphml'
 
 [app-path]
 simplehttpserver = "./scenario/simplehttpserver/http_file_transfer.py"

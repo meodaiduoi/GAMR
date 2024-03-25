@@ -60,7 +60,8 @@ def link_info_mn_to_hmap():
         li_map[key2]['node1'], li_map[key2]['node2'] = li_map[key2]['node2'], li_map[key2]['node1']
         li_map[key2]['port1'], li_map[key2]['port2'] = li_map[key2]['port2'], li_map[key2]['port1']
     return li_map
-    
+
+# !NOTE: Move this things out of here
 def result_to_json(result, mapping):
     result_list = []
     # print(result.chromosome)

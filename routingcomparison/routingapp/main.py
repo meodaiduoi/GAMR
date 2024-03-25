@@ -2,20 +2,15 @@ from routingapp.common.routing_utils import *
 from routingapp.common.models import *
 from routingapp.dependencies import *
 import asyncio
-from typing import Optional
+
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 import uvicorn
 
-import networkx as nx
 from networkx.readwrite import json_graph
 import requests as rq
 
 import time
-import argparse
-from functools import lru_cache
-
-
-# from dynamicsdn.compare_algorithm.MultiBandits ?
 import logging
 
 # argParser = argparse.ArgumentParser()
@@ -84,6 +79,7 @@ async def add_flow_adj():
                                                     sw_ctrler_mapping, 
                                                     setting.RYU_PORT)
             logging.info('Debug flow added sucessfully')
+            # !NOTE: on next version add new adj flow on topology change
             await asyncio.sleep(500)
         except (rq.ConnectionError, rq.ConnectTimeout) as e:
             logging.error(f"Connection error retrying...")
@@ -93,15 +89,13 @@ async def add_flow_adj():
             logging.error(f'Controller not ready retrying...')
             await asyncio.sleep(5)
 
-@app.on_event("startup")
-async def startup_event():
-    '''
-        Startup event \n
-    '''
-    asyncio.create_task(add_flow_adj())
-    logging.info("Startup event")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await add_flow_adj()
+    yield
+    
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 from routingapp.routers.pathfinder import simplerouting, ga
 from routingapp.routers.legacy import simplerouting_legacy, ga_legacy

@@ -1,19 +1,15 @@
 import asyncio
 from typing import Optional
 
-import uvicorn
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse, JSONResponse
-from pydantic import BaseModel
+from contextlib import asynccontextmanager
 
-import mininet
 from mininet.net import Mininet, Host, Node, Link
 
 from mn_restapi.mn_restapi_model import *
 from mn_restapi.util import *
 # from mn_restapi.spanning_tree import SpanningTree, convert_network
 
-from mn_restapi.routes import info
 
 from subprocess import Popen
 import concurrent.futures
@@ -88,10 +84,11 @@ class RestHookMN(FastAPI):
                 logging.debug(self.link_ping_stat)
                 await asyncio.sleep(5)  # Update the variable every 5 seconds
 
-        @self.on_event("startup")
-        async def startup_event():
-            asyncio.create_task(update_link_ping_stat())
-
+        @asynccontextmanager
+        async def lifespan(app: FastAPI):
+            await update_link_ping_stat()
+            yield
+        
         @self.post('/run_popen')
         def run_popen(task: PopenTask):
             '''

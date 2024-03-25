@@ -58,7 +58,7 @@ if MULTIDOMAIN == True:
   subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
                     f'sudo PYTHONPATH={os.getenv("PYTHONPATH")} \
                       {VENV11} ./scenario/mn_network/networkfromfile_multicontroler.py \
-                      ./scenario/mn_network/graphml_ds/Epoch.graphml {NUM_DOMAIN} \
+                      ./scenario/mn_network/graphml_ds/{TOPO_FILE} {NUM_DOMAIN} \
                       -apip {RESTHOOKMN_PORT} -ofp {OFP_PORT};\
                       read -p "press any key to close"'], 
                       stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
@@ -73,10 +73,10 @@ subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
 
 time.sleep(1)
 # sdn_db startup
-subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{EXPORT_PYTHONPATH};\
-                    {VENV11} ./sdndb/crawler.py {RYU_PORT};\
-                    read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+# subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
+#                   f'{EXPORT_PYTHONPATH};\
+#                     {VENV11} ./sdndb/crawler.py {RYU_PORT};\
+#                     read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 time.sleep(1)
 # scenario startup
