@@ -46,7 +46,7 @@ timeID_initial = 0
 start_time = time.time()
 while time.time() - start_time < 1850:
     try:
-        data = get_link_quality()
+        data = get_link_info_legacy()
         for item in data:
             timeid = timeID_initial
             src = item.get('src.dpid')

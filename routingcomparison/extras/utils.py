@@ -116,8 +116,7 @@ def get_full_topo_graph(max_display_mac=100) -> tuple[dict, nx.DiGraph]:
     return mapping, graph
 
 # !Note Deprecate soon 
-# 
-def get_link_quality():
+def get_link_info_legacy():
     '''
         Get from data from /link_quality
         currently working as a workaround 

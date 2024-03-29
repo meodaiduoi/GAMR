@@ -5,7 +5,7 @@ import networkx as nx
 class NetworkGraph():
     mapping: dict
     graph: nx.Graph
-    
+
 @dataclass
 class LaunchOpt:
     app_api_port: int
@@ -13,4 +13,6 @@ class LaunchOpt:
 
 @dataclass
 class NetworkStat:
-    ...
+    graph: nx.DiGraph
+    host_json: dict
+    link_info: list[dict]

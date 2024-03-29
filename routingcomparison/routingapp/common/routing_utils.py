@@ -6,6 +6,11 @@ from routingapp.common.routing_utils import *
 from extras.utils import *
 from .models import RouteTasks
 
+def get_key(dict, value):
+    for key, val in dict.items():
+        if val == value:
+           return key
+
 def flowrule_template(dpid, in_port, out_port, hostmac_src, hostmac_dst, priority=1):
     return {
         "dpid": dpid,
@@ -26,40 +31,6 @@ def flowrule_template(dpid, in_port, out_port, hostmac_src, hostmac_dst, priorit
             "port": out_port,
         }]
     }
-    
-def get_topo():
-    topo_json = rq.get('http://0.0.0.0:8080/topology_graph').json()
-    return topo_json, nx.json_graph.node_link_graph(topo_json)
-
-def get_host(max_display_mac=-1):
-    # I have to some dirty hack to remove invalid hosts
-    hosts = rq.get('http://0.0.0.0:8080/hosts').json()
-    if max_display_mac > 0: 
-        hosts = {'hosts': [host for host in hosts['hosts'] if mac_to_int(host['mac']) < 100]}
-    return hosts
-
-def get_key(dict, value):
-    for key, val in dict.items():
-        if val == value:
-           return key
-
-# !NOTE: Resolve this?
-def link_info_mn_to_hmap():
-    '''
-        Convert link info from mn func
-        "links_info()" into hashmap
-    '''
-    
-    links_info = rq.get('http://0.0.0.0:8000/link_info').json()
-    li_map = {}
-    for d in links_info:
-        key = (d['node1'], d['node2'])
-        key2 = (d['node2'], d['node1'])
-        li_map[key] = d
-        li_map[key2] = d.copy()
-        li_map[key2]['node1'], li_map[key2]['node2'] = li_map[key2]['node2'], li_map[key2]['node1']
-        li_map[key2]['port1'], li_map[key2]['port2'] = li_map[key2]['port2'], li_map[key2]['port1']
-    return li_map
 
 # !NOTE: Move this things out of here
 def result_to_json(result, mapping):
@@ -258,133 +229,3 @@ def send_flowrule_multidomain_localhost(flowrules, sw_ctrler_mapping, ryu_rest_p
 
 def send_flowrule_multidomain_remote(flowrule):
     ...
-    
-
-def task_serve(task: RouteTasks):
-    _, graph = get_topo()
-    host_json = get_host()
-    link_info = get_link_info()
-
-# Add host to graph
-    for host in host_json['hosts']:
-        dpid_int = mac_to_int(host['port']['dpid'])
-        host_int = mac_to_int(host['mac'])
-        # print(f'dpid_int: {dpid_int}, host_int: {host_int}')
-        
-        # Add node to graph
-        graph.add_node(f'h{host_int}', type='host')
-        # add bi-directional link between host and switch
-        graph.add_edge(f'h{host_int}', dpid_int, type='host')
-        graph.add_edge(dpid_int, f'h{host_int}', type='host')
-
-    # print graph to json
-    # print(nx.node_link_data(graph))
-    
-    # Mapping host h{int} to int
-    mapping = dict(zip(graph.nodes(), range(1, len(graph.nodes())+1)))
-    print(mapping)
-    # Creating adj-matrix of graph
-    number_node = len(graph.nodes())
-    bin_matrix = nx.adjacency_matrix(graph).todense()
-    adj_matrix = [[] for i in range(number_node+1)]
-    for i in range(1, number_node+1):
-        for j in range(1, number_node+1):
-            if bin_matrix[i-1][j-1] == 1:
-                adj_matrix[i].append(j)
-
-    # Get from data from /link_quality
-    update_delay = []
-    update_link_utilization = []
-    update_loss = []
-    for stat in link_info:
-        src = mapping[stat['src.dpid']]
-        dst = mapping[stat['dst.dpid']]
-        if src != dst:
-            delay = stat.get('delay', 0)
-            if delay == None: delay = 0
-            loss = stat.get('packet_loss', 0)
-            if loss == None: loss = 0
-            bandwidth = stat.get('link_utilization', 0)
-            if bandwidth == None: bandwidth = 0
-            update_delay.append((src, dst, delay))
-            update_loss.append((src, dst, loss))
-            update_link_utilization.append((src, dst, bandwidth))
-     
-    # Reading request
-    routes = task.route
-    request = []
-    
-    for route in routes:
-        src = f'h{route.src_host}'
-        dst = f'h{route.dst_host}'
-        src = mapping[src]
-        dst = mapping[dst]
-        print('reading rq', src, dst)
-        request.append((src, dst))
-        
-def legacy_get_network_stat(task: RouteTasks):
-    _, graph = get_topo()
-    host_json = get_host()
-    link_info = get_link_quality()
-
-    # Add host to graph
-    for host in host_json['hosts']:
-        dpid_int = mac_to_int(host['port']['dpid'])
-        host_int = mac_to_int(host['mac'])
-        # print(f'dpid_int: {dpid_int}, host_int: {host_int}')
-        
-        # Add node to graph
-        graph.add_node(f'h{host_int}', type='host')
-        # add bi-directional link between host and switch
-        graph.add_edge(f'h{host_int}', dpid_int, type='host')
-        graph.add_edge(dpid_int, f'h{host_int}', type='host')
-
-    # print graph to json
-    # print(nx.node_link_data(graph))
-    
-    # Mapping host h{int} to int
-    mapping = dict(zip(graph.nodes(), range(1, len(graph.nodes())+1)))
-    print(mapping)
-    # Creating adj-matrix of graph
-    number_node = len(graph.nodes())
-    bin_matrix = nx.adjacency_matrix(graph).todense()
-    adj_matrix = [[] for i in range(number_node+1)]
-    for i in range(1, number_node+1):
-        for j in range(1, number_node+1):
-            if bin_matrix[i-1][j-1] == 1:
-                adj_matrix[i].append(j)
-
-    # Get from data from /link_quality
-    update_delay = []
-    update_link_utilization = []
-    update_loss = []
-    for stat in link_info:
-        src = mapping[stat['src.dpid']]
-        dst = mapping[stat['dst.dpid']]
-        if src != dst:
-            delay = stat.get('delay', 0)
-            if delay == None: delay = 0
-            loss = stat.get('packet_loss', 0)
-            if loss == None: loss = 0
-            bandwidth = stat.get('link_utilization', 0)
-            if bandwidth == None: bandwidth = 0
-            update_delay.append((src, dst, delay))
-            update_loss.append((src, dst, loss))
-            update_link_utilization.append((src, dst, bandwidth))
-     
-    # Reading request
-    routes = task.route
-    request = []
-    
-    for route in routes:
-        src = f'h{route.src_host}'
-        dst = f'h{route.dst_host}'
-        src = mapping[src]
-        dst = mapping[dst]
-        print('reading rq', src, dst)
-        request.append((src, dst))
-        
-    return {
-        
-    }
-    

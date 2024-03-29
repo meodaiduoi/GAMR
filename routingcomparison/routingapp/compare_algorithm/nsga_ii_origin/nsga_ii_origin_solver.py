@@ -2,20 +2,21 @@ import networkx as nx
 from extras.utils import *
 from routingapp.common.routing_utils import *
 from routingapp.common.models import RouteTasks
+from routingapp.common.datatype import NetworkStat
 
 from routingapp.compare_algorithm.nsga_ii_origin.function_nsga_ii_origin import Function
 from routingapp.compare_algorithm.nsga_ii_origin.evole_nsga_ii_origin import Evolutionary
 from routingapp.compare_algorithm.nsga_ii_origin.population_nsga_ii_origin import Population
 from routingapp.compare_algorithm.nsga_ii_origin.graph_nsga_ii_origin import Graph
 
-def nsga_ii_origin_solver(task: RouteTasks):
+def nsga_ii_origin_solver(task: RouteTasks, network_stat: NetworkStat):
     '''
         Routing using GA alogrithm
     '''
     
-    _, graph = get_topo()
-    host_json = get_host()
-    link_info = get_link_info()
+    graph = network_stat.graph
+    host_json = network_stat.host_json
+    link_info = network_stat.link_info
 
     # Add host to graph
     for host in host_json['hosts']:

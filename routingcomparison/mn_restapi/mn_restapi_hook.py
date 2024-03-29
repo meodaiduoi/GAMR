@@ -30,8 +30,6 @@ class RestHookMN(FastAPI):
         super(RestHookMN, self).__init__(title='fastapi hook for mininet',
                          description='', *args, **params)
 
-        # self.include_router(info.router)
-
         # Startup event section
         async def update_link_ping_stat():
             temporal_packetloss = {}
@@ -84,10 +82,15 @@ class RestHookMN(FastAPI):
                 logging.debug(self.link_ping_stat)
                 await asyncio.sleep(5)  # Update the variable every 5 seconds
 
-        @asynccontextmanager
-        async def lifespan(app: FastAPI):
-            await update_link_ping_stat()
-            yield
+        # Temporally until found new solution
+        @self.on_event("startup")
+        async def startup_event():
+            asyncio.create_task(update_link_ping_stat())
+
+        # @asynccontextmanager
+        # async def lifespan(app: FastAPI):
+        #     asyncio.create_task(update_link_ping_stat())
+        #     yield
         
         @self.post('/run_popen')
         def run_popen(task: PopenTask):

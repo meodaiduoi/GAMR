@@ -2,6 +2,7 @@ import networkx as nx
 from extras.utils import *
 from routingapp.common.routing_utils import *
 from routingapp.common.models import RouteTasks
+from routingapp.common.datatype import NetworkStat
 
 from routingapp.compare_algorithm.gamr.module_function import Function
 from routingapp.compare_algorithm.gamr.module_evole import Evolutionary
@@ -9,14 +10,14 @@ from routingapp.compare_algorithm.gamr.module_memset import MemSet
 from routingapp.compare_algorithm.gamr.module_population import Population
 from routingapp.compare_algorithm.gamr.module_graph import Graph
 
-def gamr_solver(task: RouteTasks, memset: MemSet):
+def gamr_solver(task: RouteTasks, memset: MemSet, network_stat: NetworkStat):
     '''
         Routing using GA alogrithm
     '''
     
-    _, graph = get_topo()
-    host_json = get_host()
-    link_info = get_link_info()
+    graph = network_stat.graph
+    host_json = network_stat.host_json
+    link_info = network_stat.link_info
 
     # Add host to graph
     for host in host_json['hosts']:
