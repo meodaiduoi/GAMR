@@ -46,6 +46,8 @@ class MyTopo(Topo):
     
     def __init__(self, graph: nx.Graph, *args, **params):
         self.graph = graph
+        # !NOTE: Link quality soon will be replace by func
+        # link_info built-in mininet
         self.link_quality = []
         self.debug_sw_host_mapping = {}
         super(MyTopo, self).__init__(*args, **params)
