@@ -21,13 +21,17 @@ SCENARIO_DIR = toml_dict['app-path']['scenario-dir']
 SDNDB = toml_dict['app-path']['sdndb']
 
 # !NOTE: WIP Rework this part as env
-os.environ['RYU_PORT'] = RYU_PORT = str(toml_dict['service-port']['ryu'])
-os.environ['OFP_PORT'] = OFP_PORT = str(toml_dict['service-port']['ofp']) 
+# Service Port
+RYU_PORT = toml_dict['service-port']['ryu']
+OFP_PORT = toml_dict['service-port']['ofp'] 
+os.environ['RYU_PORT'] = str(RYU_PORT)
+os.environ['OFP_PORT'] = str(OFP_PORT)
 os.environ['RESTHOOKMN_PORT'] = RESTHOOKMN_PORT = str(toml_dict['service-port']['resthookmn'])
 os.environ['ROUTING_APP_PORT'] = ROUTING_APP_PORT = str(toml_dict['service-port']['routingapp'])
 
 # Multidomain config
-MULTIDOMAIN = toml_dict['app-setting']['scenario-multidomain']
+MULTI_DOMAIN = toml_dict['app-setting']['scenario-multidomain']
+os.environ['MULTI_DOMAIN'] = str(MULTI_DOMAIN)
 NUM_DOMAIN = toml_dict['app-setting']['scenario-num-domain']
 TOPO_FILE = toml_dict['app-setting']['scenario-topo-file']
 
@@ -37,15 +41,25 @@ print(EXPORT_PYTHONPATH)
 
 # create startup sequence
 # ryu startup
-subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
-                  f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} \
-                    ryu.app.ofctl_rest {RYUAPP_DIR}/manualswitch.py \
-                    {RYUAPP_FLOWMANAGER} {RYUAPP_CONTROLLERREST};\
-                  read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+if MULTI_DOMAIN is False:
+  subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
+                    f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={OFP_PORT} --wsapi-port={RYU_PORT} \
+                      ryu.app.ofctl_rest {RYUAPP_DIR}/manualswitch.py \
+                      {RYUAPP_FLOWMANAGER} {RYUAPP_CONTROLLERREST};\
+                    read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+
+if MULTI_DOMAIN is True:
+  # !WARNING: Temporally hardcoded openflow port (ofp) to 6633+i
+  for i in range(NUM_DOMAIN):
+    subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
+                      f'{RYU_MANAGER} --observe-links --ofp-tcp-listen-port={6633+i} --wsapi-port={RYU_PORT+i} \
+                        ryu.app.ofctl_rest {RYUAPP_DIR}/manualswitch.py \
+                        {RYUAPP_CONTROLLERREST} {RYUAPP_FLOWMANAGER};\
+                      read -p "press any key to close"'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 time.sleep(1)
 # Load from file
-if MULTIDOMAIN == False:
+if MULTI_DOMAIN == False:
   subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
                     f'sudo PYTHONPATH={os.getenv("PYTHONPATH")} \
                       {VENV11} ./scenario/mn_network/networkfromfile.py \
@@ -54,7 +68,7 @@ if MULTIDOMAIN == False:
                       read -p "press any key to close"'], 
                       stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
-if MULTIDOMAIN == True:
+if MULTI_DOMAIN == True:
   subprocess.Popen(['gnome-terminal', '--', 'bash', '-c', 
                     f'sudo PYTHONPATH={os.getenv("PYTHONPATH")} \
                       {VENV11} ./scenario/mn_network/networkfromfile_multicontroler.py \

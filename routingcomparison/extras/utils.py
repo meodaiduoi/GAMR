@@ -161,16 +161,16 @@ def get_link_info_legacy():
     return link_quality
 
 # Will be replacement for get_link_quality
-def get_link_info(mn_rest_addr: str = "0.0.0.0:8000"):
+def get_link_info(mn_rest_ip: str = "0.0.0.0:8000"):
     '''
         Get from data from /link_quality
         currently working as a workaround 
         for link utilization
     '''
 
-    link_quality_controller = rq.get(f'http://{mn_rest_addr}/link_quality').json()
-    link_quality_mininet = rq.get(f'http://{mn_rest_addr}/link_info').json()
-    link_ping_stat = rq.get(f'http://{mn_rest_addr}/link_ping_stat').json()
+    link_quality_controller = rq.get(f'http://{mn_rest_ip}/link_quality').json()
+    link_quality_mininet = rq.get(f'http://{mn_rest_ip}/link_info').json()
+    link_ping_stat = rq.get(f'http://{mn_rest_ip}/link_ping_stat').json()
     
     lqc_hmap = {}
     lqm_hmap = {}

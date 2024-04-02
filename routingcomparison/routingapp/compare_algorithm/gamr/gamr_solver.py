@@ -37,6 +37,7 @@ def gamr_solver(task: RouteTasks, memset: MemSet, network_stat: NetworkStat):
     # Mapping host h{int} to int
     mapping = dict(zip(graph.nodes(), range(1, len(graph.nodes())+1)))
     print(mapping)
+    
     # Creating adj-matrix of graph
     number_node = len(graph.nodes())
     bin_matrix = nx.adjacency_matrix(graph).todense()

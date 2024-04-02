@@ -68,8 +68,8 @@ def dijkstra_solver(task: RouteTasks, network_stat: NetworkStat):
     routes = task.route
     request = []
     
-    mapping = network_graph.mapping
-            
+    mapping = dict(zip(graph.nodes(), range(1, len(graph.nodes())+1)))
+    print(mapping)
     for route in routes:
         src = f'h{route.src_host}'
         dst = f'h{route.dst_host}'

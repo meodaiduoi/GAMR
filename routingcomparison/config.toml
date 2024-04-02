@@ -12,8 +12,8 @@ ryu-manager-python7 = '../../venv7/bin/ryu-manager'
 ryu-manager-python9 = '../../venv9/bin/ryu-manager'
 
 [app-setting]
-scenario-multidomain = false
-scenario-num-domain = 3
+scenario-multidomain = true
+scenario-num-domain = 2
 
 # Topology file stored at 
 # ./scenario/mn_network/graphds/<filename>.ds

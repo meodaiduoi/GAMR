@@ -1,5 +1,6 @@
 from routingapp.common.routing_utils import *
 from routingapp.common.models import *
+
 from routingapp.common.network_stat_utils import get_network_stat_legacy
 from routingapp.compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver
 from routingapp.config import Setting
