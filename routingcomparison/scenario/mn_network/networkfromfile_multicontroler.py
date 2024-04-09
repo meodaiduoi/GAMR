@@ -123,12 +123,14 @@ if __name__ == '__main__':
         topo=MyTopo(graph),
         switch=OVSSwitch,
         link=TCLink,
-        ipBase='10.0.0.0/24')
+        ipBase='10.0.0.0/24',
+        controller=None)
     
     # Add remote controller
     # automatic divide topology into n_partitions
     # convention use port 6653+i or 6633+i here we use 6633+i
     for i in range(NUM_PARTITION):
+        print(f'c{i}+ {OFP_PORT+i}')
         net.addController(f'c{i}', 
                         controller=RemoteController,
                         ip='0.0.0.0', port=OFP_PORT+i)
