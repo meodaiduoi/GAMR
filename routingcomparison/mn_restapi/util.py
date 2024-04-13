@@ -194,5 +194,21 @@ def host_popen_ping(net: Mininet,
         'dst_host': dst_hostname,
         'packet_loss': packet_loss,
         'delay': avg_rtt
-    }  
+    }
+    
+def add_group_attribute_to_nx_graph(graph: nx.DiGraph, node_groups):
+    '''
+        Input: networkx graph
+        Return: graph with each node has 'controller'
+        attribute assign to each controller group (int value)
+    '''
+    for node, data in graph.nodes(data=True):
+        if node in node_groups:
+            print(data, node_groups[node])
+            data["controller"] = node_groups[node]
+        # else:
+        #     # Handle nodes without predefined group membership (optional)
+        #     # data["group"] = "unassigned"  # Example handling
+        #     pass
+    return graph
     

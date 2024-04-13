@@ -47,5 +47,39 @@ def get_network_stat_legacy() -> NetworkStat:
     link_info = get_link_info_legacy()
     return NetworkStat(graph, host_json, link_info)
 
-def network_stat_serve():
+def get_sw_ctrler_mapping():
+    '''
+    Process sw_ctrler_mapping json from mininet
+    into usable int key dict with 
+    key is switch and value is controller it belong to
+    {switch: ctrler}
+    Ex: {2: 0, 5: 0, 6: 0, 1: 1, 3: 1, 4: 1}
+    '''
+    sw_ctrler_mapping_json = rq.get('http://0.0.0.0:8000/sw_ctrler_mapping').json()
+    return dict_str_to_int_key(sw_ctrler_mapping_json)
+
+def get_inter_group_edges(graph: nx.DiGraph):
+    '''
+        Input: Graph
+        Return: inter group edge (adj node)
+        bettween 2 parttion by checking attribute 'controller'
+        of each node which controller group it belong to
+    '''
+    group_membership = nx.get_node_attributes(graph, 'controller')
+    inter_group_edges = []
+    for u, v, data in graph.edges(data=True):
+        # I don't like using try catch in this part
+        # just to check if group_membership has key
+        # hope in the future i can find a better
+        # implemtation than this...
+        try:
+            if group_membership[u] != group_membership[v]:
+                # inter_group_edges.append((u, v, data))
+                inter_group_edges.append((u, v))
+        except KeyError:
+            pass
+    return inter_group_edges
+
+def cal_link_usage_inter_group():
     ...
+    

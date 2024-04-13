@@ -170,6 +170,15 @@ class RestHookMN(FastAPI):
         async def get_sw_ctrler_mapping():
             '''
                 get mapping of switch to controler
+                Ex:{dpid(str): ctrl_id(int)}
+                {
+                    "1": 1,
+                    "2": 0,
+                    "3": 1,
+                    "4": 1,
+                    "5": 0,
+                    "6": 0
+                }
             '''
             return self.sw_ctrler_mapping
         
@@ -228,10 +237,13 @@ class RestHookMN(FastAPI):
         @self.get('/graph')
         async def get_graph():
             '''
-                Return Mininet network graph
+                Return Mininet network graph and 
             '''
             graph = topo_to_nx(self.net,
                                sw_name_is_dpid=True)
+            if self.sw_ctrler_mapping is not None:
+                graph = add_group_attribute_to_nx_graph(graph,
+                                                        self.sw_ctrler_mapping)
             # Serialize the JSON object
             graph_json = nx.node_link_data(graph)
             return graph_json

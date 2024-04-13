@@ -51,17 +51,23 @@ def read_graph_file(filename):
                     return "Error: Unsupported file format"
     return graph
 
-def generate_adjlist(graph, to_int=True):
-	adj_list = []
-	for _, nbrs in graph.adjacency():
-		node_list = []
-		for node, _ in nbrs.items():
-			if to_int:
-				node_list.append(int(node))
-			else:
-				node_list.append(node)
-		adj_list.append(node_list)
-	return adj_list
+def generate_adjlist(graph: nx.DiGraph, to_int=True) -> list[np.ndarray]:
+    '''
+        Input: take a networkx graph object
+        Return: list of ndarray contain each each part
+        of divided graph.
+        Ex: [array([1, 5]), array([2, 3]), array([0, 4])]
+    '''
+    adj_list = []
+    for _, nbrs in graph.adjacency():
+        node_list = []
+        for node, _ in nbrs.items():
+            if to_int:
+                node_list.append(int(node))
+            else:
+                node_list.append(node)
+        adj_list.append(node_list)
+    return adj_list
 
 def part_graph(adj_list, num_parts):
     n_cuts, membership = pymetis.part_graph(num_parts, adjacency=adj_list)

@@ -59,6 +59,15 @@ def find_key_from_value(dic, value):
             return key
     return None
 
+def dict_str_to_int_key(str_key_dict: dict):
+    '''
+        convert
+    '''
+    int_key_dict = {}
+    for key, value in str_key_dict.items():
+        int_key_dict[int(key)] = value
+    return int_key_dict
+    
 '''
     Topology stat
 '''
