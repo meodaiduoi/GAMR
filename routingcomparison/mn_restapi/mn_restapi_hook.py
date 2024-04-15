@@ -324,7 +324,39 @@ class RestHookMN(FastAPI):
                 return adj_ls_no_dup_route(adj_list)
             return adj_list
 
-
+        @self.get('/controller_list')
+        async def controller_list():
+            '''
+                Return controller list including
+                index, ip and port \n
+                ex: [
+                        {
+                            "0": {
+                            "ip": "0.0.0.0",
+                            "port": 6633
+                            }
+                        },
+                        {
+                            "1": {
+                            "ip": "0.0.0.0",
+                            "port": 6634
+                            }
+                        }
+                    ]
+            '''
+            controllers = self.net.controllers
+            ctrler_list = []
+            for idx, c in enumerate(controllers):
+                ctrler_list.append(
+                    {
+                        idx: {
+                            'ip': c.ip,
+                            'port': c.port
+                        }
+                    }
+                )
+            return ctrler_list
+            
         @self.get('/debug_switch_mapping')
         async def debug_switch_mapping():
             '''
@@ -340,13 +372,3 @@ class RestHookMN(FastAPI):
         @self.get('/links')     
         async def link():
             return net.topo.links()
-        
-        
-        # @self.get('/link_to_port')
-        # async def link_to_port():
-            # '''
-                # Bypass sdn api by get
-                # it directly from mininet
-            # '''
-            # ...
-
