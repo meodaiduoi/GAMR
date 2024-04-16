@@ -5,6 +5,8 @@ import logging
 from routingapp.common.routing_utils import *
 from routingapp.common.datatype import NetworkStat
 
+RYU_PORT = int(os.getenv('RYU_PORT'))
+
 def get_topo():
     topo_json = rq.get('http://0.0.0.0:8080/topology_graph').json()
     return topo_json, nx.json_graph.node_link_graph(topo_json)
@@ -79,6 +81,38 @@ def get_inter_group_edges(graph: nx.DiGraph):
         except KeyError:
             pass
     return inter_group_edges
+
+def get_controller_list():
+  """Fetches controller list from the API and converts string/int keys to int keys.
+
+  Returns:
+    A list of dictionaries with integer keys.
+  """
+  ctrler_list = rq.get('http://0.0.0.0:8000/controller_list').json()
+
+  # Use list comprehension for concise conversion
+  new_ctrler_list = [{int(key): value} for ctrler in ctrler_list for key, value in ctrler.items() if key.isdigit()]
+
+  return new_ctrler_list
+
+def get_all_delta_port_stat():
+    ''' Get delta port stat of all controllers in the network
+    Return:
+        hashmap of (dpid, port): {delta_port_stat}
+    '''
+    deltal_port_stat = []
+    ctrler_list = get_controller_list()
+    
+    for ctrler in ctrler_list:
+        for key, value in ctrler.items():
+            deltal_port_stat += rq.get(f'http://{value.get("ip")}:{RYU_PORT+key}/delta_port_stat').json()
+
+    dps_hmap = {}
+    for d in deltal_port_stat:
+        key = (d['dpid'], d['port_no'])
+        dps_hmap[key] = d
+
+    return dps_hmap
 
 def cal_link_usage_inter_group():
     ...

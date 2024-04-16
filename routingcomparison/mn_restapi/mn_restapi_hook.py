@@ -328,7 +328,7 @@ class RestHookMN(FastAPI):
         async def controller_list():
             '''
                 Return controller list including
-                index, ip and port \n
+                index, ip and openflow port \n
                 ex: [
                         {
                             "0": {
