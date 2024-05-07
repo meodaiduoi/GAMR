@@ -120,6 +120,7 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
             update_link_utilization.append((src, dst, bandwidth))
      
     # Reading request
+    # !NOTE CHANGE TO SINGLE ROUTE TASK REWORK THIS SECTION
     routes = task.route
     request = []
     for route in routes:
