@@ -8,7 +8,7 @@ from tianshou.env import DummyVectorEnv
 from torch.optim.lr_scheduler import LambdaLR
 import torch.nn.functional as F
 import os
-from routingapp.compare_algorithm.sec_morl_multipolicy.env import SDN_Env
+from routingapp.compare_algorithm.sec_morl_multipolicy.rl import SDN_Env
 from routingapp.compare_algorithm.sec_morl_multipolicy.network import conv_mlp_net
 
 from tianshou.utils.net.discrete import Actor, Critic
