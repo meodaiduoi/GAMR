@@ -1,5 +1,5 @@
 from routingapp.common.routing_utils import *
-from routingapp.common.network_stat_utils import link_info_mn_to_hmap
+from routingapp.common.network_stat_utils import link_with_port_mn_to_hmap
 from routingapp.common.models import *
 from routingapp.dependencies import *
 import asyncio
@@ -56,7 +56,7 @@ async def add_flow_adj():
             if setting.MULTI_DOMAIN == True:
                 host_mn = rq.get('http://0.0.0.0:8000/host').json()
                 sw_ctrler_mapping = rq.get('http://0.0.0.0:8000/sw_ctrler_mapping').json()
-                link_info = link_info_mn_to_hmap()
+                link_info = link_with_port_mn_to_hmap()
 
             solutions = {'route': []}
             for node1, adj_nodes in adj_no_dup.items():

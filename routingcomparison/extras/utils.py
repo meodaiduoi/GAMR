@@ -124,7 +124,6 @@ def get_full_topo_graph(max_display_mac=100) -> tuple[dict, nx.DiGraph]:
 
     return mapping, graph
 
-# !Note Deprecate soon 
 def get_link_info_legacy():
     '''
         Get from data from /link_quality
@@ -169,7 +168,6 @@ def get_link_info_legacy():
         
     return link_quality
 
-# Will be replacement for get_link_quality
 def get_link_info(mn_rest_ip: str = "0.0.0.0:8000"):
     '''
         Get from data from /link_quality

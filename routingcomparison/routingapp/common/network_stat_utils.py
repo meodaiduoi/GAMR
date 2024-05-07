@@ -5,7 +5,13 @@ import logging
 from routingapp.common.routing_utils import *
 from routingapp.common.datatype import NetworkStat
 
-RYU_PORT = int(os.getenv('RYU_PORT'))
+# Load ENV variable if fail fallback to default value
+try:
+    RYU_PORT = int(os.getenv('RYU_PORT'))
+    OFP_PORT = int(os.getenv('PFP_PORT'))
+except TypeError:
+    RYU_PORT = 8080
+    OFP_PORT = 6633
 
 def get_topo():
     topo_json = rq.get('http://0.0.0.0:8080/topology_graph').json()
@@ -19,7 +25,7 @@ def get_host(max_display_mac=-1):
     return hosts
 
 # !NOTE: Resolve this?
-def link_info_mn_to_hmap():
+def link_with_port_mn_to_hmap():
     '''
         Convert link info from mn func
         "links_info()" into hashmap
@@ -35,7 +41,6 @@ def link_info_mn_to_hmap():
         li_map[key2]['node1'], li_map[key2]['node2'] = li_map[key2]['node2'], li_map[key2]['node1']
         li_map[key2]['port1'], li_map[key2]['port2'] = li_map[key2]['port2'], li_map[key2]['port1']
     return li_map
-
 
 def get_network_stat() -> NetworkStat:
     _, graph = get_topo()

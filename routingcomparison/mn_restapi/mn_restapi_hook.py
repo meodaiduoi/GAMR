@@ -298,7 +298,7 @@ class RestHookMN(FastAPI):
                 Get link quality of all link in the network
             '''
             try:
-                return net.topo.link_quality
+                return self.net.topo.link_quality
             except NameError:
                 logging.error('Topo object not implemented')
                 return

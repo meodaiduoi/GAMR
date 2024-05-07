@@ -1,0 +1,4 @@
+gym~=0.26.2
+tianshou~=0.4.10
+pettingzoo
+
