@@ -4,7 +4,7 @@ import json
 import logging
 from routingapp.common.routing_utils import *
 from extras.utils import *
-from .models import RouteTasks
+from .models import MultiRouteTasks
 
 def get_key(dict, value):
     for key, val in dict.items():

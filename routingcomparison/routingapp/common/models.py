@@ -1,11 +1,15 @@
 from pydantic import BaseModel
 
-class SrcDst(BaseModel):
+class RouteTask(BaseModel):
+    '''
+        Single Route Task Request
+        for algorithm
+    '''
     src_host: int
     dst_host: int
 
-class RouteTasks(BaseModel):
-    route: list[SrcDst]
+class MultiRouteTasks(BaseModel):
+    route: list[RouteTask]
 
 class ManualRoute(BaseModel):
     src_host: int

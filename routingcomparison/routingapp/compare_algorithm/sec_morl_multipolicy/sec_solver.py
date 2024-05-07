@@ -1,7 +1,7 @@
 import networkx as nx
 from routingapp.compare_algorithm.sec_morl_multipolicy.train import train_sdn_policy
 from routingapp.common.routing_utils import * 
-from routingapp.common.models import RouteTasks
+from routingapp.common.models import RouteTask
 from routingapp.compare_algorithm.sec_morl_multipolicy.module_function import Function
 from routingapp.compare_algorithm.sec_morl_multipolicy.module_graph import Graph
 
@@ -71,7 +71,7 @@ def generate_k_best_graph(graph_gen, request, k):
     
     return combined_graph
 
-def sec_solver(task: RouteTasks, network_stat: NetworkStat):
+def sec_solver(task: RouteTask, network_stat: NetworkStat):
 
     graph = network_stat.graph
     host_json = network_stat.host_json

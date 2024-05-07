@@ -1,7 +1,7 @@
 import networkx as nx
 from extras.utils import *
 from routingapp.common.routing_utils import *
-from routingapp.common.models import RouteTasks
+from routingapp.common.models import MultiRouteTasks
 from routingapp.common.datatype import NetworkStat
 
 from routingapp.compare_algorithm.gamr.module_function import Function
@@ -10,7 +10,7 @@ from routingapp.compare_algorithm.gamr.module_memset import MemSet
 from routingapp.compare_algorithm.gamr.module_population import Population
 from routingapp.compare_algorithm.gamr.module_graph import Graph
 
-def gamr_solver(task: RouteTasks, memset: MemSet, network_stat: NetworkStat):
+def gamr_solver(tasks: MultiRouteTasks, memset: MemSet, network_stat: NetworkStat):
     '''
         Routing using GA alogrithm
     '''
@@ -66,8 +66,8 @@ def gamr_solver(task: RouteTasks, memset: MemSet, network_stat: NetworkStat):
             update_link_utilization.append((src, dst, bandwidth))
      
     # Reading request
-    routes = task.route
-    request = []
+    routes = tasks.route
+    requests = []
     
     for route in routes:
         src = f'h{route.src_host}'
@@ -75,7 +75,7 @@ def gamr_solver(task: RouteTasks, memset: MemSet, network_stat: NetworkStat):
         src = mapping[src]
         dst = mapping[dst]
         print('reading rq', src, dst)
-        request.append((src, dst))
+        requests.append((src, dst))
 
     # Sovling problem to find solution
     number_node = len(adj_matrix)-1
@@ -88,13 +88,13 @@ def gamr_solver(task: RouteTasks, memset: MemSet, network_stat: NetworkStat):
 
     graph_gen.updateGraph(update_delay, update_loss, update_link_utilization) 
     pop = Population()
-    pop.generate_population(graph_gen, func, 50, len(request), request, memset)
+    pop.generate_population(graph_gen, func, 50, len(requests), requests, memset)
 
     evol = Evolutionary()
     solutions = evol.evolve1(pop, func, graph_gen, 50, 50, 0.1, 10)
     result = func.select_solution(solutions)
 
-    memset.addAllPath(solutions, request)
+    memset.addAllPath(solutions, requests)
 
     # return flowrule based on json result format
     result = result_to_json(result, mapping)

@@ -2,13 +2,13 @@ import networkx as nx
 
 from extras.utils import *
 from routingapp.common.routing_utils import *
-from routingapp.common.models import RouteTasks
+from routingapp.common.models import MultiRouteTasks
 from routingapp.compare_algorithm.dijkstra.dijkstra_cost_normalise import Graph, routing_k
 
 from routingapp.dependencies import *
 from routingapp.common.datatype import NetworkStat
 
-def dijkstra_solver(task: RouteTasks, network_stat: NetworkStat):
+def dijkstra_solver(tasks: MultiRouteTasks, network_stat: NetworkStat):
     '''
         Routing using QoS Dijkstra
     '''
@@ -65,8 +65,8 @@ def dijkstra_solver(task: RouteTasks, network_stat: NetworkStat):
     # !NOTE: Move code section above into new func
      
     # Reading request
-    routes = task.route
-    request = []
+    routes = tasks.route
+    requests = []
     
     mapping = dict(zip(graph.nodes(), range(1, len(graph.nodes())+1)))
     print(mapping)
@@ -76,7 +76,7 @@ def dijkstra_solver(task: RouteTasks, network_stat: NetworkStat):
         src = mapping[src]
         dst = mapping[dst]
         print('reading rq', src, dst)
-        request.append((src, dst))
+        requests.append((src, dst))
 
     # Sovling problem to find solution
     number_node = len(adj_matrix)-1
@@ -84,20 +84,20 @@ def dijkstra_solver(task: RouteTasks, network_stat: NetworkStat):
     servers = []
     graph_gen = Graph(number_node, 10, 10, 10, clients, servers, adj_matrix)
     graph_gen.updateGraph(update_delay, update_link_utilization, update_loss)
-    result = routing_k(graph_gen,request, 1)
+    result = routing_k(graph_gen,requests, 1)
 
     # return flowrule based on json result format
     result_list = []
     # print(result.chromosome)
     # print(mapping)
-    for request in result:
-        print("Request", request)
-        src = get_key(mapping,request[0])
-        dst = get_key(mapping,request[1])
+    for requests in result:
+        print("Request", requests)
+        src = get_key(mapping,requests[0])
+        dst = get_key(mapping,requests[1])
         src = int(src[1:])
         dst = int(dst[1:])
         request_result_map = []
-        for i in request[2][1:-1]:
+        for i in requests[2][1:-1]:
             request_result_map.append(int(get_key(mapping, i)))
         # print("Hello")
         route = {

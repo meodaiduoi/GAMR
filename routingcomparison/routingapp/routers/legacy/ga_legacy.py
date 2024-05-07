@@ -23,14 +23,14 @@ memset = MemSet()
     # return dijkstra_solver(task, legacy_get_network_stat())
 
 @router.post('/routing/gamr')
-async def gamr(task: RouteTasks):
+async def gamr(task: MultiRouteTasks):
     '''
         GAMR routing algorithm
     '''
     return gamr_solver(task, memset, get_network_stat_legacy())
 
 @router.post('/routing/nsga2_origin')
-async def nsga2_origin(task: RouteTasks):
+async def nsga2_origin(task: MultiRouteTasks):
     '''
         nsga2_origin algorithm
     '''

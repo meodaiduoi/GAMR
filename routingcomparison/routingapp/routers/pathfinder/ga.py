@@ -16,7 +16,7 @@ router = APIRouter()
 memset = MemSet()
 
 @router.post('/gamr')
-async def routing_ga(task: RouteTasks):
+async def routing_ga(task: MultiRouteTasks):
     '''
         Ga algorithm routing
     '''

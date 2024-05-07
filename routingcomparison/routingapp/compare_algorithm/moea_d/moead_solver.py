@@ -1,7 +1,7 @@
 import networkx as nx
 from extras.utils import *
 from routingapp.common.routing_utils import *
-from routingapp.common.models import RouteTasks
+from routingapp.common.models import MultiRouteTasks
 from routingapp.common.datatype import NetworkStat
 
 from routingapp.compare_algorithm.moea_d.function_moead import Function
@@ -9,7 +9,7 @@ from routingapp.compare_algorithm.moea_d.evole_moead import Evolutionary
 from routingapp.compare_algorithm.moea_d.population_moead import Population
 from routingapp.compare_algorithm.moea_d.graph_moead import Graph
 
-def moead_solver(task: RouteTasks, network_stat: NetworkStat):
+def moead_solver(tasks: MultiRouteTasks, network_stat: NetworkStat):
     '''
         Routing using GA alogrithm
     '''
@@ -65,8 +65,8 @@ def moead_solver(task: RouteTasks, network_stat: NetworkStat):
             update_link_utilization.append((src, dst, bandwidth))
      
     # Reading request
-    routes = task.route
-    request = []
+    routes = tasks.route
+    requests = []
     
     for route in routes:
         src = f'h{route.src_host}'
@@ -74,7 +74,7 @@ def moead_solver(task: RouteTasks, network_stat: NetworkStat):
         src = mapping[src]
         dst = mapping[dst]
         print('reading rq', src, dst)
-        request.append((src, dst))
+        requests.append((src, dst))
 
     # Sovling problem to find solution
     number_node = len(adj_matrix)-1
@@ -87,7 +87,7 @@ def moead_solver(task: RouteTasks, network_stat: NetworkStat):
 
     graph_gen.updateGraph(update_delay, update_loss, update_link_utilization) 
     pop = Population(3,50)
-    pop.generate_population(graph_gen, func, 50, len(request), request)
+    pop.generate_population(graph_gen, func, 50, len(requests), requests)
 
     evol = Evolutionary()
     solutions = evol.evolve1(pop, func, graph_gen, 50, 50, 0.1, 10)

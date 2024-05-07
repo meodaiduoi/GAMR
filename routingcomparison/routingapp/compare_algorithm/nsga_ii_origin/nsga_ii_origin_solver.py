@@ -1,7 +1,7 @@
 import networkx as nx
 from extras.utils import *
 from routingapp.common.routing_utils import *
-from routingapp.common.models import RouteTasks
+from routingapp.common.models import MultiRouteTasks
 from routingapp.common.datatype import NetworkStat
 
 from routingapp.compare_algorithm.nsga_ii_origin.function_nsga_ii_origin import Function
@@ -9,7 +9,7 @@ from routingapp.compare_algorithm.nsga_ii_origin.evole_nsga_ii_origin import Evo
 from routingapp.compare_algorithm.nsga_ii_origin.population_nsga_ii_origin import Population
 from routingapp.compare_algorithm.nsga_ii_origin.graph_nsga_ii_origin import Graph
 
-def nsga_ii_origin_solver(task: RouteTasks, network_stat: NetworkStat):
+def nsga_ii_origin_solver(tasks: MultiRouteTasks, network_stat: NetworkStat):
     '''
         Routing using GA alogrithm
     '''
@@ -64,8 +64,8 @@ def nsga_ii_origin_solver(task: RouteTasks, network_stat: NetworkStat):
             update_link_utilization.append((src, dst, bandwidth))
      
     # Reading request
-    routes = task.route
-    request = []
+    routes = tasks.route
+    requests = []
     
     for route in routes:
         src = f'h{route.src_host}'
@@ -73,7 +73,7 @@ def nsga_ii_origin_solver(task: RouteTasks, network_stat: NetworkStat):
         src = mapping[src]
         dst = mapping[dst]
         print('reading rq', src, dst)
-        request.append((src, dst))
+        requests.append((src, dst))
 
     # Sovling problem to find solution
     number_node = len(adj_matrix)-1
@@ -86,7 +86,7 @@ def nsga_ii_origin_solver(task: RouteTasks, network_stat: NetworkStat):
 
     graph_gen.updateGraph(update_delay, update_loss, update_link_utilization) 
     pop = Population()
-    pop.generate_population(graph_gen, func, 50, len(request), request)
+    pop.generate_population(graph_gen, func, 50, len(requests), requests)
 
     evol = Evolutionary()
     solutions = evol.evolve1(pop, func, graph_gen, 50, 50, 0.1, 10)

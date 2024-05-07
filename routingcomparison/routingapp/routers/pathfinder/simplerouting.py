@@ -20,7 +20,7 @@ async def routing_manual(tasks: ManualRouteTasks):
     return send_flowrule(flowrules, ryu_rest_port=RYU_PORT)
 
 @router.post('/min_hop')
-async def routing_min_hop(tasks: RouteTasks):
+async def routing_min_hop(tasks: MultiRouteTasks):
     '''
     Min-hop routing \n
     '''
@@ -39,7 +39,7 @@ async def routing_min_hop(tasks: RouteTasks):
     return send_flowrule(flowrules, ryu_rest_port=RYU_PORT)
 
 @router.post('/dijkstra')
-async def routing_dijkstra(task: RouteTasks):
+async def routing_dijkstra(task: MultiRouteTasks):
     '''
         Dijkstra algorithm routing
     '''

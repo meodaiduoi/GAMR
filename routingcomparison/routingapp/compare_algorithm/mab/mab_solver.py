@@ -1,9 +1,9 @@
 import networkx as nx
 from extras.utils import *
 from routingapp.common.routing_utils import *
-from routingapp.common.models import RouteTasks
+from routingapp.common.models import MultiRouteTasks
 
-def ga_solver(task: RouteTasks):
+def ga_solver(tasks: MultiRouteTasks):
     '''
         Routing using GA alogrithm
     '''
