@@ -101,7 +101,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 from routingapp.routers.pathfinder import simplerouting, ga
-from routingapp.routers.legacy import simplerouting_legacy, ga_legacy
+from routingapp.routers.legacy import simplerouting_legacy, ga_legacy, sec_legacy
 from routingapp.routers import debugdata
 
 # Debug api
@@ -109,12 +109,14 @@ app.include_router(debugdata.router, prefix='/debug', tags=['debug'])
 
 # Legacy api (only support single domain)
 if setting.MULTI_DOMAIN is False:
-    app.include_router(simplerouting_legacy.router, prefix="/legacy/simplerouting", tags=["Legacy"]) 
-    app.include_router(ga_legacy.router, prefix="/legacy/ga", tags=["Legacy"]) 
+    app.include_router(simplerouting_legacy.router, prefix="/single/simplerouting", tags=["Single Domain"]) 
+    app.include_router(ga_legacy.router, prefix="/single/ga", tags=["Single Domain"]) 
+    app.include_router(sec_legacy.router, prefix="/single/sec", tags=["Single Domain"]) 
 
 # New multidomain api
-app.include_router(simplerouting.router, prefix="/simplerouting", tags=["Simple routing"])
-app.include_router(ga.router, prefix='/ga', tags=["Genetic Alogrithm"])
+if setting.MULTI_DOMAIN is True:
+    app.include_router(simplerouting.router, prefix="/simplerouting", tags=["Simple routing"])
+    app.include_router(ga.router, prefix='/ga', tags=["Genetic Alogrithm"])
 
 # test api
 @app.get('/')

@@ -8,8 +8,7 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-
-@router.post('/dijkstra')
+@router.post('/sec')
 async def routing_dijkstra(task: RouteTask):
     '''
         Dijkstra algorithm routing
