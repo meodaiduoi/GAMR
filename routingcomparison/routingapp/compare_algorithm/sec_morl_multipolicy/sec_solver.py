@@ -121,15 +121,14 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
      
     # Reading request
     # !NOTE CHANGE TO SINGLE ROUTE TASK REWORK THIS SECTION
-    routes = task.route
+    route = task.route
     request = []
-    for route in routes:
-        src = f'h{route.src_host}'
-        dst = f'h{route.dst_host}'
-        src = mapping[src]
-        dst = mapping[dst]
-        print('reading rq', src, dst)
-        request.append((src, dst))
+    src = f'h{route.src_host}'
+    dst = f'h{route.dst_host}'
+    src = mapping[src]
+    dst = mapping[dst]
+    print('reading rq', src, dst)
+    request.append((src, dst))
 
     # Solving problem to find solution
     number_node = len(adj_matrix)-1
