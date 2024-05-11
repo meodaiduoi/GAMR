@@ -142,7 +142,7 @@ class conv_mlp_net(nn.Module):
     def load_model(self, filename):
         map_location=lambda storage, loc:storage
         self.load_state_dict(torch.load(filename, map_location=map_location))
-        print('load model!')
+        # print('load model!')
     
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
@@ -151,12 +151,12 @@ class conv_mlp_net(nn.Module):
     def forward(self, obs):
 
         x = self.feature_network_A(obs)
-        print("Shape after conv_resblock:", x.shape)
+        # print("Shape after conv_resblock:", x.shape)
 
         x = x.view(-1, self.mlp_in)
-        print("Shape after view:", x.shape)
+        # print("Shape after view:", x.shape)
 
         x = self.feature_network_B(x)
-        print("Shape after mlp_resblock:", x.shape)
+        # print("Shape after mlp_resblock:", x.shape)
         
         return x

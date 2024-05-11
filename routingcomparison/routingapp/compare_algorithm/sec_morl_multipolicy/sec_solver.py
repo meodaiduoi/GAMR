@@ -135,7 +135,7 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
     clients = []
     edge_servers = []
     cloud_servers = []
-    graph_gen = Graph(number_node, 10, 10, 10, clients, edge_servers, cloud_servers, adj_matrix)
+    graph_gen = Graph(number_node, 10, 10, 10, 10, clients, edge_servers, cloud_servers, adj_matrix)
 
     func = Function()
     graph_gen.updateGraph(update_delay, update_loss, update_link_utilization) 
