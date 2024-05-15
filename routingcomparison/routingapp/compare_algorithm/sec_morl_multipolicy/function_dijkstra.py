@@ -53,8 +53,10 @@ def dijkstra(graph, priority, source, destination):
                 min_dist = dist[i]
                 u = i
         # print("Hello")
-        # print(u)
-        Q.remove(u)
+        # print(Q)
+        if u < 0: break 
+        else: 
+            Q.remove(u)
         # for v in range(1, graph.number_nodes+1):
         #     if graph_cost[u][v] != 0:
         #         alt = dist[u] + graph_cost[u][v]
