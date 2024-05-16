@@ -176,20 +176,21 @@ def get_link_info(mn_rest_ip: str = "0.0.0.0:8000"):
     '''
 
     link_quality_controller = rq.get(f'http://{mn_rest_ip}/link_quality').json()
-    link_quality_mininet = rq.get(f'http://{mn_rest_ip}/link_info').json()
+    # Link info but actually link to port but with extra info
+    link_info_mininet = rq.get(f'http://{mn_rest_ip}/link_info').json()
     link_ping_stat = rq.get(f'http://{mn_rest_ip}/link_ping_stat').json()
     
     lqc_hmap = {}
-    lqm_hmap = {}
+    lim_hmap = {}
     lps_hmap = {}
     
     for d in link_quality_controller:
         key = (d['src.dpid'], d['dst.dpid'])
         lqc_hmap[key] = d
 
-    for d in link_quality_mininet:
+    for d in link_info_mininet:
         key = (d['src.dpid'], d['dst.dpid'])
-        lqm_hmap[key] = d
+        lim_hmap[key] = d
     
     for d in link_ping_stat:
         key = (d['src.host'], d['dst.host'])
@@ -197,7 +198,7 @@ def get_link_info(mn_rest_ip: str = "0.0.0.0:8000"):
 
     link_quality = []
     for key, lqc_value in lqc_hmap.items():
-        lqm_value = lqm_hmap.get(key)
+        lqm_value = lim_hmap.get(key)
         lps_value = lps_hmap.get(key)
         if lqm_value == None: continue  
         link_quality.append({
