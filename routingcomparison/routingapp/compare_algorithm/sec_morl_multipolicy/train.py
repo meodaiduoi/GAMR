@@ -14,7 +14,6 @@ from routingapp.compare_algorithm.sec_morl_multipolicy.network import conv_mlp_n
 from tianshou.utils.net.discrete import Actor, Critic
 
 expn = 'exp1'
-config = 'multi-edge'
 lr, epoch, batch_size = 1e-6, 1, 1024 * 4
 train_num, test_num = 64, 1024
 gamma, lr_decay = 0.9, None
@@ -34,7 +33,7 @@ repeat_per_collect = 2
 dual_clip, norm_adv = None, 0.0
 recompute_adv = 0
 
-INPUT_CH = 67
+INPUT_CH = 3
 FEATURE_CH = 512
 MLP_CH = 1024
 
@@ -56,7 +55,7 @@ class sdn_net(nn.Module):
     def load_model(self, filename):
         map_location=lambda storage, loc:storage
         self.load_state_dict(torch.load(filename, map_location=map_location))
-        print('load model!')
+        # print('load model!')
     
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
@@ -84,14 +83,13 @@ class Actor(nn.Module):
     def load_model(self, filename):
         map_location=lambda storage, loc:storage
         self.load_state_dict(torch.load(filename, map_location=map_location))
-        print('load model!')
+        # print('load model!')
     
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
         # print('save model!')
 
     def forward(self, obs, state=None, info={}):
-            
         logits,_ = self.net(obs)
         # Adjust output size according to the new action space
         logits = F.sigmoid(logits)
@@ -112,7 +110,7 @@ class Critic(nn.Module):
     def load_model(self, filename):
         map_location=lambda storage, loc:storage
         self.load_state_dict(torch.load(filename, map_location=map_location))
-        print('load model!')
+        # print('load model!')
     
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
@@ -124,7 +122,7 @@ class Critic(nn.Module):
 
         return v
 
-def train_sdn_policy(graph, request):
+def train_sdn_policy(graph, function, request):
     
     actor = Actor(is_gpu=is_gpu_default, edge_num = graph.number_edge_servers, cloud_num = graph.number_cloud_servers)
     critic = Critic(is_gpu=is_gpu_default, edge_num = graph.number_edge_servers, cloud_num = graph.number_cloud_servers)
@@ -158,16 +156,23 @@ def train_sdn_policy(graph, request):
 
 
     for wi in range(100, 0 - 1, -2):
-
+        # Format the directory path
+        directory_path = f"save/pth-e{graph.number_edge_servers}/cloud{graph.number_cloud_servers}/{expn}/w{wi:03d}"
+        try:
+            # Attempt to create the directory
+            os.makedirs(directory_path)
+        except FileExistsError:
+            # If the directory already exists, pass
+            pass
+        
         if wi == 100:
             epoch_a = epoch * 10
         else:
             epoch_a = epoch
-
         train_envs = DummyVectorEnv(
-            [lambda: SDN_Env(graph = graph, conf_name=config, request=request, w=wi / 100.0) for _ in range(train_num)])
+            [lambda: SDN_Env(graph = graph, function = function, request=request, w=wi / 100.0) for _ in range(train_num)])
         test_envs = DummyVectorEnv(
-            [lambda: SDN_Env(graph = graph, conf_name=config, request=request, w=wi / 100.0) for _ in range(test_num)])
+            [lambda: SDN_Env(graph = graph, function = function, request=request, w=wi / 100.0) for _ in range(test_num)])
         buffer = ts.data.VectorReplayBuffer(buffer_size, train_num)
         train_collector = ts.data.Collector(
             policy=policy,

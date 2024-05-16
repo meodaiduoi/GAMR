@@ -2,7 +2,7 @@ from routingapp.compare_algorithm.sec_morl_multipolicy.rl import SDN_Env
 import numpy as np
 import random 
 from collections import deque
-from routingapp.compare_algorithm.sec_morl_multipolicy.train import Actor, Critic, is_gpu_default, expn, epoch, config
+from routingapp.compare_algorithm.sec_morl_multipolicy.train import Actor, Critic, is_gpu_default, expn, epoch
 import os
 import torch 
 class Function:
@@ -153,7 +153,7 @@ class Function:
         index = same_link.index(min(same_link))
         return solutions[index]     
     
-    def generate_solutions(graph_gen, request):
+    def generate_solutions(graph, function, request):
         # Generate solutions
         solutions = []
         # Load trained models from w00 to w100
@@ -163,8 +163,8 @@ class Function:
             actor = Actor(is_gpu=is_gpu_default)
             critic = Critic(is_gpu=is_gpu_default)
             
-            actor_file_path = f'save/pth-e{graph_gen.number_edge_servers}/cloud{graph_gen.number_cloud_servers}/{expn}/w{wi:03d}/ep{epoch:02d}-actor.pth'
-            critic_file_path = f'save/pth-e{graph_gen.number_edge_servers}/cloud{graph_gen.number_cloud_servers}/{expn}/w{wi:03d}/ep{epoch:02d}-critic.pth'
+            actor_file_path = f'save/pth-e{graph.number_edge_servers}/cloud{graph.number_cloud_servers}/{expn}/w{wi:03d}/ep{epoch:02d}-actor.pth'
+            critic_file_path = f'save/pth-e{graph.number_edge_servers}/cloud{graph.number_cloud_servers}/{expn}/w{wi:03d}/ep{epoch:02d}-critic.pth'
             
             if os.path.exists(actor_file_path) and os.path.exists(critic_file_path):
                 actor.load_model(actor_file_path)
@@ -176,7 +176,7 @@ class Function:
 
         # Collect solutions from all episodes for each wi
         for wi, (actor, critic) in trained_models.items():
-            env = SDN_Env(graph=graph_gen, conf_name=config, request=request, w=wi / 100.0)
+            env = SDN_Env(graph=graph, function = function, request=request, w=wi / 100.0)
             for _ in range(1000):  # Number of episodes
                 # For trained models
                 obs = env.reset()

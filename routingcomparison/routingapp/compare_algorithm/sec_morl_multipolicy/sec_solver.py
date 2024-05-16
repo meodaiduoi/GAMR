@@ -34,42 +34,44 @@ def result_to_json(result, mapping):
     print(result_list)
     return result_json 
 
-def dfs(graph, src, dst, k):
-    """
-    Perform DFS traversal to find K best paths from source to destination.
-    """
-    paths = []
-    stack = [(src, [src])]
+# DFS function to find paths from source to destination
+def dfs(graph, start, goal):
+    visited = set()  # List of visited nodes
+    stack = [(start, [start])]  # Stack containing pairs (node, path from source to node)
+
     while stack:
-        node, path = stack.pop()
-        if node == dst:
-            paths.append(path)
-            if len(paths) == k:
-                break
-        for neighbor in graph.neighbors(node):
-            if neighbor not in path:
-                stack.append((neighbor, path + [neighbor]))
-    return paths
+        node, path = stack.pop()  # Get the last node from the stack and the path to it
+        if node not in visited:
+            visited.add(node)
+            if node == goal:
+                return path  # Return the path from source to destination
+            neighbors = graph.adj_matrix[node]  # Access neighbors from the adjacency matrix of the graph
+            for neighbor in reversed(neighbors):  # Traverse neighbors in reverse order to use stack
+                if neighbor not in visited:
+                    stack.append((neighbor, path + [neighbor]))  # Add unvisited neighbors to stack with path to that node
 
-def generate_k_best_graph(graph_gen, request, k):
-    """
-    Generate the graph for the K best paths from source to destination.
-    """
-    k_best_paths = []
-    for src, dst in request:
-        # Perform DFS to find K best paths from src to dst
-        paths = dfs(graph_gen, src, dst, k)
-        k_best_paths.extend(paths)
-    
-    # Combine all paths into a single set of nodes
-    all_nodes = set()
-    for path in k_best_paths:
-        all_nodes.update(path)
+    return None  # If no path from source to destination is found
 
-    # Generate a subgraph containing all nodes in the combined paths
-    combined_graph = graph_gen.subgraph(list(all_nodes))
+
+# def generate_k_best_graph(graph_gen, request, k):
+#     """
+#     Generate the graph for the K best paths from source to destination.
+#     """
+#     k_best_paths = []
+#     for src, dst in request:
+#         # Perform DFS to find K best paths from src to dst
+#         paths = dfs(graph_gen, src, dst, k)
+#         k_best_paths.extend(paths)
     
-    return combined_graph
+#     # Combine all paths into a single set of nodes
+#     all_nodes = set()
+#     for path in k_best_paths:
+#         all_nodes.update(path)
+
+#     # Generate a subgraph containing all nodes in the combined paths
+#     combined_graph = graph_gen.subgraph(list(all_nodes))
+    
+#     return combined_graph
 
 def sec_solver(task: RouteTask, network_stat: NetworkStat):
 
@@ -121,34 +123,46 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
      
     # Reading request
     # !NOTE CHANGE TO SINGLE ROUTE TASK REWORK THIS SECTION
-    routes = task.route
+    route = task.route
     request = []
-    for route in routes:
-        src = f'h{route.src_host}'
-        dst = f'h{route.dst_host}'
-        src = mapping[src]
-        dst = mapping[dst]
-        print('reading rq', src, dst)
-        request.append((src, dst))
+    src = f'h{route.src_host}'
+    dst = f'h{route.dst_host}'
+    src = mapping[src]
+    dst = mapping[dst]
+    print('reading rq', src, dst)
+    request.append((src, dst))
 
     # Solving problem to find solution
     number_node = len(adj_matrix)-1
     clients = []
     edge_servers = []
     cloud_servers = []
-    graph_gen = Graph(number_node, 10, 10, 10, clients, edge_servers, cloud_servers, adj_matrix)
+    graph_gen = Graph(number_node, 10, 10, 10, 10, clients, edge_servers, cloud_servers, adj_matrix)
 
     func = Function()
     graph_gen.updateGraph(update_delay, update_loss, update_link_utilization) 
     
-    # Generate the graph for the K best paths using DFS 
+    # Generate the promising paths using DFS 
+    promising_paths = []
+    for src, dst in request:
+        path = dfs(graph, src, dst)
+        if path:
+            promising_paths.append(path)
+
+    # Create a subgraph containing all nodes in the promising paths
+    promising_nodes = set()
+    for path in promising_paths:
+        promising_nodes.update(path)
+    promising_graph = graph.subgraph(list(promising_nodes))
+
+    print(promising_graph.adj_matrix, promising_graph.number_nodes, promising_graph.number_edge_servers, promising_graph.number_clients, promising_graph.number_cloud_servers)
     for req in request: 
-        k_best_graphs = generate_k_best_graph(graph_gen, req, 10)
-        # DRL to decise the best bath for multi-objective reward
-        trained_models = train_sdn_policy(k_best_graphs, req)
-    
+        # print(req)
+        # DRL to decide the best path for multi-objective reward
+        trained_models = train_sdn_policy(promising_graph, func, req)
+        
     # Use the trained models to generate solutions
-    solutions = func.generate_solutions(graph_gen, request)  
+    solutions = func.generate_solutions(promising_graph, func, request)  
     
     result = func.select_solution(solutions)
 
