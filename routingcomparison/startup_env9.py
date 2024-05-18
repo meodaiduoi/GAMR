@@ -80,7 +80,7 @@ time.sleep(5)
 # rouitngapp
 subprocess.Popen(['gnome-terminal', '--', 'bash', '-c',
                   f'{EXPORT_PYTHONPATH};\
-                    {VENV11} ./routingapp/main.py;\
+                    {VENV11} ./routingapp/routing_app.py;\
                     read -p "press any key to close"'], 
                     stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 

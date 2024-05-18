@@ -97,4 +97,4 @@ def moead_solver(tasks: MultiRouteTasks, network_stat: NetworkStat):
     result = result_to_json(result, mapping)
     print(f"result: {result}")
     flowrules = create_flowrule_json(result, host_json, get_link_to_port())
-    return send_flowrule(flowrules)
+    return send_flowrule_single(flowrules)

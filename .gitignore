@@ -16,6 +16,9 @@ __pycache__/
 # C extensions
 *.so
 
+# Tensor file
+events.out.tfevents.*
+
 # Distribution / packaging
 .Python
 build/

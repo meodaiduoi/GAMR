@@ -117,7 +117,10 @@ def create_flowrule_json(solutions, host_json, link_to_port, important=False):
 
     return flowrules
 
-def send_flowrule(flowrules, ryu_ip='0.0.0.0', ryu_rest_port=8080):
+def send_flowrule_single(flowrules, ryu_ip='0.0.0.0', ryu_rest_port=8080):
+    '''
+        Send flowrule for single domain controller
+    '''
     status = []
     for flowrule in flowrules:
         result = rq.post(f'http://{ryu_ip}:{ryu_rest_port}/stats/flowentry/add', data=json.dumps(flowrule))
@@ -210,7 +213,10 @@ def create_flowrule_multidomain_json(solutions, host_json_mn,
 
     return flowrules
 
-def send_flowrule_multidomain_localhost(flowrules, sw_ctrler_mapping, ryu_rest_port):
+def send_flowrule_multi_localhost(flowrules, sw_ctrler_mapping, ryu_rest_port):
+    '''
+        Send flowrule for multi domain network (multi controllers)
+    '''
     status = []
     for flowrule in flowrules:
         result = rq.post(

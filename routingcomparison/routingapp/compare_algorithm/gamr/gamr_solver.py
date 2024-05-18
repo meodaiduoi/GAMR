@@ -100,4 +100,4 @@ def gamr_solver(tasks: MultiRouteTasks, memset: MemSet, network_stat: NetworkSta
     result = result_to_json(result, mapping)
     print(f"result: {result}")
     flowrules = create_flowrule_json(result, host_json, get_link_to_port())
-    return send_flowrule(flowrules)
+    return send_flowrule_single(flowrules)

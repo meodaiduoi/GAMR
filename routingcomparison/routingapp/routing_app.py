@@ -71,10 +71,10 @@ async def add_flow_adj():
                     solutions['route'].append(solution)
             print(setting.MULTI_DOMAIN, type(setting.MULTI_DOMAIN))
             if setting.MULTI_DOMAIN == False:
-                send_flowrule(
+                send_flowrule_single(
                     create_flowrule_json(solutions, get_host(), get_link_to_port()))
             if setting.MULTI_DOMAIN == True:
-                send_flowrule_multidomain_localhost(
+                send_flowrule_multi_localhost(
                     create_flowrule_multidomain_json(solutions,
                                                     host_mn,
                                                     link_info),
@@ -84,7 +84,7 @@ async def add_flow_adj():
             # !NOTE: on next version add new adj flow on topology change
             await asyncio.sleep(500)
         except (rq.ConnectionError, rq.ConnectTimeout) as e:
-            logging.error(f"Connection error retrying...")
+            logging.error(f"Connection error retry_ing...")
             await asyncio.sleep(5)
         except TypeError as e:
             print(e)
@@ -100,8 +100,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-from routingapp.routers.pathfinder import simplerouting, ga
-from routingapp.routers.legacy import simplerouting_legacy, ga_legacy, sec_legacy
+from routingapp.routers.multidomain import ga_multi, simplerouting_multi
+from routingapp.routers.singledomain import simplerouting_single, ga_single, sec_single
 from routingapp.routers import debugdata
 
 # Debug api
@@ -109,14 +109,14 @@ app.include_router(debugdata.router, prefix='/debug', tags=['debug'])
 
 # Legacy api (only support single domain)
 if setting.MULTI_DOMAIN is False:
-    app.include_router(simplerouting_legacy.router, prefix="/single/simplerouting", tags=["Single Domain"]) 
-    app.include_router(ga_legacy.router, prefix="/single/ga", tags=["Single Domain"]) 
-    app.include_router(sec_legacy.router, prefix="/single/sec", tags=["Single Domain"]) 
+    app.include_router(simplerouting_single.router, prefix="/single/simplerouting", tags=["Single"]) 
+    app.include_router(ga_single.router, prefix="/single/ga", tags=["Single"]) 
+    app.include_router(sec_single.router, prefix="/single/sec", tags=["Single"]) 
 
 # New multidomain api
 if setting.MULTI_DOMAIN is True:
-    app.include_router(simplerouting.router, prefix="/simplerouting", tags=["Simple routing"])
-    app.include_router(ga.router, prefix='/ga', tags=["Genetic Alogrithm"])
+    app.include_router(simplerouting_multi.router, prefix="/simplerouting", tags=["Simple routing"])
+    app.include_router(ga_multi.router, prefix='/ga', tags=["Genetic Alogrithm"])
 
 # test api
 @app.get('/')

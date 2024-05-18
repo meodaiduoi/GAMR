@@ -158,6 +158,7 @@ class RestHookMN(FastAPI):
             '''
                 Using Popen to run ping conmmand on src host:
                 "ping {dst_host_ip} -c {count} -W {timeout}"
+                count and timeout must be greater than 1
             '''
             return host_popen_ping(
                 net,

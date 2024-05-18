@@ -1,9 +1,6 @@
 from routingapp.common.routing_utils import *
 from routingapp.common.models import *
 
-from routingapp.common.network_stat_utils import get_network_stat_legacy
-from routingapp.compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver
-from routingapp.config import Setting
 from fastapi import APIRouter
 
 router = APIRouter()
@@ -13,18 +10,14 @@ async def routing_manual(tasks: ManualRouteTasks):
     '''
     Manual routing \n
     '''
-    
-    network_stat = get_network_stat_legacy()
-    setting = Setting()
-    graph = network_stat.graph
-    
+
     flowrules = []
     for task in tasks.route:
         path = [task.src_host] + task.path_dpid + [task.dst_host]
         task.model_dump()
-        if nx.is_path(graph, task.path_dpid):
+        if nx.is_path(GRAPH, task.path_dpid):
             flowrules.append(create_flowrule_json(task.model_dump(), get_host(), get_link_to_port()))
-    return send_flowrule(flowrules, ryu_rest_port=setting.RYU_PORT)
+    return send_flowrule_single(flowrules, ryu_rest_port=RYU_PORT)
 
 @router.post('/min_hop')
 async def routing_min_hop(tasks: MultiRouteTasks):
@@ -32,29 +25,25 @@ async def routing_min_hop(tasks: MultiRouteTasks):
     Min-hop routing \n
     '''
 
-    network_stat = get_network_stat_legacy()
-    setting = Setting()
-    graph = network_stat.graph
-    
     solutions = {'route': []}
     flowrules = []
     for task in tasks.route:
-        if nx.has_path(graph, f'h{task.src_host}', f'h{task.dst_host}'):
-            path = list(nx.shortest_path(graph, f'h{task.src_host}', f'h{task.dst_host}'))
+        if nx.has_path(GRAPH, f'h{task.src_host}', f'h{task.dst_host}'):
+            path = list(nx.shortest_path(GRAPH, f'h{task.src_host}', f'h{task.dst_host}'))
             solutions['route'].append({
                 'src_host': task.src_host,
                 'dst_host': task.dst_host,
                 'path_dpid': path[1:-1],
             })
             flowrules = create_flowrule_json(solutions, get_host(), get_link_to_port())
-    return send_flowrule(flowrules, ryu_rest_port=setting.RYU_PORT)
+    return send_flowrule_single(flowrules, ryu_rest_port=RYU_PORT)
 
 @router.post('/dijkstra')
 async def routing_dijkstra(task: MultiRouteTasks):
     '''
         Dijkstra algorithm routing
     '''
-    return dijkstra_solver(task, get_network_stat_legacy())
+    return dijkstra_solver(task_serve(task))
 
 @router.get('/add_flow_all')
 async def add_flow_all():

@@ -142,5 +142,5 @@ if __name__ == '__main__':
     app = RestHookMN(net=net)
     uvicorn.run(app, host="0.0.0.0", port=RESTHOOKMN_PORT)
     
-    # CLI(net)
+    CLI(net)
     net.stop()

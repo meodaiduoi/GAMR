@@ -42,13 +42,14 @@ def link_with_port_mn_to_hmap():
         li_map[key2]['port1'], li_map[key2]['port2'] = li_map[key2]['port2'], li_map[key2]['port1']
     return li_map
 
+# TODO: fix this func and add host node 'h{n}' to graph
 def get_network_stat() -> NetworkStat:
     _, graph = get_topo()
     host_json = get_host()
     link_info = get_link_info()
     return NetworkStat(graph, host_json, link_info)
 
-def get_network_stat_legacy() -> NetworkStat:
+def get_network_stat_single() -> NetworkStat:
     _, graph = get_topo()
     host_json = get_host()
     link_info = get_link_info_legacy()

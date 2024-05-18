@@ -1,5 +1,5 @@
 from routingapp.common.routing_utils import *
-from routingapp.common.network_stat_utils import get_network_stat_legacy
+from routingapp.common.network_stat_utils import get_network_stat_single
 from routingapp.common.models import *
 
 # from routingapp.compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver
@@ -27,18 +27,21 @@ async def gamr(task: MultiRouteTasks):
     '''
         GAMR routing algorithm
     '''
-    return gamr_solver(task, memset, get_network_stat_legacy())
+    return send_flowrule_single(
+        gamr_solver(task, memset, get_network_stat_single()))
 
 @router.post('/routing/nsga2_origin')
 async def nsga2_origin(task: MultiRouteTasks):
     '''
         nsga2_origin algorithm
     '''
-    return nsga_ii_origin_solver(task, get_network_stat_legacy())
+    return send_flowrule_single(
+        nsga_ii_origin_solver(task, get_network_stat_single()))
 
 @router.post('/routing/nsga3')
 async def nsga3():
     '''
         nsga-iii algorithm
     '''
+    ...
     # return 

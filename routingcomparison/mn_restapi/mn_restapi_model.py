@@ -16,8 +16,8 @@ class Ping(BaseModel):
 class PingSingle(BaseModel):
     src_hostname: str
     dst_hostname: str
-    timeout: float
-    count: int
+    timeout: float | None = 1
+    count: int | None = 1
 
 class Pingall(BaseModel):
     timeout: str | None = None
