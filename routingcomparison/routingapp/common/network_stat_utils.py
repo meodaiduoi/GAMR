@@ -44,16 +44,17 @@ def link_with_port_mn_to_hmap():
 
 # TODO: fix this func and add host node 'h{n}' to graph
 def get_network_stat() -> NetworkStat:
-    _, graph = get_topo()
+    # _, graph = get_full_topo_graph()
+    graph = None
     host_json = get_host()
     link_info = get_link_info()
     return NetworkStat(graph, host_json, link_info)
 
 def get_network_stat_single() -> NetworkStat:
-    _, graph = get_topo()
+    mapping, graph = get_full_topo_graph()
     host_json = get_host()
     link_info = get_link_info_legacy()
-    return NetworkStat(graph, host_json, link_info)
+    return NetworkStat(graph, mapping, host_json, link_info)
 
 def get_sw_ctrler_mapping():
     '''

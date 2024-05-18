@@ -71,9 +71,12 @@ def dict_str_to_int_key(str_key_dict: dict):
 '''
     Topology stat
 '''
-def get_topo():
+def get_topo() -> nx.digraph:
+    '''
+        Return topo from json format back to nx.Digraoh object
+    '''
     topo_json = rq.get('http://0.0.0.0:8080/topology_graph').json()
-    return topo_json, nx.json_graph.node_link_graph(topo_json)
+    return nx.json_graph.node_link_graph(topo_json)
 
 def get_host(max_display_mac=-1):
     # I have to some dirty hack to remove invalid hosts
@@ -104,7 +107,7 @@ def get_full_topo_graph(max_display_mac=100) -> tuple[dict, nx.DiGraph]:
         mapping of ryu restapi
     '''
     # dict, nx.DiGraph    
-    topo_json, graph = get_topo()
+    graph = get_topo()
     host_json = get_host(max_display_mac)
 
     # Add host to graph
