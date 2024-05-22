@@ -14,5 +14,6 @@ class LaunchOpt:
 @dataclass
 class NetworkStat:
     graph: nx.DiGraph
+    mapping: dict
     host_json: dict
     link_info: list[dict]
