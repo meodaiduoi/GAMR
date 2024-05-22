@@ -94,12 +94,13 @@ class SDN_Env(gym.Env):
         the_task['link_utilisation'] = 0  # Initialize  link utilization
         
         print(f"Edge Action: {edge_action}, Cloud Action: {cloud_action}")    
+        print(self.edge_servers, self.edge_servers[edge_action])
+        print(self.cloud_servers, self.cloud_servers[cloud_action])
         # Case 1: Routing task with both edge and cloud
         if (edge_action is not None) and (cloud_action is not None) and (0 <= edge_action < self.number_edge_servers) and (0 <= cloud_action < self.number_cloud_servers):
             # Routing task to the edge server
             e = edge_action
             the_task['to'] = e
-            print(self.edge_servers, self.edge_servers[edge_action])
             edge_path = dijkstra(self.graph, 1, self.request[0], self.edge_servers[edge_action])
             edge_link_utilisation = self.function.cal_bandwidth(edge_path, self.predict_bandwidth)
             edge_delay = self.function.cal_delay(edge_path, self.predict_delay)
