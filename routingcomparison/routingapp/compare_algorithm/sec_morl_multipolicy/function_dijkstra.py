@@ -38,6 +38,7 @@ def dijkstra(graph, priority, source, destination):
     # print("Hello dong")
     graph_cost = normalize_weight(graph, priority)
     dist = np.zeros(graph.number_nodes+1)
+    print("dist", dist)
     prev = np.zeros(graph.number_nodes+1)
     Q = []
     for i in range(1,graph.number_nodes+1):
@@ -64,10 +65,11 @@ def dijkstra(graph, priority, source, destination):
         #             dist[v] = alt
         #             prev[v] = u
         for v in graph.adj_matrix[u]:
-            alt = dist[u] + graph_cost[u][v]
-            if alt < dist[v]:
-                dist[v] = alt
-                prev[v] = u
+            if graph_cost[u][v] != 0:
+                alt = dist[u] + graph_cost[u][v]
+                if alt < dist[v]:
+                    dist[v] = alt
+                    prev[v] = u
     path = []
     u = destination
     while prev[u] != -1:

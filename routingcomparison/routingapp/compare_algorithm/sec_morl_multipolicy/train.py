@@ -154,8 +154,7 @@ def train_sdn_policy(graph, function, request):
         except:
             pass
 
-
-    for wi in range(100, 0 - 1, -2):
+    for wi in range(100, 0 - 1, -10):
         # Format the directory path
         directory_path = f"save/pth-e{graph.number_edge_servers}/cloud{graph.number_cloud_servers}/{expn}/w{wi:03d}"
         try:
@@ -166,8 +165,8 @@ def train_sdn_policy(graph, function, request):
             pass
         
         if wi == 100:
-            epoch_a = epoch * 10
-        else:
+            epoch_a = epoch * 3
+        else: 
             epoch_a = epoch
         train_envs = DummyVectorEnv(
             [lambda: SDN_Env(graph = graph, function = function, request=request, w=wi / 100.0) for _ in range(train_num)])
