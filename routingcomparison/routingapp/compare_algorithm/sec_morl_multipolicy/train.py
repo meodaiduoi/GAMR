@@ -162,8 +162,6 @@ def train_sdn_policy(graph, function, request):
             epoch_a = epoch * 3
         else: 
             epoch_a = epoch * 3
-        else: 
-            epoch_a = epoch
         train_envs = DummyVectorEnv(
             [lambda: SDN_Env(graph = graph, function = function, request=request, w=wi / 100.0) for _ in range(train_num)])
         test_envs = DummyVectorEnv(

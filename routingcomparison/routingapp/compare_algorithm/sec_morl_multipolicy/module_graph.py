@@ -26,21 +26,6 @@ class Graph:
     def subgraph(self, nodes):
             """
             Create a subgraph from the original graph based on the provided list of nodes.
-            """
-            Create a subgraph from the original graph based on the provided list of nodes.
-
-            Parameters:
-                nodes (list): The list of nodes to create the subgraph from.
-            Parameters:
-                nodes (list): The list of nodes to create the subgraph from.
-
-            Returns:
-                Graph: The subgraph containing the specified nodes.
-            """
-            # Initialize an empty list to hold the adjacency matrix of the subgraph
-            sub_adj_matrix = []
-            # Initialize an empty dictionary to map nodes to their new indices in the subgraph
-            sub_nodes = {}
             Returns:
                 Graph: The subgraph containing the specified nodes.
             """
