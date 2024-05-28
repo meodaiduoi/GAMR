@@ -12,7 +12,7 @@ ryu-manager-python7 = '../../venv7/bin/ryu-manager'
 ryu-manager-python9 = '../../venv9/bin/ryu-manager'
 
 [app-setting]
-scenario-multidomain = true
+scenario-multidomain = false
 scenario-num-domain = 2
 
 # Topology file stored at 
