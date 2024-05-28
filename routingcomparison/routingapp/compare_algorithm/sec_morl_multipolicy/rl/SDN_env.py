@@ -114,7 +114,6 @@ class SDN_Env(gym.Env):
             e = edge_action
             the_task['to'] = e
             edge_path = dijkstra(self.graph, 1, self.current_request[0], self.edge_servers[e])
-
             
             # Uploading task to the cloud server
             c = cloud_action
