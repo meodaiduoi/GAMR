@@ -19,6 +19,9 @@ __pycache__/
 # Tensor file
 events.out.tfevents.*
 
+# Train model
+**/*.pth
+
 # Distribution / packaging
 .Python
 build/
@@ -131,6 +134,7 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
+
 
 # Environments
 .env

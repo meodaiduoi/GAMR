@@ -33,10 +33,9 @@ repeat_per_collect = 2
 dual_clip, norm_adv = None, 0.0
 recompute_adv = 0
 
-INPUT_CH = 3
+INPUT_CH = 6
 FEATURE_CH = 512
 MLP_CH = 1024
-
 
 class sdn_net(nn.Module):
     def __init__(self, edge_num, cloud_num, mode='actor', is_gpu=is_gpu_default):
@@ -46,29 +45,26 @@ class sdn_net(nn.Module):
         self.edge_num = edge_num
         self.cloud_num = cloud_num
         if self.mode == 'actor':
-            self.network = conv_mlp_net(conv_in=INPUT_CH, conv_ch=FEATURE_CH, mlp_in=(self.edge_num+self.cloud_num)*FEATURE_CH,\
-                                    mlp_ch=MLP_CH, out_ch=self.edge_num+self.cloud_num, block_num=3)
+            self.network = conv_mlp_net(conv_in=INPUT_CH, conv_ch=FEATURE_CH, mlp_in=(self.edge_num+self.cloud_num)*FEATURE_CH,
+                                        mlp_ch=MLP_CH, out_ch=self.edge_num+self.cloud_num, block_num=3)
         else:
-            self.network = conv_mlp_net(conv_in=INPUT_CH, conv_ch=FEATURE_CH, mlp_in=(self.edge_num+self.cloud_num)*FEATURE_CH,\
-                                    mlp_ch=MLP_CH, out_ch=self.edge_num, block_num=3)
+            self.network = conv_mlp_net(conv_in=INPUT_CH, conv_ch=FEATURE_CH, mlp_in=(self.edge_num+self.cloud_num)*FEATURE_CH,
+                                        mlp_ch=MLP_CH, out_ch=self.edge_num, block_num=3)
         
     def load_model(self, filename):
         map_location=lambda storage, loc:storage
         self.load_state_dict(torch.load(filename, map_location=map_location))
-        # print('load model!')
     
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
-        # print('save model!')
 
     def forward(self, obs, state=None, info={}):
-        state = obs#['servers']
+        state = obs
         state = torch.tensor(state).float()
         if self.is_gpu:
             state = state.cuda()
 
         logits = self.network(state)
-        
         return logits, state
 
 class Actor(nn.Module):
@@ -83,22 +79,21 @@ class Actor(nn.Module):
     def load_model(self, filename):
         map_location=lambda storage, loc:storage
         self.load_state_dict(torch.load(filename, map_location=map_location))
-        # print('load model!')
     
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
-        # print('save model!')
 
     def forward(self, obs, state=None, info={}):
         logits,_ = self.net(obs)
-        # Adjust output size according to the new action space
+        # Handle the case where the logits are NaN
+        if torch.isnan(logits).any():
+            logits = torch.zeros_like(logits)
+            # print(obs)
         logits = F.sigmoid(logits)
-
         return logits, state
 
 class Critic(nn.Module):
     def __init__(self, edge_num, cloud_num, is_gpu=is_gpu_default):
-        # print(f"Batch keys: {self.__dict__.keys()}")
         super().__init__()
 
         self.is_gpu = is_gpu
@@ -110,14 +105,11 @@ class Critic(nn.Module):
     def load_model(self, filename):
         map_location=lambda storage, loc:storage
         self.load_state_dict(torch.load(filename, map_location=map_location))
-        # print('load model!')
     
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
-        # print('save model!')
 
     def forward(self, obs, state=None, info={}):
-            
         v,_ = self.net(obs)
 
         return v
@@ -131,7 +123,6 @@ def train_sdn_policy(graph, function, request):
 
     dist = torch.distributions.Bernoulli
 
-    # Define action space using gym.spaces.Box
     action_space = gym.spaces.Box(low=np.zeros(graph.number_edge_servers+graph.number_cloud_servers), high=np.ones(graph.number_edge_servers+graph.number_cloud_servers), shape=(graph.number_edge_servers+graph.number_cloud_servers, ))
     if lr_decay:
         lr_scheduler = LambdaLR(
@@ -148,26 +139,30 @@ def train_sdn_policy(graph, function, request):
             gae_lambda=gae_lambda, action_space=action_space,
             lr_scheduler=lr_scheduler,
         )
+    
+    best_reward = -np.inf
+    best_epoch = 0
+    patience = 10
+    early_stopping_triggered = False
+
     for i in range(101):
         try:
             os.mkdir('save/pth-e%d/' % (graph.number_edge_servers) + 'cloud%d/' % (graph.number_cloud_servers) + expn + '/w%03d' % (i))
         except:
             pass
 
-
-    for wi in range(100, 0 - 1, -2):
-        # Format the directory path
+    for wi in range(100, 0 - 1, -10):
         directory_path = f"save/pth-e{graph.number_edge_servers}/cloud{graph.number_cloud_servers}/{expn}/w{wi:03d}"
         try:
-            # Attempt to create the directory
             os.makedirs(directory_path)
         except FileExistsError:
-            # If the directory already exists, pass
             pass
         
         if wi == 100:
-            epoch_a = epoch * 10
-        else:
+            epoch_a = epoch * 3
+        else: 
+            epoch_a = epoch * 3
+        else: 
             epoch_a = epoch
         train_envs = DummyVectorEnv(
             [lambda: SDN_Env(graph = graph, function = function, request=request, w=wi / 100.0) for _ in range(train_num)])
@@ -179,13 +174,12 @@ def train_sdn_policy(graph, function, request):
             env=train_envs,
             buffer=buffer,
         )
-        # print(train_collector.env.action_space)
         test_collector = ts.data.Collector(policy, test_envs)
         train_collector.collect(n_episode=train_num)
 
         def save_best_fn(policy, epoch, env_step, gradient_step):
             pass
-
+        
         def test_fn(epoch, env_step):
             policy.actor.save_model('save/pth-e%d/' % (graph.number_edge_servers) + 'cloud%d/' % (graph.number_cloud_servers) + expn + '/w%03d/ep%02d-actor.pth' % (wi, epoch))
             policy.critic.save_model('save/pth-e%d/' % (graph.number_edge_servers) + 'cloud%d/' % (graph.number_cloud_servers) + expn + '/w%03d/ep%02d-critic.pth' % (wi, epoch))
@@ -194,26 +188,39 @@ def train_sdn_policy(graph, function, request):
             pass
 
         def reward_metric(rews):
-            return rews
+            return rews.mean()
 
-        result = ts.trainer.onpolicy_trainer(
-            policy=policy,
-            train_collector=train_collector,
-            test_collector=test_collector,
-            max_epoch=epoch_a,
-            step_per_epoch=step_per_epoch,
-            repeat_per_collect=repeat_per_collect,
-            episode_per_test=test_num,
-            batch_size=batch_size,
-            step_per_collect=None,
-            episode_per_collect=episode_per_collect,
-            train_fn=train_fn,
-            test_fn=test_fn,
-            save_best_fn=save_best_fn(policy, epoch, 0, 0),
-            stop_fn=None,
-            save_checkpoint_fn=save_best_fn(policy, epoch, 0, 0),
-            reward_metric=reward_metric,
-            logger=logger,
-        )
-    return result 
- 
+        for current_epoch in range(epoch_a):
+            if early_stopping_triggered:
+                break
+
+            result = ts.trainer.onpolicy_trainer(
+                policy=policy,
+                train_collector=train_collector,
+                test_collector=test_collector,
+                max_epoch=1,  # Train for one epoch at a time
+                step_per_epoch=step_per_epoch,
+                repeat_per_collect=repeat_per_collect,
+                episode_per_test=test_num,
+                batch_size=batch_size,
+                step_per_collect=None,
+                episode_per_collect=episode_per_collect,
+                train_fn=train_fn,
+                test_fn=test_fn,
+                save_best_fn=save_best_fn(policy=policy, epoch=current_epoch, env_step=0, gradient_step=0),
+                stop_fn=None,
+                reward_metric=reward_metric,
+                logger=logger,
+            )
+
+            current_reward = result['best_reward']
+
+            if current_reward > best_reward:
+                best_reward = current_reward
+                best_epoch = current_epoch
+            elif current_epoch - best_epoch >= patience:
+                early_stopping_triggered = True
+                print(f"Early stopping triggered at epoch {current_epoch}")
+                break
+
+    return result

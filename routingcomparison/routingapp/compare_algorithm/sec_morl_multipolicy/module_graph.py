@@ -24,28 +24,63 @@ class Graph:
             self.predict_bandwidth[a[0]][a[1]] = a[2]
 
     def subgraph(self, nodes):
-        """
-        Create a subgraph from the original graph based on the provided list of nodes.
+            """
+            Create a subgraph from the original graph based on the provided list of nodes.
+            """
+            Create a subgraph from the original graph based on the provided list of nodes.
 
-        Parameters:
-            nodes (list): The list of nodes to create the subgraph from.
+            Parameters:
+                nodes (list): The list of nodes to create the subgraph from.
+            Parameters:
+                nodes (list): The list of nodes to create the subgraph from.
 
-        Returns:
-            Graph: The subgraph containing the specified nodes.
-        """
-        # Initialize an empty list to hold the adjacency matrix of the subgraph
-        sub_adj_matrix = []
-        # Initialize an empty dictionary to map nodes to their new indices in the subgraph
-        sub_nodes = {}
+            Returns:
+                Graph: The subgraph containing the specified nodes.
+            """
+            # Initialize an empty list to hold the adjacency matrix of the subgraph
+            sub_adj_matrix = []
+            # Initialize an empty dictionary to map nodes to their new indices in the subgraph
+            sub_nodes = {}
+            Returns:
+                Graph: The subgraph containing the specified nodes.
+            """
+            # Initialize an empty list to hold the adjacency matrix of the subgraph
+            sub_adj_matrix = []
+            # Initialize an empty dictionary to map nodes to their new indices in the subgraph
+            sub_nodes = {}
 
-        # Create a new adjacency matrix for the subgraph
-        for node in nodes:
-            # Append the corresponding row from the original adjacency matrix to the subgraph adjacency matrix
-            sub_adj_matrix.append(self.adj_matrix[node])
-            # Map each node to its new index in the subgraph
-            sub_nodes[node] = len(sub_nodes)
+            # Create a new adjacency matrix for the subgraph
+            for node in nodes:
+                # Check if the node exists in the original graph
+                if node < len(self.adj_matrix):
+                    # Append the corresponding row from the original adjacency matrix to the subgraph adjacency matrix
+                    sub_adj_matrix.append(self.adj_matrix[node])
+                    # Map each node to its new index in the subgraph
+                    sub_nodes[node] = len(sub_nodes)
+            # Add the node to the subgraph adjacency matrix if the node exist in adjacency matrix but not in the nodes list
+            for node in range(len(self.adj_matrix)):
+                if node not in sub_nodes:
+                    sub_adj_matrix.append([-1] * len(self.adj_matrix))
+                    sub_nodes[node] = len(sub_nodes)
 
-        # Create a new Graph object for the subgraph with the necessary information
-        subgraph = Graph(len(nodes), self.number_clients, self.number_edge_servers, self.number_cloud_servers, self.number_switch, self.clients, self.edge_servers, self.cloud_servers, sub_adj_matrix)
+            # Create a new Graph object for the subgraph with the necessary information
+            subgraph = Graph(
+                len(sub_nodes),
+                len([node for node in self.clients if node in nodes]),
+                len([node for node in self.edge_servers if node in nodes]),
+                len([node for node in self.cloud_servers if node in nodes]),
+                len([node for node in range(self.number_nodes) if node not in self.clients and node not in self.edge_servers and node not in self.cloud_servers]),
+                [node for node in self.clients if node in nodes],
+                [node for node in self.edge_servers if node in nodes],
+                [node for node in self.cloud_servers if node in nodes],
+                sub_adj_matrix
+            )
 
-        return subgraph
+            # Update delay, loss, and bandwidth information to match the new node indices (check the avalability of client, edge server, cloud server in the subgraph)
+            for i in range(self.number_nodes + 1):
+                for j in range(self.number_nodes + 1):
+                    if i in sub_nodes and j in sub_nodes:
+                        subgraph.predict_delay[sub_nodes[i]][sub_nodes[j]] = self.predict_delay[i][j]
+                        subgraph.predict_loss[sub_nodes[i]][sub_nodes[j]] = self.predict_loss[i][j]
+                        subgraph.predict_bandwidth[sub_nodes[i]][sub_nodes[j]] = self.predict_bandwidth[i][j]
+            return subgraph

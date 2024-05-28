@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import networkx as nx
 import json
@@ -19,6 +20,11 @@ def normalize_weight(graph, priority):
         a = 0.6
         b = 0.4
     
+    # Define priority
+    # a = priority
+    # b = 1 - priority
+    
+    # Calculate cost
     graph_cost = np.zeros((graph.number_nodes+1, graph.number_nodes+1))
     max_delay = max(graph.predict_delay.flatten())
     max_bandwidth = max(graph.predict_bandwidth.flatten())
@@ -38,6 +44,7 @@ def dijkstra(graph, priority, source, destination):
     # print("Hello dong")
     graph_cost = normalize_weight(graph, priority)
     dist = np.zeros(graph.number_nodes+1)
+    # print("dist", dist)
     prev = np.zeros(graph.number_nodes+1)
     Q = []
     for i in range(1,graph.number_nodes+1):
@@ -64,18 +71,26 @@ def dijkstra(graph, priority, source, destination):
         #             dist[v] = alt
         #             prev[v] = u
         for v in graph.adj_matrix[u]:
-            alt = dist[u] + graph_cost[u][v]
-            if alt < dist[v]:
-                dist[v] = alt
-                prev[v] = u
+            if graph_cost[u][v] != 0:
+                alt = dist[u] + graph_cost[u][v]
+                if alt < dist[v]:
+                    dist[v] = alt
+                    prev[v] = u
+            if graph_cost[u][v] != 0:
+                alt = dist[u] + graph_cost[u][v]
+                if alt < dist[v]:
+                    dist[v] = alt
+                    prev[v] = u
     path = []
     u = destination
     while prev[u] != -1:
         path.append(int(u))
         u = int(prev[u])
+    if len(path) == 0 or path[-1] != source:
+        return None
     path.append(source)
     path.reverse()
-    print(path)
+    print(f"Source: {source}, Destination: {destination}, Path: {path}")
     return path   
 
 def routing_k(graph, pair_list, priority):

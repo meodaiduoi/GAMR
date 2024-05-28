@@ -177,7 +177,7 @@ class Function:
         # Collect solutions from all episodes for each wi
         for wi, (actor, critic) in trained_models.items():
             env = SDN_Env(graph=graph, function = function, request=request, w=wi / 100.0)
-            for _ in range(1000):  # Number of episodes
+            for _ in range(10):  # Number of episodes
                 # For trained models
                 obs = env.reset()
                 done = False

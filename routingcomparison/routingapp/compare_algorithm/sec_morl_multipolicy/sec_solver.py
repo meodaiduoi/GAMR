@@ -156,10 +156,11 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
     promising_graph = graph.subgraph(list(promising_nodes))
 
     print(promising_graph.adj_matrix, promising_graph.number_nodes, promising_graph.number_edge_servers, promising_graph.number_clients, promising_graph.number_cloud_servers)
-    for req in request: 
-        # print(req)
-        # DRL to decide the best path for multi-objective reward
-        trained_models = train_sdn_policy(promising_graph, func, req)
+    
+    # for req in request: 
+    #     # print(req)
+    #     # DRL to decide the best path for multi-objective reward
+    #     trained_models = train_sdn_policy(promising_graph, func, req)
         
     # Use the trained models to generate solutions
     solutions = func.generate_solutions(promising_graph, func, request)  
