@@ -44,6 +44,12 @@ class Function:
         
         return loss
     
+    def cal_linkutilization(self, path, link_utilization_matrix):
+        link_utilization = 0
+        for i in range(0, len(path)-1):
+            link_utilization = max(link_utilization, link_utilization_matrix[path[i]][path[i+1]])
+        return link_utilization
+    
     def update_weight_matrix(self, delay, lossPacket, i, j, new_delay, new_lossPacket):
         delay[i][j] = new_delay
         lossPacket[i][j] = new_lossPacket

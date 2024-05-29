@@ -144,24 +144,31 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
     
     # Generate the promising paths using DFS 
     promising_paths = []
+    request_list = []
+    # print(request)
+    
     for src, dst in request:
+        # print(src, dst)
         path = dfs(graph, src, dst)
         if path:
             promising_paths.append(path)
+        # print(promising_paths)
 
-    # Create a subgraph containing all nodes in the promising paths
-    promising_nodes = set()
-    for path in promising_paths:
-        promising_nodes.update(path)
-    promising_graph = graph.subgraph(list(promising_nodes))
+        # Create a subgraph containing all paths in the promising paths     
+        promising_nodes = set()
+        for path in promising_paths:
+            # print(path)
+            promising_nodes.update(path)
+        # print(promising_nodes)
+        promising_graph = graph.subgraph(list(promising_nodes))
 
-    print(promising_graph.adj_matrix, promising_graph.number_nodes, promising_graph.number_edge_servers, promising_graph.number_clients, promising_graph.number_cloud_servers)
-    
-    # for req in request: 
-    #     # print(req)
-    #     # DRL to decide the best path for multi-objective reward
-    #     trained_models = train_sdn_policy(promising_graph, func, req)
-        
+
+        # Update src and dst in the request to match the new node indices
+        promising_nodes_list = list(promising_nodes)
+
+        # Update src and dst in the request to match the new node indices
+        request_list.append([(promising_nodes_list.index(src), promising_nodes_list.index(dst))])
+            
     # Use the trained models to generate solutions
     solutions = func.generate_solutions(promising_graph, func, request)  
     

@@ -86,8 +86,8 @@ def dijkstra(graph, priority, source, destination):
     while prev[u] != -1:
         path.append(int(u))
         u = int(prev[u])
-    if len(path) == 0 or path[-1] != source:
-        return None
+    # if len(path) == 0 or path[-1] != source:
+    #     return None
     path.append(source)
     path.reverse()
     print(f"Source: {source}, Destination: {destination}, Path: {path}")

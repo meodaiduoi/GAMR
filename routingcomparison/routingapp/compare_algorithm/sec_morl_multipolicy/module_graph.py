@@ -14,14 +14,17 @@ class Graph:
         self.predict_delay = np.zeros((self.number_nodes+1, self.number_nodes+1))
         self.predict_loss = np.zeros((self.number_nodes+1, self.number_nodes+1))
         self.predict_bandwidth = np.zeros((self.number_nodes+1, self.number_nodes+1))
+        self.predict_link_utilization = np.zeros((self.number_nodes+1, self.number_nodes+1))
 
-    def updateGraph(self, delay_list, loss_list, bandwidth_list):
+    def updateGraph(self, delay_list, loss_list, bandwidth_list, link_utilization_list):
         for a in delay_list:
             self.predict_delay[a[0]][a[1]] = a[2]
         for a in loss_list:
             self.predict_loss[a[0]][a[1]] = a[2]
         for a in bandwidth_list:
             self.predict_bandwidth[a[0]][a[1]] = a[2]
+        for a in link_utilization_list:
+            self.predict_link_utilization[a[0]][a[1]] = a[2]
 
     def subgraph(self, nodes):
             """
