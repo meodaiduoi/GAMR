@@ -153,6 +153,7 @@ class SDN_Env(gym.Env):
                     # return self.get_obs(), -float('inf'), True, {'error': 'No path found'}
                 else: 
                     edge_link_utilisation = self.function.cal_linkutilization(edge_path, self.predict_bandwidth) + self.function.cal_linkutilization(des_path, self.predict_bandwidth)
+                    print(f"Edge Link Utilisation: {edge_link_utilisation}")
                     edge_delay = self.function.cal_delay(edge_path, self.predict_delay) + self.function.cal_delay(des_path, self.predict_delay)
                     the_task['link_utilisation'] += edge_link_utilisation
                     the_task['delay_time'] += edge_delay
@@ -200,7 +201,7 @@ class SDN_Env(gym.Env):
             self.done = True
         done = self.done
 
-        print(f"Done: {done}")
+        # print(f"Done: {done}")
         #####################################################
         # Observation encoding (Mã hóa quan sát)
         obs = self.get_obs()
@@ -212,7 +213,7 @@ class SDN_Env(gym.Env):
         # # Print the size of the action
         # print(f"Size of Action: {actions}")
 
-        # # Print the size of the reward
+        # Print the size of the reward
         # print(f"Size of Reward: {reward}")
         #####################################################
         # Additional information (Thông tin bổ sung)
