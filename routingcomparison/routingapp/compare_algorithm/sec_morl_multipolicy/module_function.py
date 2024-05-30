@@ -162,6 +162,8 @@ class Function:
     def generate_solutions(graph, function, request):
         # Generate solutions
         solutions = []
+        delays = []
+        link_utilisations = []
         # Load trained models from w00 to w100
         trained_models = {}
 
@@ -183,7 +185,7 @@ class Function:
         # Collect solutions from all episodes for each wi
         for wi, (actor, critic) in trained_models.items():
             env = SDN_Env(graph=graph, function = function, request=request, w=wi / 100.0)
-            for _ in range(10):  # Number of episodes
+            for _ in range(1):  # Number of episodes
                 # For trained models
                 obs = env.reset()
                 done = False
@@ -194,10 +196,13 @@ class Function:
                     next_obs, _, done, info = env.step(action.detach().numpy())
                     # Update current observation
                     obs = next_obs
-                    
-                    # Check if complete_path is available in info
-                    if 'complete_path' in info:
-                        # Append complete_path to solutions
-                        solutions.append(info['complete_path'])
+                # Estimate the performance of the trained model
+                avg_delay, avg_link_utilisation = env.estimate_performance()
+
+                # Append to lists
+                delays.append(avg_delay)
+                link_utilisations.append(avg_link_utilisation)
+            # Save the solution
+            solutions = env.get_path()
         return solutions
             

@@ -28,11 +28,9 @@ class SDN_Env(gym.Env):
         self.current_request = self.request[self.current_request_index]
         self.Treq = (graph.number_edge_servers + graph.number_cloud_servers + graph.number_cloud_servers * graph.number_edge_servers)
         self.Tmax = self.Treq * len(self.request)    
-        # Bounds are set based on the number of edge and cloud servers
-        low_bound = np.zeros(self.number_edge_servers + self.number_cloud_servers)
-        high_bound = np.ones(self.number_edge_servers + self.number_cloud_servers)
-        self.action_space = gym.spaces.Box(low=low_bound, high=high_bound, shape=(self.number_edge_servers + self.number_cloud_servers,))
-
+        self.complete_path = []
+        # Action space
+        self. action_space = gym.spaces.Box(low=0, high=1, shape=(graph.number_edge_servers+graph.number_cloud_servers,), dtype=np.float32)
         # Initialize the environment
         self.reset()  
 
@@ -49,7 +47,8 @@ class SDN_Env(gym.Env):
         self.unassigned_task_list = []
         self.edge_lists = []
         self.cloud_lists = []
-        
+        self.complete_path = []
+
         # Set environment flags and variables
         self.done = False
         self.reward_buff = []
@@ -60,7 +59,9 @@ class SDN_Env(gym.Env):
             self.cloud_lists.append([])
             
         # Set the action space size based on the number of edge servers
-        self.action_space = gym.spaces.Box(low=0, high=1, shape=(self.number_edge_servers + self.number_cloud_servers,))
+        low_bound = np.zeros((self.number_edge_servers + self.number_cloud_servers, ))
+        high_bound = np.ones((self.number_edge_servers + self.number_cloud_servers, ))
+        self.action_space = gym.spaces.Box(low=0, high=1, shape=(self.number_edge_servers+self.number_cloud_servers,), dtype=np.float32)
 
             
         # Print the size of the state (ra)
@@ -179,7 +180,23 @@ class SDN_Env(gym.Env):
                 assert (0 <= edge_action < self.number_edge_servers or 0 <= cloud_action < self.number_cloud_servers), f'server selection action is invalid: {edge_action}, {cloud_action}'
                 # Handle invalid action
                 # self.invalid_act_flag = True
-
+                
+        #####################################################
+        # Save the routing path
+        complete_path = []
+        # Create the complete_path from edge_path and cloud_path (if both are not None)
+        if edge_path is not None and cloud_path is not None and des_path is not None:
+            complete_path = edge_path + cloud_path[1:]  + des_path[1:] 
+        # If only edge_path is not None, store it as complete_path
+        elif edge_path is not None and des_path is not None:
+            complete_path = edge_path + des_path[1:] 
+        # If only cloud_path is not None, store it as complete_path
+        elif cloud_path is not None and des_path is not None:
+            complete_path = cloud_path + des_path[1:] 
+        else: 
+            complete_path = []
+        
+        self.complete_path.append(complete_path)
         #####################################################
         # Estimate rewards based on task information
         self.rew_t, self.rew_lu = self.estimate_rew()
@@ -200,8 +217,8 @@ class SDN_Env(gym.Env):
         if (self.step_cnt >= self.Tmax):
             self.done = True
         done = self.done
+        if done: print(f"Complete Path: {self.complete_path}")
 
-        # print(f"Done: {done}")
         #####################################################
         # Observation encoding (Mã hóa quan sát)
         obs = self.get_obs()
@@ -213,24 +230,13 @@ class SDN_Env(gym.Env):
         # # Print the size of the action
         # print(f"Size of Action: {actions}")
 
-        # Print the size of the reward
+        # # Print the size of the reward
         # print(f"Size of Reward: {reward}")
         #####################################################
         # Additional information (Thông tin bổ sung)
         info = {}
-        # Create the complete_path from edge_path and cloud_path (if both are not None)
-        if edge_path is not None and cloud_path is not None and des_path is not None:
-            complete_path = edge_path + cloud_path[1:]  + des_path[1:] 
-            info['complete_path'] = complete_path
-        # If only edge_path is not None, store it as complete_path
-        elif edge_path is not None and des_path is not None:
-            info['complete_path'] = edge_path + des_path[1:] 
-        # If only cloud_path is not None, store it as complete_path
-        elif cloud_path is not None and des_path is not None:
-            info['complete_path'] = cloud_path + des_path[1:] 
-        else: 
-            self.invalid_act_flag = True
-            
+        
+
         return obs, reward, done, info
 
     def get_obs(self):
@@ -342,3 +348,8 @@ class SDN_Env(gym.Env):
             total_bandwidth_utilization += task['link_utilisation'] # Accumulate bandwidth utilization
             
         return total_delay, total_bandwidth_utilization
+    
+    # Get the complete path to routing
+    def get_path(self):
+        complete_path = self.complete_path
+        return complete_path
