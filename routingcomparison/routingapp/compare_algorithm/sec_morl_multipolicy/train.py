@@ -88,7 +88,6 @@ class Actor(nn.Module):
         # # Handle the case where the logits are NaN
         # if torch.isnan(logits).any():
         #     logits = torch.zeros_like(logits)
-        #     # print(obs)
         logits = F.sigmoid(logits)
         return logits, state
 
@@ -114,16 +113,17 @@ class Critic(nn.Module):
 
         return v
 
-def train_sdn_policy(graph, function, request):
+def train_sdn_policy(train_graph, test_graph, function, train_request, test_request):
     
-    actor = Actor(is_gpu=is_gpu_default, edge_num = graph.number_edge_servers, cloud_num = graph.number_cloud_servers)
-    critic = Critic(is_gpu=is_gpu_default, edge_num = graph.number_edge_servers, cloud_num = graph.number_cloud_servers)
+    actor = Actor(is_gpu=is_gpu_default, edge_num = train_graph.number_edge_servers, cloud_num = train_graph.number_cloud_servers)
+    critic = Critic(is_gpu=is_gpu_default, edge_num = train_graph.number_edge_servers, cloud_num = train_graph.number_cloud_servers)
     actor_critic = ts.utils.net.common.ActorCritic(actor, critic)
     optim = torch.optim.Adam(actor_critic.parameters(), lr=lr)
 
     dist = torch.distributions.Bernoulli
 
-    action_space = gym.spaces.Box(low=np.zeros(graph.number_edge_servers+graph.number_cloud_servers), high=np.ones(graph.number_edge_servers+graph.number_cloud_servers), shape=(graph.number_edge_servers+graph.number_cloud_servers, ))
+    # Action space
+    action_space = gym.spaces.Box(low=0, high=1, shape=(train_graph.number_edge_servers+train_graph.number_cloud_servers,), dtype=np.float32)
     if lr_decay:
         lr_scheduler = LambdaLR(
             optim, lr_lambda=lambda epoch: lr_decay ** (epoch - 1)
@@ -140,19 +140,14 @@ def train_sdn_policy(graph, function, request):
             lr_scheduler=lr_scheduler,
         )
     
-    best_reward = -np.inf
-    best_epoch = 0
-    patience = 10
-    early_stopping_triggered = False
-
     for i in range(101):
         try:
-            os.mkdir('save/pth-e%d/' % (graph.number_edge_servers) + 'cloud%d/' % (graph.number_cloud_servers) + expn + '/w%03d' % (i))
+            os.mkdir('save/pth-e%d/' % (train_graph.number_edge_servers) + 'cloud%d/' % (train_graph.number_cloud_servers) + expn + '/w%03d' % (i))
         except:
             pass
 
     for wi in range(100, 0 - 1, -10):
-        directory_path = f"save/pth-e{graph.number_edge_servers}/cloud{graph.number_cloud_servers}/{expn}/w{wi:03d}"
+        directory_path = f"save/pth-e{train_graph.number_edge_servers}/cloud{train_graph.number_cloud_servers}/{expn}/w{wi:03d}"
         try:
             os.makedirs(directory_path)
         except FileExistsError:
@@ -161,11 +156,11 @@ def train_sdn_policy(graph, function, request):
         if wi == 100:
             epoch_a = epoch * 3
         else: 
-            epoch_a = epoch * 3
+            epoch_a = epoch
         train_envs = DummyVectorEnv(
-            [lambda: SDN_Env(graph = graph, function = function, request=request, w=wi / 100.0) for _ in range(train_num)])
+            [lambda: SDN_Env(graph = train_graph, function = function, request=train_request, w=wi / 100.0) for _ in range(train_num)])
         test_envs = DummyVectorEnv(
-            [lambda: SDN_Env(graph = graph, function = function, request=request, w=wi / 100.0) for _ in range(test_num)])
+            [lambda: SDN_Env(graph = test_graph, function = function, request=test_request, w=wi / 100.0) for _ in range(test_num)])
         buffer = ts.data.VectorReplayBuffer(buffer_size, train_num)
         train_collector = ts.data.Collector(
             policy=policy,
@@ -179,46 +174,34 @@ def train_sdn_policy(graph, function, request):
             pass
         
         def test_fn(epoch, env_step):
-            policy.actor.save_model('save/pth-e%d/' % (graph.number_edge_servers) + 'cloud%d/' % (graph.number_cloud_servers) + expn + '/w%03d/ep%02d-actor.pth' % (wi, epoch))
-            policy.critic.save_model('save/pth-e%d/' % (graph.number_edge_servers) + 'cloud%d/' % (graph.number_cloud_servers) + expn + '/w%03d/ep%02d-critic.pth' % (wi, epoch))
+            policy.actor.save_model('save/pth-e%d/' % (train_graph.number_edge_servers) + 'cloud%d/' % (train_graph.number_cloud_servers) + expn + '/w%03d/ep%02d-actor.pth' % (wi, epoch))
+            policy.critic.save_model('save/pth-e%d/' % (train_graph.number_edge_servers) + 'cloud%d/' % (train_graph.number_cloud_servers) + expn + '/w%03d/ep%02d-critic.pth' % (wi, epoch))
 
         def train_fn(epoch, env_step):
             pass
 
         def reward_metric(rews):
-            return rews.mean()
+            return rews
 
-        for current_epoch in range(epoch_a):
-            if early_stopping_triggered:
-                break
-
-            result = ts.trainer.onpolicy_trainer(
-                policy=policy,
-                train_collector=train_collector,
-                test_collector=test_collector,
-                max_epoch=1,  # Train for one epoch at a time
-                step_per_epoch=step_per_epoch,
-                repeat_per_collect=repeat_per_collect,
-                episode_per_test=test_num,
-                batch_size=batch_size,
-                step_per_collect=None,
-                episode_per_collect=episode_per_collect,
-                train_fn=train_fn,
-                test_fn=test_fn,
-                save_best_fn=save_best_fn(policy=policy, epoch=current_epoch, env_step=0, gradient_step=0),
-                stop_fn=None,
-                reward_metric=reward_metric,
-                logger=logger,
-            )
-
-            current_reward = result['best_reward']
-
-            if current_reward > best_reward:
-                best_reward = current_reward
-                best_epoch = current_epoch
-            elif current_epoch - best_epoch >= patience:
-                early_stopping_triggered = True
-                print(f"Early stopping triggered at epoch {current_epoch}")
-                break
+        # Train the model
+        result = ts.trainer.onpolicy_trainer(
+            policy=policy,
+            train_collector=train_collector,
+            test_collector=test_collector,
+            max_epoch=1,  # Train for one epoch at a time
+            step_per_epoch=step_per_epoch,
+            repeat_per_collect=repeat_per_collect,
+            episode_per_test=test_num,
+            batch_size=batch_size,
+            step_per_collect=None,
+            episode_per_collect=episode_per_collect,
+            train_fn=train_fn,
+            test_fn=test_fn,
+            save_best_fn=save_best_fn(policy, epoch, env_step=0, gradient_step=0),
+            stop_fn=None,
+            reward_metric=reward_metric,
+            logger=logger,
+        )
+   
 
     return result
