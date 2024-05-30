@@ -4,7 +4,7 @@ import json
 import os
 import logging
 from routingapp.common.datatype import NetworkStat
-from extras.utils import get_full_topo_graph, get_link_info_legacy, dict_str_to_int_key, mac_to_int
+from extras.utils import get_full_topo_graph, get_link_info_legacy, dict_str_to_int_key, mac_to_int, get_link_info
 
 # Load ENV variable if fail fallback to default value
 try:

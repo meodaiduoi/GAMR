@@ -102,9 +102,9 @@ class RestHookMN(FastAPI):
             proc: Popen = host.popen([command], shell=True)
             if task.wait == True:
                 result, err = proc.communicate()
-
-            return { 'result': result.decode("latin-1"),
-                     'error': err.decode("latin-1")}
+                return { 'result': result.decode("latin-1"),
+                        'error': err.decode("latin-1")}
+            return {'result': True}
 
         @self.post('/run_cmd')
         async def run_cmd(task: CmdTask):
