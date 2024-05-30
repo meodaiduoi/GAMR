@@ -85,10 +85,10 @@ class Actor(nn.Module):
 
     def forward(self, obs, state=None, info={}):
         logits,_ = self.net(obs)
-        # Handle the case where the logits are NaN
-        if torch.isnan(logits).any():
-            logits = torch.zeros_like(logits)
-            # print(obs)
+        # # Handle the case where the logits are NaN
+        # if torch.isnan(logits).any():
+        #     logits = torch.zeros_like(logits)
+        #     # print(obs)
         logits = F.sigmoid(logits)
         return logits, state
 
