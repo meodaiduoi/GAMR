@@ -73,7 +73,7 @@ def dfs(graph, start, goal):
     
 #     return combined_graph
 
-def sec_solver(route: RouteTask, network_stat: NetworkStat):
+def sec_solver(task: RouteTask, network_stat: NetworkStat):
 
     graph = network_stat.graph
     host_json = network_stat.host_json
@@ -105,6 +105,7 @@ def sec_solver(route: RouteTask, network_stat: NetworkStat):
 
     # Get data from /link_quality
     update_delay = []
+    update_bandwidth = []
     update_link_utilization = []
     update_loss = []
     for stat in link_info:
@@ -117,12 +118,16 @@ def sec_solver(route: RouteTask, network_stat: NetworkStat):
             if loss is None: loss = 0
             bandwidth = stat.get('link_utilization', 0)
             if bandwidth is None: bandwidth = 0
+            link_utilization = stat.get('link_utilization', 0)
+            if link_utilization is None: link_utilization = 0
             update_delay.append((src, dst, delay))
             update_loss.append((src, dst, loss))
+            update_bandwidth.append((src, dst, bandwidth))
             update_link_utilization.append((src, dst, bandwidth))
      
     # Reading request
     # !NOTE CHANGE TO SINGLE ROUTE TASK REWORK THIS SECTION
+    route = task
     request = []
     src = f'h{route.src_host}'
     dst = f'h{route.dst_host}'
@@ -139,7 +144,7 @@ def sec_solver(route: RouteTask, network_stat: NetworkStat):
     graph_gen = Graph(number_node, 10, 1, 1, 10, clients, edge_servers, cloud_servers, adj_matrix)
 
     func = Function()
-    graph_gen.updateGraph(update_delay, update_loss, update_link_utilization) 
+    graph_gen.updateGraph(update_delay, update_loss, update_bandwidth, update_link_utilization) 
     
     # Generate the promising paths using DFS 
     promising_paths = []
@@ -148,7 +153,7 @@ def sec_solver(route: RouteTask, network_stat: NetworkStat):
     
     for src, dst in request:
         # print(src, dst)
-        path = dfs(graph, src, dst)
+        path = dfs(graph_gen, src, dst)
         if path:
             promising_paths.append(path)
         # print(promising_paths)
@@ -159,7 +164,7 @@ def sec_solver(route: RouteTask, network_stat: NetworkStat):
             # print(path)
             promising_nodes.update(path)
         # print(promising_nodes)
-        promising_graph = graph.subgraph(list(promising_nodes))
+        promising_graph = graph_gen.subgraph(list(promising_nodes))
 
 
         # Update src and dst in the request to match the new node indices
