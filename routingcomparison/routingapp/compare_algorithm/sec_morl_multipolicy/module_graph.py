@@ -50,17 +50,16 @@ class Graph:
                 if node not in sub_nodes:
                     sub_adj_matrix.append([-1] * len(self.adj_matrix))
                     sub_nodes[node] = len(sub_nodes)
-
             # Create a new Graph object for the subgraph with the necessary information
             subgraph = Graph(
                 len(sub_nodes),
                 len([node for node in self.clients if node in nodes]),
-                len([node for node in self.edge_servers if node in nodes]),
-                len([node for node in self.cloud_servers if node in nodes]),
+                self.number_edge_servers,
+                self.number_cloud_servers,
                 len([node for node in range(self.number_nodes) if node not in self.clients and node not in self.edge_servers and node not in self.cloud_servers]),
                 [node for node in self.clients if node in nodes],
-                [node for node in self.edge_servers if node in nodes],
-                [node for node in self.cloud_servers if node in nodes],
+                self.edge_servers,
+                self.cloud_servers,
                 sub_adj_matrix
             )
 
@@ -71,4 +70,6 @@ class Graph:
                         subgraph.predict_delay[sub_nodes[i]][sub_nodes[j]] = self.predict_delay[i][j]
                         subgraph.predict_loss[sub_nodes[i]][sub_nodes[j]] = self.predict_loss[i][j]
                         subgraph.predict_bandwidth[sub_nodes[i]][sub_nodes[j]] = self.predict_bandwidth[i][j]
+            # Ensure the node and edge server are not in the initial of the subgraph has delay, loss, bandwidth, link utilization equal to 0
+            
             return subgraph
