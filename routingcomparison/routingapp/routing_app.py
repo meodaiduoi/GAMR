@@ -111,7 +111,7 @@ app.include_router(debugdata.router, prefix='/debug', tags=['debug'])
 if setting.MULTI_DOMAIN is False:
     app.include_router(simplerouting_single.router, prefix="/single/simplerouting", tags=["Single"]) 
     app.include_router(ga_single.router, prefix="/single/ga", tags=["Single"]) 
-    app.include_router(sec_single.router, prefix="/single/sec", tags=["Single"]) 
+    app.include_router(sec_single.router, prefix="/single/rl", tags=["Single"]) 
 
 # New multidomain api
 if setting.MULTI_DOMAIN is True:

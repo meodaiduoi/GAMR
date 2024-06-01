@@ -73,7 +73,7 @@ def dfs(graph, start, goal):
     
 #     return combined_graph
 
-def sec_solver(task: RouteTask, network_stat: NetworkStat):
+def sec_solver(route: RouteTask, network_stat: NetworkStat):
 
     graph = network_stat.graph
     host_json = network_stat.host_json
@@ -123,7 +123,6 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
      
     # Reading request
     # !NOTE CHANGE TO SINGLE ROUTE TASK REWORK THIS SECTION
-    route = task.route
     request = []
     src = f'h{route.src_host}'
     dst = f'h{route.dst_host}'
