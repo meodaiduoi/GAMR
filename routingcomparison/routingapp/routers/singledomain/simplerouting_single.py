@@ -1,7 +1,7 @@
 from routingapp.common.routing_utils import *
 from routingapp.common.models import *
 
-from routingapp.common.network_stat_utils import get_network_stat_single
+from extras.network_info_utils import n
 from routingapp.compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver
 from routingapp.config import Setting
 from fastapi import APIRouter
@@ -14,7 +14,7 @@ async def routing_manual(tasks: ManualRouteTasks):
     Manual routing \n
     '''
     
-    network_stat = get_network_stat_single()
+    network_stat = get_netw()
     setting = Setting()
     graph = network_stat.graph
     
