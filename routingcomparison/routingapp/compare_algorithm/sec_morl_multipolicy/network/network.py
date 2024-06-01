@@ -134,7 +134,8 @@ class conv_mlp_net(nn.Module):
         input_dim = 36
         action_dim = 2
         self.is_gpu = is_gpu
-        self.mlp_in = mlp_in
+        # Fit the input dimension to the input of the mlp
+        self.mlp_in = mlp_in 
 
         self.feature_network_A = conv_resblock(in_ch=conv_in, ch=conv_ch, out_ch=conv_ch, block_num=block_num)
         self.feature_network_B = mlp_resblock(in_ch=mlp_in, ch=mlp_ch, out_ch=out_ch, block_num=block_num, is_in=True)
@@ -155,6 +156,7 @@ class conv_mlp_net(nn.Module):
 
         x = x.view(-1, self.mlp_in)
         # print("Shape after view:", x.shape)
+        
 
         x = self.feature_network_B(x)
         # print("Shape after mlp_resblock:", x.shape)

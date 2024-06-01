@@ -137,7 +137,7 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
     clients = []
     edge_servers = []
     cloud_servers = []
-    graph_gen = Graph(number_node, 10, 10, 10, 10, clients, edge_servers, cloud_servers, adj_matrix)
+    graph_gen = Graph(number_node, 10, 1, 1, 10, clients, edge_servers, cloud_servers, adj_matrix)
 
     func = Function()
     graph_gen.updateGraph(update_delay, update_loss, update_link_utilization) 
@@ -170,12 +170,12 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
         request_list.append([(promising_nodes_list.index(src), promising_nodes_list.index(dst))])
             
     # Use the trained models to generate solutions
-    solutions = func.generate_solutions(promising_graph, func, request)  
+    solutions = func.generate_solutions(promising_graph, request)  
     
-    result = func.select_solution(solutions)
+    # result = func.select_solution(solutions)
 
     # Return flow rules based on JSON result format
-    result_json = result_to_json(result, mapping)
-    print(f"result: {result}")
+    result_json = result_to_json(solutions, mapping)
+    print(f"result: {solutions}")
     flowrules = create_flowrule_json(result_json, host_json, get_link_to_port())
     return flowrules

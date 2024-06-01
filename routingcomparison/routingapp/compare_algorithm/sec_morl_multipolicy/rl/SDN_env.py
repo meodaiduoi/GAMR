@@ -121,7 +121,7 @@ class SDN_Env(gym.Env):
             the_task['to'] = c
             cloud_path = dijkstra(self.graph, 1, self.edge_servers[e], self.cloud_servers[c]) 
             des_path = dijkstra(self.graph, 1, self.cloud_servers[c], self.current_request[1])
-            print(f"Edge Path: {edge_path}, Cloud Path: {cloud_path}, Destination Path: {des_path}")
+            # print(f"Edge Path: {edge_path}, Cloud Path: {cloud_path}, Destination Path: {des_path}")
             # If the path is not found, set the invalid action flag to True
             if edge_path is None or cloud_path is None or des_path is None:
                 self.invalid_act_flag = True
@@ -147,14 +147,14 @@ class SDN_Env(gym.Env):
                 the_task['to'] = e
                 edge_path = dijkstra(self.graph, 1, self.current_request[0], self.edge_servers[e]) 
                 des_path = dijkstra(self.graph, 1, self.edge_servers[e], self.current_request[1])
-                print(f"Edge Path: {edge_path}, Destination Path: {des_path}")
+                # print(f"Edge Path: {edge_path}, Destination Path: {des_path}")
                 # If the edge path or destination path is not found, set the invalid action flag to True
                 if edge_path is None or des_path is None:
                     self.invalid_act_flag = True
                     # return self.get_obs(), -float('inf'), True, {'error': 'No path found'}
                 else: 
                     edge_link_utilisation = self.function.cal_linkutilization(edge_path, self.predict_bandwidth) + self.function.cal_linkutilization(des_path, self.predict_bandwidth)
-                    print(f"Edge Link Utilisation: {edge_link_utilisation}")
+                    # print(f"Edge Link Utilisation: {edge_link_utilisation}")
                     edge_delay = self.function.cal_delay(edge_path, self.predict_delay) + self.function.cal_delay(des_path, self.predict_delay)
                     the_task['link_utilisation'] += edge_link_utilisation
                     the_task['delay_time'] += edge_delay
@@ -165,7 +165,7 @@ class SDN_Env(gym.Env):
                 the_task['to'] = c
                 cloud_path = dijkstra(self.graph, 1, self.current_request[0], self.cloud_servers[c]) 
                 des_path = dijkstra(self.graph, 1, self.cloud_servers[c], self.current_request[1])
-                print(f"Cloud Path: {cloud_path}, Destination Path: {des_path}")
+                # print(f"Cloud Path: {cloud_path}, Destination Path: {des_path}")
                 # If the cloud path or destination path is not found, set the invalid action flag to True
                 if cloud_path is None or des_path is None:
                     self.invalid_act_flag = True
@@ -217,7 +217,7 @@ class SDN_Env(gym.Env):
         if (self.step_cnt >= self.Tmax):
             self.done = True
         done = self.done
-        if done: print(f"Complete Path: {self.complete_path}")
+        # if done: print(f"Complete Path: {self.complete_path}")
 
         #####################################################
         # Observation encoding (Mã hóa quan sát)

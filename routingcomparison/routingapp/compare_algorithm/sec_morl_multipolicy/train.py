@@ -11,15 +11,14 @@ import os
 from routingapp.compare_algorithm.sec_morl_multipolicy.rl import SDN_Env
 from routingapp.compare_algorithm.sec_morl_multipolicy.network import conv_mlp_net
 
-from tianshou.utils.net.discrete import Actor, Critic
 
 expn = 'exp1'
 lr, epoch, batch_size = 1e-6, 1, 1024 * 4
 train_num, test_num = 64, 1024
 gamma, lr_decay = 0.9, None
-buffer_size = 100000
+buffer_size = 1000000
 eps_train, eps_test = 0.1, 0.00
-step_per_epoch, episode_per_collect = 100 * train_num * 700, train_num
+step_per_epoch, episode_per_collect = 10 * train_num * 7, train_num
 writer = SummaryWriter('tensor-board-log/ppo')
 logger = ts.utils.TensorboardLogger(writer)
 is_gpu_default = torch.cuda.is_available()
@@ -169,7 +168,7 @@ def train_sdn_policy(train_graph, test_graph, function, train_request, test_requ
         )
         test_collector = ts.data.Collector(policy, test_envs)
         train_collector.collect(n_episode=train_num)
-
+        
         def save_best_fn(policy, epoch, env_step, gradient_step):
             pass
         

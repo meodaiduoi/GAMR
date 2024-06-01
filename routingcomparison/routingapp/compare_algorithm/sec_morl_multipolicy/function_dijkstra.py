@@ -3,7 +3,7 @@ import numpy as np
 import networkx as nx
 import json
 
-from routingapp.compare_algorithm.gamr.module_graph import Graph
+# from routingapp.compare_algorithm.gamr.module_graph import Graph
 
 from routingapp.common.routing_utils import *
 from routingapp.common.models import *
@@ -91,7 +91,7 @@ def dijkstra(graph, priority, source, destination):
     path.append(destination)
     path.append(source)
     path.reverse()
-    print(f"Source: {source}, Destination: {destination}, Path: {path}")
+    # print(f"Source: {source}, Destination: {destination}, Path: {path}")
     return path   
 
 def routing_k(graph, pair_list, priority):
