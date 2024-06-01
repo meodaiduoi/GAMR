@@ -83,18 +83,24 @@ class SDN_Env(gym.Env):
         
         #########################################################
         # Action processing (Xử lý hành động)
-        self.current_request = self.request[self.current_request_index]
-    
-        # Case 1: Choose the edge server with the highest probability
-        if np.all(actions[:self.number_edge_servers] == 1):
-            edge_action = np.argmax(actions[:self.number_edge_servers])
-        # Case 2: Choose the cloud server with the highest probability
-        elif np.all(actions[self.number_edge_servers:] == 1):
-            cloud_action = np.argmax(actions[self.number_edge_servers:])
-        # Case 3: Choose both edge and cloud servers
+        if 0 <= actions < self.number_edge_servers:
+            edge_action = actions
+        elif self.number_edge_servers <= actions < self.number_edge_servers + self.number_cloud_servers:
+            cloud_action = actions - self.number_edge_servers
         else:
-            edge_action = np.argmax(actions[:self.number_edge_servers])
-            cloud_action = np.argmax(actions[self.number_edge_servers:])
+            assert 0 <= actions < self.number_edge_servers + self.number_cloud_servers, f'invalid action: {actions}'
+        # self.current_request = self.request[self.current_request_index]
+    
+        # # Case 1: Choose the edge server with the highest probability
+        # if np.all(actions[:self.number_edge_servers] == 1):
+        #     edge_action = np.argmax(actions[:self.number_edge_servers])
+        # # Case 2: Choose the cloud server with the highest probability
+        # elif np.all(actions[self.number_edge_servers:] == 1):
+        #     cloud_action = np.argmax(actions[self.number_edge_servers:])
+        # # Case 3: Choose both edge and cloud servers
+        # else:
+        #     edge_action = np.argmax(actions[:self.number_edge_servers])
+        #     cloud_action = np.argmax(actions[self.number_edge_servers:])
         
         self.edge_action = edge_action
         self.cloud_action = cloud_action

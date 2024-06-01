@@ -9,94 +9,69 @@ from routingapp.common.routing_utils import *
 from routingapp.common.models import *
 from extras.utils import *
 
+import heapq
+import numpy as np
+
 def normalize_weight(graph, priority):
     if priority == 1:
-        a = 1/2
-        b = 1/2
+        a = 1 / 2
+        b = 1 / 2
     elif priority == 2:
         a = 0.3
         b = 0.7
     else:
         a = 0.6
         b = 0.4
-    
-    # Define priority
-    # a = priority
-    # b = 1 - priority
-    
-    # Calculate cost
-    graph_cost = np.zeros((graph.number_nodes+1, graph.number_nodes+1))
-    max_delay = max(graph.predict_delay.flatten())
-    max_bandwidth = max(graph.predict_bandwidth.flatten())
-    if max_delay == 0:
-        max_delay = 1
-    if max_bandwidth == 0:
-        max_bandwidth = 1
-    for i in range(graph.number_nodes+1):
-        for j in range(graph.number_nodes+1):
-            graph_cost[i][j] = a * graph.predict_bandwidth[i][j] / max_bandwidth + b * graph.predict_delay[i][j] / max_delay
+
+    max_delay = np.max(graph.predict_delay)
+    max_bandwidth = np.max(graph.predict_bandwidth)
+    max_delay = max_delay if max_delay != 0 else 1
+    max_bandwidth = max_bandwidth if max_bandwidth != 0 else 1
+
+    graph_cost = np.zeros((graph.number_nodes + 1, graph.number_nodes + 1))
+    for i in range(graph.number_nodes + 1):
+        for j in range(graph.number_nodes + 1):
+            if graph.predict_delay[i][j] >= 0 and graph.predict_bandwidth[i][j] >= 0:
+                graph_cost[i][j] = a * graph.predict_bandwidth[i][j] / max_bandwidth + b * graph.predict_delay[i][j] / max_delay
     return graph_cost
 
-
 def dijkstra(graph, priority, source, destination):
-    # print("Nguon", source)
-    # print("Dich", destination)
-    # print("Hello dong")
     graph_cost = normalize_weight(graph, priority)
-    dist = np.zeros(graph.number_nodes+1)
-    # print("dist", dist)
-    prev = np.zeros(graph.number_nodes+1)
-    Q = []
-    for i in range(1,graph.number_nodes+1):
-        dist[i] = float('inf')
-        prev[i] = -1
-        Q.append(i)
+    dist = {i: float('inf') for i in range(0, graph.number_nodes)}
+    prev = {i: None for i in range(0, graph.number_nodes)}
     dist[source] = 0
-    while len(Q) != 0:
-        min_dist = float('inf')
-        u = -1
-        for i in Q:
-            if dist[i] < min_dist:
-                min_dist = dist[i]
-                u = i
-        # print("Hello")
-        # print(Q)
-        if u < 0: break 
-        else: 
-            Q.remove(u)
-        # for v in range(1, graph.number_nodes+1):
-        #     if graph_cost[u][v] != 0:
-        #         alt = dist[u] + graph_cost[u][v]
-        #         if alt < dist[v]:
-        #             dist[v] = alt
-        #             prev[v] = u
-        for v in graph.adj_matrix[u]:
+
+    priority_queue = [(0, source)]
+    while priority_queue:
+        current_dist, u = heapq.heappop(priority_queue)
+        
+
+        for v in range(1, graph.number_nodes + 1):
             if graph_cost[u][v] != 0:
-                alt = dist[u] + graph_cost[u][v]
+                alt = current_dist + graph_cost[u][v]
                 if alt < dist[v]:
                     dist[v] = alt
                     prev[v] = u
-            if graph_cost[u][v] != 0:
-                alt = dist[u] + graph_cost[u][v]
-                if alt < dist[v]:
-                    dist[v] = alt
-                    prev[v] = u
+                    heapq.heappush(priority_queue, (alt, v))
+    
     path = []
     u = destination
-    while prev[u] != -1:
-        path.append(int(u))
-        u = int(prev[u])
-    # if len(path) == 0 or path[-1] != source:
-    #     return None
+    if dist[u] == float('inf'):
+        return path  # No path found
+    while u is not None:
+        if(u != -1):
+            path.append(int(u))
+            u = prev[u]
+
     path.append(destination)
     path.append(source)
     path.reverse()
-    # print(f"Source: {source}, Destination: {destination}, Path: {path}")
-    return path   
+
+    return path
 
 def routing_k(graph, pair_list, priority):
     path_list = []
     for pair in pair_list:
         path = dijkstra(graph, priority, pair[0], pair[1])
-        path_list.append((pair[0],pair[1],path))
+        path_list.append((pair[0], pair[1], path))
     return path_list

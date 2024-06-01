@@ -13,12 +13,12 @@ from routingapp.compare_algorithm.sec_morl_multipolicy.network import conv_mlp_n
 
 
 expn = 'exp1'
-lr, epoch, batch_size = 1e-6, 1, 1024 * 4
+lr, epoch, batch_size = 1e-6, 1, 1024
 train_num, test_num = 64, 1024
 gamma, lr_decay = 0.9, None
 buffer_size = 1000000
 eps_train, eps_test = 0.1, 0.00
-step_per_epoch, episode_per_collect = 10 * train_num * 7, train_num
+step_per_epoch, episode_per_collect = train_num * 7, train_num
 writer = SummaryWriter('tensor-board-log/ppo')
 logger = ts.utils.TensorboardLogger(writer)
 is_gpu_default = torch.cuda.is_available()
@@ -48,7 +48,7 @@ class sdn_net(nn.Module):
                                         mlp_ch=MLP_CH, out_ch=self.edge_num+self.cloud_num, block_num=3)
         else:
             self.network = conv_mlp_net(conv_in=INPUT_CH, conv_ch=FEATURE_CH, mlp_in=(self.edge_num+self.cloud_num)*FEATURE_CH,
-                                        mlp_ch=MLP_CH, out_ch=self.edge_num, block_num=3)
+                                        mlp_ch=MLP_CH, out_ch=self.cloud_num, block_num=3)
         
     def load_model(self, filename):
         map_location=lambda storage, loc:storage
@@ -58,12 +58,13 @@ class sdn_net(nn.Module):
         torch.save(self.state_dict(), filename)
 
     def forward(self, obs, state=None, info={}):
-        state = obs
+        state = obs#['servers']
         state = torch.tensor(state).float()
         if self.is_gpu:
             state = state.cuda()
 
         logits = self.network(state)
+        
         return logits, state
 
 class Actor(nn.Module):
@@ -83,11 +84,10 @@ class Actor(nn.Module):
         torch.save(self.state_dict(), filename)
 
     def forward(self, obs, state=None, info={}):
+            
         logits,_ = self.net(obs)
-        # # Handle the case where the logits are NaN
-        # if torch.isnan(logits).any():
-        #     logits = torch.zeros_like(logits)
-        logits = F.sigmoid(logits)
+        logits = F.softmax(logits, dim=-1)
+
         return logits, state
 
 class Critic(nn.Module):
@@ -107,7 +107,7 @@ class Critic(nn.Module):
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
 
-    def forward(self, obs, state=None, info={}):
+    def forward(self, obs, state=None, info={}):       
         v,_ = self.net(obs)
 
         return v
@@ -116,13 +116,18 @@ def train_sdn_policy(train_graph, test_graph, function, train_request, test_requ
     
     actor = Actor(is_gpu=is_gpu_default, edge_num = train_graph.number_edge_servers, cloud_num = train_graph.number_cloud_servers)
     critic = Critic(is_gpu=is_gpu_default, edge_num = train_graph.number_edge_servers, cloud_num = train_graph.number_cloud_servers)
+    
+    if is_gpu_default:
+        actor.cuda()
+        critic.cuda()
+    
     actor_critic = ts.utils.net.common.ActorCritic(actor, critic)
     optim = torch.optim.Adam(actor_critic.parameters(), lr=lr)
 
-    dist = torch.distributions.Bernoulli
 
-    # Action space
-    action_space = gym.spaces.Box(low=0, high=1, shape=(train_graph.number_edge_servers+train_graph.number_cloud_servers,), dtype=np.float32)
+    dist = torch.distributions.Categorical
+
+    action_space = gym.spaces.Discrete(train_graph.number_edge_servers+train_graph.number_cloud_servers)
     if lr_decay:
         lr_scheduler = LambdaLR(
             optim, lr_lambda=lambda epoch: lr_decay ** (epoch - 1)
@@ -202,5 +207,4 @@ def train_sdn_policy(train_graph, test_graph, function, train_request, test_requ
             logger=logger,
         )
    
-
     return result

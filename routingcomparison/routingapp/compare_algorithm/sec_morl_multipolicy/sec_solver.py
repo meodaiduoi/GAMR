@@ -126,15 +126,16 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
             update_link_utilization.append((src, dst, bandwidth))
      
     # Reading request
-    # !NOTE CHANGE TO SINGLE ROUTE TASK REWORK THIS SECTION
-    route = task
-    request = []
-    src = f'h{route.src_host}'
-    dst = f'h{route.dst_host}'
-    src = mapping[src]
-    dst = mapping[dst]
-    print('reading rq', src, dst)
-    request.append((src, dst))
+    routes = task.route
+    requests = []
+    
+    for route in routes:
+        src = f'h{route.src_host}'
+        dst = f'h{route.dst_host}'
+        src = mapping[src]
+        dst = mapping[dst]
+        print('reading rq', src, dst)
+        requests.append((src, dst))
 
     # Solving problem to find solution
     number_node = len(adj_matrix)-1
@@ -151,9 +152,9 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
     request_list = []
     # print(request)
     
-    for src, dst in request:
+    for request in requests:
         # print(src, dst)
-        path = dfs(graph_gen, src, dst)
+        path = dfs(graph_gen, request[0], request[1])
         if path:
             promising_paths.append(path)
         # print(promising_paths)
@@ -171,10 +172,10 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
         promising_nodes_list = list(promising_nodes)
 
         # Update src and dst in the request to match the new node indices
-        request_list.append([(promising_nodes_list.index(src), promising_nodes_list.index(dst))])
+        request_list.append([(promising_nodes_list.index(request[0]), promising_nodes_list.index(request[1]))])
             
     # Use the trained models to generate solutions
-    solutions = func.generate_solutions(promising_graph, request)  
+    solutions = func.generate_solutions(promising_graph, request_list)  
     
     # result = func.select_solution(solutions)
 
