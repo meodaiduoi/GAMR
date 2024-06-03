@@ -30,7 +30,7 @@ class SDN_Env(gym.Env):
         self.Tmax = self.Treq * len(self.request)    
         self.complete_path = []
         # Action space
-        self. action_space = gym.spaces.Box(low=0, high=1, shape=(graph.number_edge_servers+graph.number_cloud_servers,), dtype=np.float32)
+        self. action_space = gym.spaces.Discrete(graph.number_edge_servers+graph.number_cloud_servers)
         # Initialize the environment
         self.reset()  
 
@@ -61,7 +61,7 @@ class SDN_Env(gym.Env):
         # Set the action space size based on the number of edge servers
         low_bound = np.zeros((self.number_edge_servers + self.number_cloud_servers, ))
         high_bound = np.ones((self.number_edge_servers + self.number_cloud_servers, ))
-        self.action_space = gym.spaces.Box(low=0, high=1, shape=(self.number_edge_servers+self.number_cloud_servers,), dtype=np.float32)
+        self.action_space = gym.spaces.Discrete(self.number_edge_servers+self.number_cloud_servers)
 
             
         # Print the size of the state (ra)
