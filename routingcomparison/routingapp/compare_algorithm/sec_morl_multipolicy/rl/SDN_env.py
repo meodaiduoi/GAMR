@@ -83,12 +83,12 @@ class SDN_Env(gym.Env):
         
         #########################################################
         # Action processing (Xử lý hành động)
-        if 0 <= actions < self.number_edge_servers:
-            edge_action = actions
-        elif self.number_edge_servers <= actions < self.number_edge_servers + self.number_cloud_servers:
-            cloud_action = actions - self.number_edge_servers
+        if 0 <= actions < self.number_cloud_servers:
+            cloud_action = actions
+        elif self.number_cloud_servers <= actions <= self.number_edge_servers + self.number_cloud_servers:
+            edge_action = actions - self.number_cloud_servers
         else:
-            assert 0 <= actions < self.number_edge_servers + self.number_cloud_servers, f'invalid action: {actions}'
+            assert 0 <= actions <= self.number_edge_servers + self.number_cloud_servers, f'invalid action: {actions}'
         # self.current_request = self.request[self.current_request_index]
     
         # # Case 1: Choose the edge server with the highest probability
@@ -249,18 +249,6 @@ class SDN_Env(gym.Env):
         # Initialize the observation dictionary
         obs = {}
         servers = []
-
-        # Add information of edge servers
-        for edge_server in self.edge_servers:
-            edge = []
-            edge.append(1.0)
-            edge.append(float(self.number_edge_servers))
-            edge.append(float(1 - self.done))
-            # Edge server info (bandwidth, delay, loss)
-            edge.append(sum(self.predict_bandwidth[edge_server]))
-            edge.append(sum(self.predict_delay[edge_server]))
-            edge.append(sum(self.predict_loss[edge_server]))
-            servers.append(edge)
         # Add information of cloud servers
         for cloud_server in self.cloud_servers:
             cloud = []
@@ -272,6 +260,17 @@ class SDN_Env(gym.Env):
             cloud.append(sum(self.predict_delay[cloud_server]))
             cloud.append(sum(self.predict_loss[cloud_server]))
             servers.append(cloud)
+        # Add information of edge servers
+        for edge_server in self.edge_servers:
+            edge = []
+            edge.append(1.0)
+            edge.append(float(self.number_edge_servers))
+            edge.append(float(1 - self.done))
+            # Edge server info (bandwidth, delay, loss)
+            edge.append(sum(self.predict_bandwidth[edge_server]))
+            edge.append(sum(self.predict_delay[edge_server]))
+            edge.append(sum(self.predict_loss[edge_server]))
+            servers.append(edge)
         # Swap axes to get the shape (features, servers)
         obs['servers'] = np.array(servers).swapaxes(0, 1)
         
