@@ -14,11 +14,11 @@ from routingapp.compare_algorithm.sec_morl_multipolicy.network import conv_mlp_n
 
 expn = 'exp1'
 lr, epoch, batch_size = 1e-6, 1, 1024
-train_num, test_num = 64, 1024
+train_num, test_num = 16, 1024
 gamma, lr_decay = 0.9, None
 buffer_size = 1000000
 eps_train, eps_test = 0.1, 0.00
-step_per_epoch, episode_per_collect = train_num * 7, train_num
+step_per_epoch, episode_per_collect = train_num, train_num
 writer = SummaryWriter('tensor-board-log/ppo')
 logger = ts.utils.TensorboardLogger(writer)
 is_gpu_default = torch.cuda.is_available()

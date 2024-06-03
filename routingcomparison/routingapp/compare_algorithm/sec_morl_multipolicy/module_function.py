@@ -195,9 +195,10 @@ class Function:
                 done = False
                 while not done:
                     # Choose actions using the actor model
-                    action, _ = actor(torch.FloatTensor(obs))
+                    actions, _ = actor(torch.FloatTensor(obs))
+                    action = np.argmax(actions.detach().cpu().numpy().flatten(), axis=0)
                     # Perform actions and observe next state and reward
-                    next_obs, _, done, info = env.step(action.detach().cpu().numpy().flatten())
+                    next_obs, _, done, info = env.step(action)
                     # Update current observation
                     obs = next_obs
                 # Estimate the performance of the trained model
@@ -206,6 +207,7 @@ class Function:
                 # Append to lists
                 delays.append(avg_delay)
                 link_utilisations.append(avg_link_utilisation)
-            # Save the solution
-            solutions = env.get_path()
+            # Save the solution to the list with the corresponding wi and path 
+            solutions.append((wi, env.get_path()))
+            print(solutions)
         return solutions
