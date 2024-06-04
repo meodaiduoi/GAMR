@@ -22,11 +22,14 @@ def result_to_json(result, mapping):
         for i in request[2][1:-1]:
             request_result_map.append(int(get_key(mapping, i)))
         # print("Hello")
+        
+        # This is output format for solved solution
         route = {
             'src_host': src,
             'dst_host': dst,
             'path_dpid': request_result_map
         }
+        
         result_list.append(route)
     result_json = {
         'route': result_list
