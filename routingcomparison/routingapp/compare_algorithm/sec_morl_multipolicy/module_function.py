@@ -5,6 +5,9 @@ from collections import deque
 from routingapp.compare_algorithm.sec_morl_multipolicy.train import Actor, Critic, is_gpu_default, expn, epoch
 import os
 import torch 
+from paretoset import paretoset
+import pandas as pd
+
 class Function:
     def bfs(self, graph, start, goal):
         visited = set()  # Danh sách các đỉnh đã được duyệt
@@ -166,25 +169,26 @@ class Function:
         link_utilisations = []
         # Load trained models from w00 to w100
         trained_models = {}
+        wi = 50
  
-        for wi in range(100, -1, -1):
-            actor = Actor(is_gpu=is_gpu_default, edge_num = graph.number_edge_servers, cloud_num = graph.number_cloud_servers)
-            critic = Critic(is_gpu=is_gpu_default, edge_num = graph.number_edge_servers, cloud_num = graph.number_cloud_servers)
-           
-            if is_gpu_default:
-                actor = actor.cuda()
-                critic = critic.cuda()
-               
-            actor_file_path = f'save/pth-e{graph.number_edge_servers}/cloud{graph.number_cloud_servers}/{expn}/w{wi:03d}/ep{epoch:02d}-actor.pth'
-            critic_file_path = f'save/pth-e{graph.number_edge_servers}/cloud{graph.number_cloud_servers}/{expn}/w{wi:03d}/ep{epoch:02d}-critic.pth'
-           
-            if os.path.exists(actor_file_path) and os.path.exists(critic_file_path):
-                actor.load_model(actor_file_path)
-                critic.load_model(critic_file_path)
-                trained_models[wi] = (actor, critic)
-            else:
-                # Passing when not finding a trained model
-                pass  
+        # for wi in range(100, -1, -1):
+        actor = Actor(is_gpu=is_gpu_default, edge_num = graph.number_edge_servers, cloud_num = graph.number_cloud_servers)
+        critic = Critic(is_gpu=is_gpu_default, edge_num = graph.number_edge_servers, cloud_num = graph.number_cloud_servers)
+        
+        if is_gpu_default:
+            actor = actor.cuda()
+            critic = critic.cuda()
+
+        actor_file_path = f'save/pth-e{graph.number_edge_servers}/cloud{graph.number_cloud_servers}/{expn}/w{wi:03d}/ep{epoch:02d}-actor.pth'
+        critic_file_path = f'save/pth-e{graph.number_edge_servers}/cloud{graph.number_cloud_servers}/{expn}/w{wi:03d}/ep{epoch:02d}-critic.pth'
+        
+        if os.path.exists(actor_file_path) and os.path.exists(critic_file_path):
+            actor.load_model(actor_file_path)
+            critic.load_model(critic_file_path)
+            trained_models[wi] = (actor, critic)
+            # else:
+            #     # Passing when not finding a trained model
+            #     pass  
  
         # Collect solutions from all episodes for each wi
         for wi, (actor, critic) in trained_models.items():
@@ -195,9 +199,10 @@ class Function:
                 done = False
                 while not done:
                     # Choose actions using the actor model
-                    action, _ = actor(torch.FloatTensor(obs))
+                    actions, _ = actor(torch.FloatTensor(obs))
+                    action = np.argmax(actions.detach().cpu().numpy().flatten(), axis=0)
                     # Perform actions and observe next state and reward
-                    next_obs, _, done, info = env.step(action.detach().cpu().numpy().flatten())
+                    next_obs, _, done, info = env.step(action)
                     # Update current observation
                     obs = next_obs
                 # Estimate the performance of the trained model
@@ -206,6 +211,21 @@ class Function:
                 # Append to lists
                 delays.append(avg_delay)
                 link_utilisations.append(avg_link_utilisation)
-            # Save the solution
-            solutions = env.get_path()
-        return solutions
+            # Apply paterto set to get the best solutions
+            patero_solutions = pd.DataFrame(
+                {
+                    "delay": delays,
+                    "link_utilisation": link_utilisations,
+                }
+            )
+            trained_all_mask = paretoset(patero_solutions, sense=["min", "min"])
+            print(trained_all_mask)
+            for i in trained_all_mask:
+                if ((trained_all_mask[i]).any() == True):
+                    solutions.append(env.get_path())
+            # Save the solution to the list with the corresponding wi and path 
+            solutions.append(env.get_path())
+            
+        solution = solutions[-1]
+        print(solution)
+        return solution

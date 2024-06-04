@@ -26,11 +26,11 @@ class SDN_Env(gym.Env):
         self.step_cnt = 0
         self.current_request_index = 0
         self.current_request = self.request[self.current_request_index]
-        self.Treq = (graph.number_edge_servers + graph.number_cloud_servers + graph.number_cloud_servers * graph.number_edge_servers)
-        self.Tmax = self.Treq * len(self.request)    
+        self.Treq = (graph.number_edge_servers + graph.number_cloud_servers )
+        self.Tmax = len(self.request)    
         self.complete_path = []
         # Action space
-        self. action_space = gym.spaces.Box(low=0, high=1, shape=(graph.number_edge_servers+graph.number_cloud_servers,), dtype=np.float32)
+        self.action_space = gym.spaces.Discrete(graph.number_edge_servers+graph.number_cloud_servers)
         # Initialize the environment
         self.reset()  
 
@@ -61,7 +61,7 @@ class SDN_Env(gym.Env):
         # Set the action space size based on the number of edge servers
         low_bound = np.zeros((self.number_edge_servers + self.number_cloud_servers, ))
         high_bound = np.ones((self.number_edge_servers + self.number_cloud_servers, ))
-        self.action_space = gym.spaces.Box(low=0, high=1, shape=(self.number_edge_servers+self.number_cloud_servers,), dtype=np.float32)
+        self.action_space = gym.spaces.Discrete(self.number_edge_servers+self.number_cloud_servers)
 
             
         # Print the size of the state (ra)
@@ -83,104 +83,111 @@ class SDN_Env(gym.Env):
         
         #########################################################
         # Action processing (Xử lý hành động)
-        self.current_request = self.request[self.current_request_index]
-    
-        # Case 1: Choose the edge server with the highest probability
-        if np.all(actions[:self.number_edge_servers] == 1):
-            edge_action = np.argmax(actions[:self.number_edge_servers])
-        # Case 2: Choose the cloud server with the highest probability
-        elif np.all(actions[self.number_edge_servers:] == 1):
-            cloud_action = np.argmax(actions[self.number_edge_servers:])
-        # Case 3: Choose both edge and cloud servers
+        
+        # print(f"Action: {actions}")
+        if 0 <= actions < self.number_cloud_servers:
+            cloud_action = actions
+        elif self.number_cloud_servers <= actions < self.number_edge_servers + self.number_cloud_servers:
+            edge_action = actions - self.number_cloud_servers
         else:
-            edge_action = np.argmax(actions[:self.number_edge_servers])
-            cloud_action = np.argmax(actions[self.number_edge_servers:])
+            assert 0 <= actions <= self.number_edge_servers + self.number_cloud_servers, f'invalid action: {actions}'
+        # self.current_request = self.request[self.current_request_index]
+    
+        # # Case 1: Choose the edge server with the highest probability
+        # if np.all(actions[:self.number_edge_servers] == 1):
+        #     edge_action = np.argmax(actions[:self.number_edge_servers])
+        # # Case 2: Choose the cloud server with the highest probability
+        # elif np.all(actions[self.number_edge_servers:] == 1):
+        #     cloud_action = np.argmax(actions[self.number_edge_servers:])
+        # # Case 3: Choose both edge and cloud servers
+        # else:
+        #     edge_action = np.argmax(actions[:self.number_edge_servers])
+        #     cloud_action = np.argmax(actions[self.number_edge_servers:])
         
         self.edge_action = edge_action
         self.cloud_action = cloud_action
         
-        # print(f"Edge Action: {edge_action}, Cloud Action: {cloud_action}")   
-        # print(f"Request: {self.request}")
-        # print(f"Current Request: {self.current_request}") 
-        #####################################################
-        # Assignment of tasks (Phân công công việc)
-        the_task = {}
-        the_task['start_step'] = self.step_cnt
-        the_task['delay_time'] = 0
-        the_task['link_utilisation'] = 0  # Initialize  link utilization
-        
-        # Case 1: Routing task with both edge and cloud
-        if (edge_action is not None) and (cloud_action is not None) and (0 <= edge_action < self.number_edge_servers) and (0 <= cloud_action < self.number_cloud_servers):
-            # Routing task to the edge server
-            e = edge_action
-            the_task['to'] = e
-            edge_path = dijkstra(self.graph, 1, self.current_request[0], self.edge_servers[e])
+        if not self.invalid_act_flag:
+            # print(f"Edge Action: {edge_action}, Cloud Action: {cloud_action}")   
+            # print(f"Request: {self.request}")
+            # print(f"Current Request: {self.current_request}") 
+            #####################################################
+            # Assignment of tasks (Phân công công việc)
+            the_task = {}
+            the_task['start_step'] = self.step_cnt
+            the_task['delay_time'] = 0
+            the_task['link_utilisation'] = 0  # Initialize  link utilization
             
-            # Uploading task to the cloud server
-            c = cloud_action
-            the_task['to'] = c
-            cloud_path = dijkstra(self.graph, 1, self.edge_servers[e], self.cloud_servers[c]) 
-            des_path = dijkstra(self.graph, 1, self.cloud_servers[c], self.current_request[1])
-            # print(f"Edge Path: {edge_path}, Cloud Path: {cloud_path}, Destination Path: {des_path}")
-            # If the path is not found, set the invalid action flag to True
-            if edge_path is None or cloud_path is None or des_path is None:
-                self.invalid_act_flag = True
-                # return self.get_obs(), -float('inf'), True, {'error': 'No path found'}
-            else: 
-                # Calculate the link utilization and delay time for the edge and cloud paths
-                edge_link_utilisation = self.function.cal_linkutilization(edge_path, self.predict_bandwidth)
-                edge_delay = self.function.cal_delay(edge_path, self.predict_delay)
-                the_task['link_utilisation'] += edge_link_utilisation
-                the_task['delay_time'] += edge_delay
-                self.edge_lists[e].append(the_task)
-                
-                # Calculate the link utilization and delay time for the cloud and destination paths
-                cloud_link_utilisation = self.function.cal_linkutilization(cloud_path, self.predict_bandwidth) + self.function.cal_linkutilization(des_path, self.predict_bandwidth)
-                cloud_delay = self.function.cal_delay(cloud_path, self.predict_delay) + self.function.cal_delay(des_path, self.predict_delay)
-                the_task['link_utilisation'] += cloud_link_utilisation
-                the_task['delay_time'] += cloud_delay
-                self.cloud_lists[c].append(the_task)
-        else:
-            # Case 2: Routing task with edge server 
-            if (edge_action is not None) and (0 <= edge_action < self.number_edge_servers):
+            # Case 1: Routing task with both edge and cloud
+            if (edge_action is not None) and (cloud_action is not None) and (0 <= edge_action < self.number_edge_servers) and (0 <= cloud_action < self.number_cloud_servers):
+                # Routing task to the edge server
                 e = edge_action
                 the_task['to'] = e
-                edge_path = dijkstra(self.graph, 1, self.current_request[0], self.edge_servers[e]) 
-                des_path = dijkstra(self.graph, 1, self.edge_servers[e], self.current_request[1])
-                # print(f"Edge Path: {edge_path}, Destination Path: {des_path}")
-                # If the edge path or destination path is not found, set the invalid action flag to True
-                if edge_path is None or des_path is None:
+                edge_path = dijkstra(self.graph, 1, self.current_request[0], self.edge_servers[e])
+                
+                # Uploading task to the cloud server
+                c = cloud_action
+                the_task['to'] = c
+                cloud_path = dijkstra(self.graph, 1, self.edge_servers[e], self.cloud_servers[c]) 
+                des_path = dijkstra(self.graph, 1, self.cloud_servers[c], self.current_request[1])
+                # print(f"Edge Path: {edge_path}, Cloud Path: {cloud_path}, Destination Path: {des_path}")
+                # If the path is not found, set the invalid action flag to True
+                if edge_path is None or cloud_path is None or des_path is None:
                     self.invalid_act_flag = True
                     # return self.get_obs(), -float('inf'), True, {'error': 'No path found'}
                 else: 
-                    edge_link_utilisation = self.function.cal_linkutilization(edge_path, self.predict_bandwidth) + self.function.cal_linkutilization(des_path, self.predict_bandwidth)
-                    # print(f"Edge Link Utilisation: {edge_link_utilisation}")
-                    edge_delay = self.function.cal_delay(edge_path, self.predict_delay) + self.function.cal_delay(des_path, self.predict_delay)
+                    # Calculate the link utilization and delay time for the edge and cloud paths
+                    edge_link_utilisation = self.function.cal_linkutilization(edge_path, self.predict_bandwidth)
+                    edge_delay = self.function.cal_delay(edge_path, self.predict_delay)
                     the_task['link_utilisation'] += edge_link_utilisation
                     the_task['delay_time'] += edge_delay
                     self.edge_lists[e].append(the_task)
-            # Case 3: Routing task with edge server 
-            if (cloud_action is not None) and (0 <= cloud_action < self.number_cloud_servers):
-                c = cloud_action
-                the_task['to'] = c
-                cloud_path = dijkstra(self.graph, 1, self.current_request[0], self.cloud_servers[c]) 
-                des_path = dijkstra(self.graph, 1, self.cloud_servers[c], self.current_request[1])
-                # print(f"Cloud Path: {cloud_path}, Destination Path: {des_path}")
-                # If the cloud path or destination path is not found, set the invalid action flag to True
-                if cloud_path is None or des_path is None:
-                    self.invalid_act_flag = True
-                    # return self.get_obs(), -float('inf'), True, {'error': 'No path found'}
-                else:
+                    
+                    # Calculate the link utilization and delay time for the cloud and destination paths
                     cloud_link_utilisation = self.function.cal_linkutilization(cloud_path, self.predict_bandwidth) + self.function.cal_linkutilization(des_path, self.predict_bandwidth)
                     cloud_delay = self.function.cal_delay(cloud_path, self.predict_delay) + self.function.cal_delay(des_path, self.predict_delay)
                     the_task['link_utilisation'] += cloud_link_utilisation
                     the_task['delay_time'] += cloud_delay
                     self.cloud_lists[c].append(the_task)
             else:
-                assert (0 <= edge_action < self.number_edge_servers or 0 <= cloud_action < self.number_cloud_servers), f'server selection action is invalid: {edge_action}, {cloud_action}'
-                # Handle invalid action
-                # self.invalid_act_flag = True
-                
+                # Case 2: Routing task with edge server 
+                if (edge_action is not None) and (0 <= edge_action < self.number_edge_servers):
+                    e = edge_action
+                    the_task['to'] = e
+                    edge_path = dijkstra(self.graph, 1, self.current_request[0], self.edge_servers[e]) 
+                    des_path = dijkstra(self.graph, 1, self.edge_servers[e], self.current_request[1])
+                    # print(f"Edge Path: {edge_path}, Destination Path: {des_path}")
+                    # If the edge path or destination path is not found, set the invalid action flag to True
+                    if edge_path is None or des_path is None:
+                        self.invalid_act_flag = True
+                    else: 
+                        edge_link_utilisation = self.function.cal_linkutilization(edge_path, self.predict_bandwidth) + self.function.cal_linkutilization(des_path, self.predict_bandwidth)
+                        # print(f"Edge Link Utilisation: {edge_link_utilisation}")
+                        edge_delay = self.function.cal_delay(edge_path, self.predict_delay) + self.function.cal_delay(des_path, self.predict_delay)
+                        the_task['link_utilisation'] += edge_link_utilisation
+                        the_task['delay_time'] += edge_delay
+                        self.edge_lists[e].append(the_task)
+                # Case 3: Routing task with cloud server 
+                if (cloud_action is not None) and (0 <= cloud_action < self.number_cloud_servers):
+                    c = cloud_action
+                    the_task['to'] = c
+                    cloud_path = dijkstra(self.graph, 1, self.current_request[0], self.cloud_servers[c]) 
+                    des_path = dijkstra(self.graph, 1, self.cloud_servers[c], self.current_request[1])
+                    # print(f"Cloud Path: {cloud_path}, Destination Path: {des_path}")
+                    # If the cloud path or destination path is not found, set the invalid action flag to True
+                    if cloud_path is None or des_path is None:
+                        self.invalid_act_flag = True
+                    else:
+                        cloud_link_utilisation = self.function.cal_linkutilization(cloud_path, self.predict_bandwidth) + self.function.cal_linkutilization(des_path, self.predict_bandwidth)
+                        cloud_delay = self.function.cal_delay(cloud_path, self.predict_delay) + self.function.cal_delay(des_path, self.predict_delay)
+                        the_task['link_utilisation'] += cloud_link_utilisation
+                        the_task['delay_time'] += cloud_delay
+                        self.cloud_lists[c].append(the_task)
+                else:
+                    assert (0 <= edge_action < self.number_edge_servers or 0 <= cloud_action < self.number_cloud_servers), f'server selection action is invalid: {edge_action}, {cloud_action}'
+                    # Handle invalid action
+                    # self.invalid_act_flag = True
+                    
         #####################################################
         # Save the routing path
         complete_path = []
@@ -189,9 +196,11 @@ class SDN_Env(gym.Env):
             complete_path = edge_path + cloud_path[1:]  + des_path[1:] 
         # If only edge_path is not None, store it as complete_path
         elif edge_path is not None and des_path is not None:
+            # print(f"Edge Path: {edge_path}, Destination Path: {des_path}")
             complete_path = edge_path + des_path[1:] 
         # If only cloud_path is not None, store it as complete_path
         elif cloud_path is not None and des_path is not None:
+            # print(f"Cloud Path: {cloud_path}, Destination Path: {des_path}")
             complete_path = cloud_path + des_path[1:] 
         else: 
             complete_path = []
@@ -203,21 +212,16 @@ class SDN_Env(gym.Env):
         #####################################################
         # Done condition (Điều kiện kết thúc)
         
-        if (self.step_request_cnt >= self.Treq):
-            # Complete the current request and move to the next request
-            self.current_request_index += 1
-            if self.current_request_index < len(self.request):
-                self.current_request = self.request[self.current_request_index]
-                self.done = False
-            else: 
-                self.done = True
-        else:
-            # Continue the current request
-            self.done = False    
-        if (self.step_cnt >= self.Tmax):
+        self.current_request_index += 1
+        if self.current_request_index < len(self.request):
+            self.current_request = self.request[self.current_request_index]
+            self.done = False
+        else: 
+            self.done = True
+
+        if (self.step_cnt > self.Tmax):
             self.done = True
         done = self.done
-        # if done: print(f"Complete Path: {self.complete_path}")
 
         #####################################################
         # Observation encoding (Mã hóa quan sát)
@@ -243,18 +247,6 @@ class SDN_Env(gym.Env):
         # Initialize the observation dictionary
         obs = {}
         servers = []
-
-        # Add information of edge servers
-        for edge_server in self.edge_servers:
-            edge = []
-            edge.append(1.0)
-            edge.append(float(self.number_edge_servers))
-            edge.append(float(1 - self.done))
-            # Edge server info (bandwidth, delay, loss)
-            edge.append(sum(self.predict_bandwidth[edge_server]))
-            edge.append(sum(self.predict_delay[edge_server]))
-            edge.append(sum(self.predict_loss[edge_server]))
-            servers.append(edge)
         # Add information of cloud servers
         for cloud_server in self.cloud_servers:
             cloud = []
@@ -266,6 +258,17 @@ class SDN_Env(gym.Env):
             cloud.append(sum(self.predict_delay[cloud_server]))
             cloud.append(sum(self.predict_loss[cloud_server]))
             servers.append(cloud)
+        # Add information of edge servers
+        for edge_server in self.edge_servers:
+            edge = []
+            edge.append(1.0)
+            edge.append(float(self.number_edge_servers))
+            edge.append(float(1 - self.done))
+            # Edge server info (bandwidth, delay, loss)
+            edge.append(sum(self.predict_bandwidth[edge_server]))
+            edge.append(sum(self.predict_delay[edge_server]))
+            edge.append(sum(self.predict_loss[edge_server]))
+            servers.append(edge)
         # Swap axes to get the shape (features, servers)
         obs['servers'] = np.array(servers).swapaxes(0, 1)
         
@@ -338,18 +341,26 @@ class SDN_Env(gym.Env):
     def estimate_performance(self):
         total_delay = 0
         total_bandwidth_utilization = 0
-        
+        # print(f"Edge Lists: {self.edge_lists}")
+        # print(f"Cloud Lists: {self.cloud_lists}")
         # Iterate over all tasks in the environment
-        for task in self.edge_lists:
-            total_delay += task['delay_time']  # Accumulate delay
-            total_bandwidth_utilization += task['link_utilisation']  # Accumulate bandwidth utilization
-        for task in self.cloud_lists:
-            total_delay += task['delay_time']  # Accumulate delay
-            total_bandwidth_utilization += task['link_utilisation'] # Accumulate bandwidth utilization
-            
+        for edge in self.edge_lists:
+            for task in edge: 
+                if 'delay_time' in edge and 'link_utilisation' in edge:
+                    print(f"Task: {task}")
+                    total_delay += task['delay_time']  # Accumulate delay
+                    total_bandwidth_utilization += task['link_utilisation']  # Accumulate bandwidth utilization
+        for cloud in self.cloud_lists:
+            for task in cloud:
+                if 'delay_time' in cloud and 'link_utilisation' in cloud:
+                    print(f"Task: {task}")
+                    total_delay += task['delay_time']  # Accumulate delay
+                    total_bandwidth_utilization += task['link_utilisation'] # Accumulate bandwidth utilization
+                    
         return total_delay, total_bandwidth_utilization
     
     # Get the complete path to routing
     def get_path(self):
         complete_path = self.complete_path
+        print(f"Complete Path: {complete_path}")
         return complete_path
