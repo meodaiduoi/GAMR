@@ -1,7 +1,7 @@
 import networkx as nx
 from routingapp.compare_algorithm.sec_morl_multipolicy.train import train_sdn_policy
 from routingapp.common.routing_utils import * 
-from routingapp.common.models import RouteTask
+from routingapp.common.models import MultiRouteTasks
 from routingapp.compare_algorithm.sec_morl_multipolicy.module_function import Function
 from routingapp.compare_algorithm.sec_morl_multipolicy.module_graph import Graph
 
@@ -73,7 +73,7 @@ def dfs(graph, start, goal):
     
 #     return combined_graph
 
-def sec_solver(task: RouteTask, network_stat: NetworkStat):
+def sec_solver(tasks: MultiRouteTasks, network_stat: NetworkStat):
 
     graph = network_stat.graph
     host_json = network_stat.host_json
@@ -126,7 +126,7 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
             update_link_utilization.append((src, dst, bandwidth))
      
     # Reading request
-    routes = task.route
+    routes = tasks.route
     requests = []
     
     for route in routes:
@@ -177,10 +177,10 @@ def sec_solver(task: RouteTask, network_stat: NetworkStat):
     # Use the trained models to generate solutions
     solutions = func.generate_solutions(promising_graph, request_list)  
     
-    # result = func.select_solution(solutions)
+    result = func.select_solution(solutions)
 
     # Return flow rules based on JSON result format
-    result_json = result_to_json(solutions, mapping)
-    print(f"result: {solutions}")
+    result_json = result_to_json(result, mapping)
+    print(f"result: {result}")
     flowrules = create_flowrule_json(result_json, host_json, get_link_to_port())
     return flowrules

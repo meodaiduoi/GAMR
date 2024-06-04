@@ -5,6 +5,7 @@ from collections import deque
 from routingapp.compare_algorithm.sec_morl_multipolicy.train import Actor, Critic, is_gpu_default, expn, epoch
 import os
 import torch 
+# from paretoset import paretoset
 class Function:
     def bfs(self, graph, start, goal):
         visited = set()  # Danh sách các đỉnh đã được duyệt
@@ -142,22 +143,22 @@ class Function:
                 return new_path
         return router
    
-    # # selected path
-    # def select_solution(self, solutions):
-    #     solution_number = len(solutions)
-    #     same_link = np.zeros(solution_number, dtype=int)
-    #     for i in range (solution_number):
-    #         link = []
-    #         for path in solutions[i]:
-    #             for j in range (0, len(path[2])-1):
-    #                 if (path[2][j], path[2][j+1]) in link:
-    #                     same_link[i] = same_link[i] + 1
-    #                 else:
-    #                     link.append((path[2][j], path[2][j+1]))
-    #                     link.append((path[2][j+1], path[2][j]))
-    #     same_link = list(same_link)
-    #     index = same_link.index(min(same_link))
-    #     return solutions[index]    
+    # selected path
+    def select_solution(self, solutions):
+        solution_number = len(solutions)
+        same_link = np.zeros(solution_number, dtype=int)
+        for i in range (solution_number):
+            link = []
+            for path in solutions[i]:
+                for j in range (0, len(path[2])-1):
+                    if (path[2][j], path[2][j+1]) in link:
+                        same_link[i] = same_link[i] + 1
+                    else:
+                        link.append((path[2][j], path[2][j+1]))
+                        link.append((path[2][j+1], path[2][j]))
+        same_link = list(same_link)
+        index = same_link.index(min(same_link))
+        return solutions[index]    
    
     def generate_solutions(self, graph, request):
         # Generate solutions
@@ -174,7 +175,7 @@ class Function:
             if is_gpu_default:
                 actor = actor.cuda()
                 critic = critic.cuda()
-               
+
             actor_file_path = f'save/pth-e{graph.number_edge_servers}/cloud{graph.number_cloud_servers}/{expn}/w{wi:03d}/ep{epoch:02d}-actor.pth'
             critic_file_path = f'save/pth-e{graph.number_edge_servers}/cloud{graph.number_cloud_servers}/{expn}/w{wi:03d}/ep{epoch:02d}-critic.pth'
            
@@ -208,6 +209,6 @@ class Function:
                 delays.append(avg_delay)
                 link_utilisations.append(avg_link_utilisation)
             # Save the solution to the list with the corresponding wi and path 
-            solutions.append((wi, env.get_path()))
+            solutions.append(env.get_path())
             print(solutions)
         return solutions
