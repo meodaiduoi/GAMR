@@ -70,7 +70,7 @@ class SDN_Env(gym.Env):
                
     def step(self, actions):
         # Check the environment status
-        assert self.step_cnt < self.Tmax, 'environment already output done'
+        assert self.step_cnt <= self.Tmax, 'environment already output done'
         assert self.done == False, 'environment already output done'
         self.step_cnt += 1  # Increase the step count
         self.step_request_cnt += 1  # Increase the step request count
@@ -110,7 +110,7 @@ class SDN_Env(gym.Env):
         if not self.invalid_act_flag:
             # print(f"Edge Action: {edge_action}, Cloud Action: {cloud_action}")   
             # print(f"Request: {self.request}")
-            # print(f"Current Request: {self.current_request}") 
+            print(f"Current Request: {self.current_request}") 
             #####################################################
             # Assignment of tasks (Phân công công việc)
             the_task = {}
@@ -130,7 +130,7 @@ class SDN_Env(gym.Env):
                 the_task['to'] = c
                 cloud_path = dijkstra(self.graph, 1, self.edge_servers[e], self.cloud_servers[c]) 
                 des_path = dijkstra(self.graph, 1, self.cloud_servers[c], self.current_request[1])
-                # print(f"Edge Path: {edge_path}, Cloud Path: {cloud_path}, Destination Path: {des_path}")
+                print(f"Edge Path: {edge_path}, Cloud Path: {cloud_path}, Destination Path: {des_path}")
                 # If the path is not found, set the invalid action flag to True
                 if edge_path is None or cloud_path is None or des_path is None:
                     self.invalid_act_flag = True
@@ -347,13 +347,13 @@ class SDN_Env(gym.Env):
         for edge in self.edge_lists:
             for task in edge: 
                 if 'delay_time' in edge and 'link_utilisation' in edge:
-                    print(f"Task: {task}")
+                    # print(f"Task: {task}")
                     total_delay += task['delay_time']  # Accumulate delay
                     total_bandwidth_utilization += task['link_utilisation']  # Accumulate bandwidth utilization
         for cloud in self.cloud_lists:
             for task in cloud:
                 if 'delay_time' in cloud and 'link_utilisation' in cloud:
-                    print(f"Task: {task}")
+                    # print(f"Task: {task}")
                     total_delay += task['delay_time']  # Accumulate delay
                     total_bandwidth_utilization += task['link_utilisation'] # Accumulate bandwidth utilization
                     
