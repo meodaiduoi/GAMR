@@ -34,40 +34,50 @@ def normalize_weight(graph, priority):
             if graph.predict_delay[i][j] >= 0 and graph.predict_bandwidth[i][j] >= 0:
                 graph_cost[i][j] = a * graph.predict_bandwidth[i][j] / max_bandwidth + b * graph.predict_delay[i][j] / max_delay
     return graph_cost
-
-def dijkstra(graph, priority, source, destination):
-    graph_cost = normalize_weight(graph, priority)
-    dist = {i: float('inf') for i in range(0, graph.number_nodes)}
-    prev = {i: None for i in range(0, graph.number_nodes)}
-    dist[source] = 0
-
-    priority_queue = [(0, source)]
-    while priority_queue:
-        current_dist, u = heapq.heappop(priority_queue)
-        
-        if u == destination:
-            # Found the destination
-            break
-
-        for v in range(1, graph.number_nodes + 1):
-            if graph_cost[u][v] != 0:
-                alt = current_dist + graph_cost[u][v]
-                if alt < dist[v]:
-                    dist[v] = alt
-                    prev[v] = u
-                    heapq.heappush(priority_queue, (alt, v))
-    
-    path = []
-    u = destination
-    if dist[u] == float('inf'):
-        return path  # No path found
-    while u is not None:
-        if(u != -1):
-            path.append(int(u))
-            u = prev[u]
-
-    path.reverse()
+def dijkstra(graph, priority, source, destination):   
+    nx_graph = graph.adj_matrix 
+    G = nx.Graph()
+    for i in range(len(nx_graph)):
+        G.add_node(i)
+    for i in range(len(nx_graph)):
+        for j in nx_graph[i]:
+            G.add_edge(i, j)
+    # pos = nx.spring_layout(G)
+    # using dijkstra algorithm to find the shortest path
+    path = nx.shortest_path(G, source=source, target=destination, weight=priority)
     return path
+    
+# def dijkstra(graph, priority, source, destination):
+#     graph_cost = normalize_weight(graph, priority)
+#     dist = {i: float('inf') for i in range(0, graph.number_nodes)}
+#     prev = {i: None for i in range(0, graph.number_nodes)}
+#     dist[source] = 0
+
+#     priority_queue = [(0, source)]
+#     while priority_queue:
+#         current_dist, u = heapq.heappop(priority_queue)
+        
+
+#         for v in range(1, graph.number_nodes + 1):
+#             if graph_cost[u][v] != 0:
+#                 alt = current_dist + graph_cost[u][v]
+#                 if alt < dist[v]:
+#                     dist[v] = alt
+#                     prev[v] = u
+#                     heapq.heappush(priority_queue, (alt, v))
+    
+#     path = []
+#     u = destination
+#     if dist[u] == float('inf'):
+#         return path  # No path found
+#     while u is not None:
+#         if(u != -1):
+#             path.append(int(u))
+#             u = prev[u]
+#     if path == []:
+#         return None
+#     path.reverse()
+#     return path
 
 def routing_k(graph, pair_list, priority):
     path_list = []

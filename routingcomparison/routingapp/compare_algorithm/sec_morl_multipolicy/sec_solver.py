@@ -124,7 +124,7 @@ def sec_solver(tasks: MultiRouteTasks, network_stat: NetworkStat):
             update_loss.append((src, dst, loss))
             update_bandwidth.append((src, dst, bandwidth))
             update_link_utilization.append((src, dst, bandwidth))
-     
+    
     # Reading request
     routes = tasks.route
     requests = []
