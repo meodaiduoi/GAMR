@@ -177,10 +177,10 @@ def sec_solver(tasks: MultiRouteTasks, network_stat: NetworkStat):
     # Use the trained models to generate solutions
     solutions = func.generate_solutions(promising_graph, request_list)  
     
-    result = func.select_solution(solutions)
+    # result = func.select_solution(solutions)
 
     # Return flow rules based on JSON result format
-    result_json = result_to_json(result, mapping)
-    print(f"result: {result}")
+    result_json = result_to_json(solutions, mapping)
+    print(f"result: {solutions}")
     flowrules = create_flowrule_json(result_json, host_json, get_link_to_port())
     return flowrules

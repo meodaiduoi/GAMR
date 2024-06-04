@@ -45,6 +45,9 @@ def dijkstra(graph, priority, source, destination):
     while priority_queue:
         current_dist, u = heapq.heappop(priority_queue)
         
+        if u == destination:
+            # Found the destination
+            break
 
         for v in range(1, graph.number_nodes + 1):
             if graph_cost[u][v] != 0:
@@ -63,10 +66,7 @@ def dijkstra(graph, priority, source, destination):
             path.append(int(u))
             u = prev[u]
 
-    path.append(destination)
-    path.append(source)
     path.reverse()
-
     return path
 
 def routing_k(graph, pair_list, priority):

@@ -27,7 +27,7 @@ class SDN_Env(gym.Env):
         self.current_request_index = 0
         self.current_request = self.request[self.current_request_index]
         self.Treq = (graph.number_edge_servers + graph.number_cloud_servers )
-        self.Tmax = self.Treq * len(self.request)    
+        self.Tmax = len(self.request)    
         self.complete_path = []
         # Action space
         self.action_space = gym.spaces.Discrete(graph.number_edge_servers+graph.number_cloud_servers)
@@ -167,7 +167,7 @@ class SDN_Env(gym.Env):
                         the_task['link_utilisation'] += edge_link_utilisation
                         the_task['delay_time'] += edge_delay
                         self.edge_lists[e].append(the_task)
-                # Case 3: Routing task with edge server 
+                # Case 3: Routing task with cloud server 
                 if (cloud_action is not None) and (0 <= cloud_action < self.number_cloud_servers):
                     c = cloud_action
                     the_task['to'] = c
@@ -196,9 +196,11 @@ class SDN_Env(gym.Env):
             complete_path = edge_path + cloud_path[1:]  + des_path[1:] 
         # If only edge_path is not None, store it as complete_path
         elif edge_path is not None and des_path is not None:
+            # print(f"Edge Path: {edge_path}, Destination Path: {des_path}")
             complete_path = edge_path + des_path[1:] 
         # If only cloud_path is not None, store it as complete_path
         elif cloud_path is not None and des_path is not None:
+            # print(f"Cloud Path: {cloud_path}, Destination Path: {des_path}")
             complete_path = cloud_path + des_path[1:] 
         else: 
             complete_path = []
@@ -210,18 +212,14 @@ class SDN_Env(gym.Env):
         #####################################################
         # Done condition (Điều kiện kết thúc)
         
-        if (self.step_request_cnt >= self.Treq):
-            # Complete the current request and move to the next request
-            self.current_request_index += 1
-            if self.current_request_index < len(self.request):
-                self.current_request = self.request[self.current_request_index]
-                self.done = False
-            else: 
-                self.done = True
-        else:
-            # Continue the current request
-            self.done = False    
-        if (self.step_cnt >= self.Tmax):
+        self.current_request_index += 1
+        if self.current_request_index < len(self.request):
+            self.current_request = self.request[self.current_request_index]
+            self.done = False
+        else: 
+            self.done = True
+
+        if (self.step_cnt > self.Tmax):
             self.done = True
         done = self.done
 
@@ -343,8 +341,8 @@ class SDN_Env(gym.Env):
     def estimate_performance(self):
         total_delay = 0
         total_bandwidth_utilization = 0
-        print(f"Edge Lists: {self.edge_lists}")
-        print(f"Cloud Lists: {self.cloud_lists}")
+        # print(f"Edge Lists: {self.edge_lists}")
+        # print(f"Cloud Lists: {self.cloud_lists}")
         # Iterate over all tasks in the environment
         for edge in self.edge_lists:
             for task in edge: 
@@ -364,4 +362,5 @@ class SDN_Env(gym.Env):
     # Get the complete path to routing
     def get_path(self):
         complete_path = self.complete_path
+        print(f"Complete Path: {complete_path}")
         return complete_path
