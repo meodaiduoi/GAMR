@@ -45,7 +45,7 @@ def mac_to_int(mac):
     '''
     return int(mac.translate(str.maketrans('','',":.- ")), 16)
 
-def hostid_to_mac(host_id):
+def hostid_to_mac(host_id: int):
     '''
         Host index id to mac (ex: 1 to mac 00:00..00:01)
     '''

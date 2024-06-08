@@ -2,7 +2,10 @@ from routingapp.common.routing_utils import *
 from routingapp.common.models import *
 
 from routingapp.common.network_stat_utils import get_network_stat_single
+
 from routingapp.compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver
+from routingapp.compare_algorithm.ec_min_hop.min_hop_solver import min_hop_solver
+
 from routingapp.config import Setting
 from fastapi import APIRouter
 
@@ -86,3 +89,12 @@ async def routing_random(tasks: MultiRouteTasks):
         })
         flowrules = create_flowrule_json(solutions, get_host(), get_link_to_port())
   return send_flowrule_single(flowrules, ryu_rest_port=Setting().RYU_PORT)
+
+@router.post('/ec_min_hop')
+async def routing_ec_min_hop(tasks: MultiRouteTasks):
+    '''
+        EC Min-hop routing \n
+        for edge and cloud implementation
+    '''
+    return send_flowrule_single(
+        min_hop_solver(tasks, get_network_stat_single()), ryu_rest_port=Setting().RYU_PORT)
