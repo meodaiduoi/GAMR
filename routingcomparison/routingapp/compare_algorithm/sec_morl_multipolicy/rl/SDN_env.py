@@ -16,7 +16,7 @@ class SDN_Env(gym.Env):
         self.request = request
         self.predict_delay = graph.predict_delay
         self.predict_loss = graph.predict_loss
-        self.predict_bandwidth = graph.predict_bandwidth
+        self.predict_link_utilization = graph.predict_link_utilization
         self.number_clients = graph.number_clients if graph is not None else 0
         self.number_edge_servers = graph.number_edge_servers if graph is not None else 0
         self.number_cloud_servers = graph.number_cloud_servers if graph is not None else 0
@@ -137,14 +137,14 @@ class SDN_Env(gym.Env):
                     # return self.get_obs(), -float('inf'), True, {'error': 'No path found'}
                 else: 
                     # Calculate the link utilization and delay time for the edge and cloud paths
-                    edge_link_utilisation = self.function.cal_linkutilization(edge_path, self.predict_bandwidth)
+                    edge_link_utilisation = self.function.cal_linkutilization(edge_path, self.predict_link_utilization)
                     edge_delay = self.function.cal_delay(edge_path, self.predict_delay)
                     the_task['link_utilisation'] += edge_link_utilisation
                     the_task['delay_time'] += edge_delay
                     self.edge_lists[e].append(the_task)
                     
                     # Calculate the link utilization and delay time for the cloud and destination paths
-                    cloud_link_utilisation = self.function.cal_linkutilization(cloud_path, self.predict_bandwidth) + self.function.cal_linkutilization(des_path, self.predict_bandwidth)
+                    cloud_link_utilisation = self.function.cal_linkutilization(cloud_path, self.predict_link_utilization) + self.function.cal_linkutilization(des_path, self.predict_link_utilization)
                     cloud_delay = self.function.cal_delay(cloud_path, self.predict_delay) + self.function.cal_delay(des_path, self.predict_delay)
                     the_task['link_utilisation'] += cloud_link_utilisation
                     the_task['delay_time'] += cloud_delay
@@ -161,7 +161,7 @@ class SDN_Env(gym.Env):
                     if edge_path is None or des_path is None:
                         self.invalid_act_flag = True
                     else: 
-                        edge_link_utilisation = self.function.cal_linkutilization(edge_path, self.predict_bandwidth) + self.function.cal_linkutilization(des_path, self.predict_bandwidth)
+                        edge_link_utilisation = self.function.cal_linkutilization(edge_path, self.predict_link_utilization) + self.function.cal_linkutilization(des_path, self.predict_link_utilization)
                         # print(f"Edge Link Utilisation: {edge_link_utilisation}")
                         edge_delay = self.function.cal_delay(edge_path, self.predict_delay) + self.function.cal_delay(des_path, self.predict_delay)
                         the_task['link_utilisation'] += edge_link_utilisation
@@ -178,7 +178,7 @@ class SDN_Env(gym.Env):
                     if cloud_path is None or des_path is None:
                         self.invalid_act_flag = True
                     else:
-                        cloud_link_utilisation = self.function.cal_linkutilization(cloud_path, self.predict_bandwidth) + self.function.cal_linkutilization(des_path, self.predict_bandwidth)
+                        cloud_link_utilisation = self.function.cal_linkutilization(cloud_path, self.predict_link_utilization) + self.function.cal_linkutilization(des_path, self.predict_link_utilization)
                         cloud_delay = self.function.cal_delay(cloud_path, self.predict_delay) + self.function.cal_delay(des_path, self.predict_delay)
                         the_task['link_utilisation'] += cloud_link_utilisation
                         the_task['delay_time'] += cloud_delay
@@ -254,7 +254,7 @@ class SDN_Env(gym.Env):
             cloud.append(float(self.number_cloud_servers))
             cloud.append(float(1 - self.done))
             # Cloud server info (bandwidth, delay, loss)
-            cloud.append(sum(self.predict_bandwidth[cloud_server]))
+            cloud.append(sum(self.predict_link_utilization[cloud_server]))
             cloud.append(sum(self.predict_delay[cloud_server]))
             cloud.append(sum(self.predict_loss[cloud_server]))
             servers.append(cloud)
@@ -265,7 +265,7 @@ class SDN_Env(gym.Env):
             edge.append(float(self.number_edge_servers))
             edge.append(float(1 - self.done))
             # Edge server info (bandwidth, delay, loss)
-            edge.append(sum(self.predict_bandwidth[edge_server]))
+            edge.append(sum(self.predict_link_utilization[edge_server]))
             edge.append(sum(self.predict_delay[edge_server]))
             edge.append(sum(self.predict_loss[edge_server]))
             servers.append(edge)
@@ -345,18 +345,16 @@ class SDN_Env(gym.Env):
         # print(f"Cloud Lists: {self.cloud_lists}")
         # Iterate over all tasks in the environment
         for edge in self.edge_lists:
+            print(f"Edge: {edge}")
             for task in edge: 
-                if 'delay_time' in edge and 'link_utilisation' in edge:
-                    # print(f"Task: {task}")
-                    total_delay += task['delay_time']  # Accumulate delay
-                    total_bandwidth_utilization += task['link_utilisation']  # Accumulate bandwidth utilization
+                total_delay += task['delay_time']  # Accumulate delay
+                total_bandwidth_utilization += task['link_utilisation']  # Accumulate bandwidth utilization
         for cloud in self.cloud_lists:
+            print(f"Cloud: {cloud}")
             for task in cloud:
-                if 'delay_time' in cloud and 'link_utilisation' in cloud:
-                    # print(f"Task: {task}")
-                    total_delay += task['delay_time']  # Accumulate delay
-                    total_bandwidth_utilization += task['link_utilisation'] # Accumulate bandwidth utilization
-                    
+                total_delay += task['delay_time']  # Accumulate delay
+                total_bandwidth_utilization += task['link_utilisation'] # Accumulate bandwidth utilization
+        print(f"Total Delay: {total_delay}, Total Bandwidth Utilization: {total_bandwidth_utilization}")
         return total_delay, total_bandwidth_utilization
     
     # Get the complete path to routing

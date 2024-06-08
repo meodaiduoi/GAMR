@@ -6,6 +6,7 @@ from routingapp.compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solve
 from routingapp.config import Setting
 from fastapi import APIRouter
 
+import random
 router = APIRouter()
 
 @router.post('/manual')
@@ -61,3 +62,27 @@ async def add_flow_all():
         Not yet implemented
     '''
     return
+
+@router.post('/random')
+async def routing_random(tasks: MultiRouteTasks):
+  """
+  Random routing algorithm
+  """
+  network_stat = get_network_stat_single()
+  graph = network_stat.graph
+  solutions = {'route': []}
+  flowrules = []
+  for task in tasks.route:
+    if nx.is_connected(graph):  # Check if network is connected before routing
+      # Find all possible paths between source and destination
+      all_paths = list(nx.all_shortest_paths(graph, f'h{task.src_host}', f'h{task.dst_host}'))
+      # Choose a random path from all possible ones
+      if all_paths:
+        random_path = random.choice(all_paths)
+        solutions['route'].append({
+          'src_host': task.src_host,
+          'dst_host': task.dst_host,
+          'path_dpid': random_path[1:-1],
+        })
+        flowrules = create_flowrule_json(solutions, get_host(), get_link_to_port())
+  return send_flowrule_single(flowrules, ryu_rest_port=Setting().RYU_PORT)

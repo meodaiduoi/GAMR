@@ -4,77 +4,77 @@ from routingapp.common.routing_utils import *
 from routingapp.common.models import MultiRouteTasks
 from routingapp.compare_algorithm.sec_morl_multipolicy.module_function import Function
 from routingapp.compare_algorithm.sec_morl_multipolicy.module_graph import Graph
+import networkx as nx
 
 from routingapp.dependencies import *
 from routingapp.common.datatype import NetworkStat
 
+def preprocessing(graph):
+    G = nx.Graph()
+    for i in range(len(graph)):
+        G.add_node(i)
+    for i in range(len(graph)):
+        for j in graph[i]:
+            G.add_edge(i, j)
+    # pos = nx.spring_layout(G) #
+    # nx.draw(G, pos, with_labels=True)
+    # plt.show()
+    return G
+
 def result_to_json(result, mapping):
     result_list = []
-    # print(result)
+    print(result)
     # print(mapping)
     for request in result:
-        print("Request", request)
-        src = get_key(mapping,request[0])
-        dst = get_key(mapping,request[1])
-        src = int(src[1:])
-        dst = int(dst[1:])
-        request_result_map = []
-        for i in request[2][1:-1]:
-            request_result_map.append(int(get_key(mapping, i)))
-        # print("Hello")
-        
-        # This is output format for solved solution
-        route = {
-            'src_host': src,
-            'dst_host': dst,
-            'path_dpid': request_result_map
-        }
-        
-        result_list.append(route)
+        for req in request:
+            print("Result", req)
+            src = get_key(mapping,req[0])
+            dst = get_key(mapping,req[-1])
+            request_result_map = []
+            for i in req[1:-1]:
+                print("I", i)
+                request_result_map.append(int(get_key(mapping, i)))
+            # src = int(src[1:])
+            # dst = int(dst[1:])
+            # request_result_map = []
+            # for i in request[2][1:-1]:
+            #     request_result_map.append(int(get_key(mapping, i)))
+            # print("Hello")
+            
+            # This is output format for solved solution
+            route = {
+                'src_host': src,
+                'dst_host': dst,
+                'path_dpid': request_result_map
+            }
+            
+            result_list.append(route)
     result_json = {
         'route': result_list
     }
-    print(result_list)
+    print(result_json['route'])
     return result_json 
 
-# DFS function to find paths from source to destination
-def dfs(graph, start, goal):
-    visited = set()  # List of visited nodes
-    stack = [(start, [start])]  # Stack containing pairs (node, path from source to node)
+# # DFS function to find paths from source to destination
+# def dfs(graph, start, goal):
+#     visited = set()  # List of visited nodes
+#     stack = [(start, [start])]  # Stack containing pairs (node, path from source to node)
 
-    while stack:
-        node, path = stack.pop()  # Get the last node from the stack and the path to it
-        if node not in visited:
-            visited.add(node)
-            if node == goal:
-                return path  # Return the path from source to destination
-            neighbors = graph.adj_matrix[node]  # Access neighbors from the adjacency matrix of the graph
-            for neighbor in reversed(neighbors):  # Traverse neighbors in reverse order to use stack
-                if neighbor not in visited:
-                    stack.append((neighbor, path + [neighbor]))  # Add unvisited neighbors to stack with path to that node
+#     while stack:
+#         node, path = stack.pop()  # Get the last node from the stack and the path to it
+#         if node not in visited:
+#             visited.add(node)
+#             if node == goal:
+#                 return path  # Return the path from source to destination
+#             neighbors = graph.adj_matrix[node]  # Access neighbors from the adjacency matrix of the graph
+#             for neighbor in reversed(neighbors):  # Traverse neighbors in reverse order to use stack
+#                 if neighbor not in visited:
+#                     stack.append((neighbor, path + [neighbor]))  # Add unvisited neighbors to stack with path to that node
 
-    return None  # If no path from source to destination is found
+#     return None  # If no path from source to destination is found
 
 
-# def generate_k_best_graph(graph_gen, request, k):
-#     """
-#     Generate the graph for the K best paths from source to destination.
-#     """
-#     k_best_paths = []
-#     for src, dst in request:
-#         # Perform DFS to find K best paths from src to dst
-#         paths = dfs(graph_gen, src, dst, k)
-#         k_best_paths.extend(paths)
-    
-#     # Combine all paths into a single set of nodes
-#     all_nodes = set()
-#     for path in k_best_paths:
-#         all_nodes.update(path)
 
-#     # Generate a subgraph containing all nodes in the combined paths
-#     combined_graph = graph_gen.subgraph(list(all_nodes))
-    
-#     return combined_graph
 
 def sec_solver(tasks: MultiRouteTasks, network_stat: NetworkStat):
 
@@ -139,51 +139,76 @@ def sec_solver(tasks: MultiRouteTasks, network_stat: NetworkStat):
         dst = mapping[dst]
         print('reading rq', src, dst)
         requests.append((src, dst))
-
+    print("Requests", requests)
     # Solving problem to find solution
     number_node = len(adj_matrix)-1
     clients = []
     edge_servers = []
     cloud_servers = []
-    graph_gen = Graph(number_node, 10, 1, 1, 10, clients, edge_servers, cloud_servers, adj_matrix)
+    edges = []
+    # Generate edges from adjacency matrix
+    for i in range(1, number_node+1):
+        for j in adj_matrix[i]:
+            edges.append([i, j])
+    # Generate the list of clients, edge servers, and cloud servers by randomly selecting nodes
+    for i in range(1, number_node+1):
+        # Choose one cloud server
+        if i == 1:
+            cloud_servers.append(i)
+        # Choose one edge server
+        elif i == 2 or i == 3 or i == 4:
+            edge_servers.append(i)
+        # Choose the rest as clients
+        else:
+            clients.append(i)
+        
+    # Generate the promising paths using DFS 
+    nx_graph_gen = preprocessing(adj_matrix)
+    promising_paths = []
+    for src, dst in requests:
+        predecessors = list(nx.dfs_edges(nx_graph_gen, source=src))  # Use BFS to find predecessors
+        promising_paths.append(predecessors)
+    # Create new adjacency graph based on the promising paths
+    # 1. Identify nodes involved in any DFS path:
+    all_dfs_nodes = set()  # Store all nodes encountered during DFS
+    for node in promising_paths:
+        for src, dst in node: 
+            if src not in all_dfs_nodes:
+                all_dfs_nodes.add(src)
+            if dst not in all_dfs_nodes:
+                all_dfs_nodes.add(dst) 
+    # Update the edge servers, cloud servers, and client nodes accordingly
+    new_clients = [node for node in clients if node in all_dfs_nodes]   
+    new_edge_servers = [node for node in edge_servers if node in all_dfs_nodes]
+    new_cloud_servers = [node for node in cloud_servers if node in all_dfs_nodes]
+
+    new_adj_matrix = [[] for _ in range(len(all_dfs_nodes)+1)]
+    for edge in edges:
+        for node in promising_paths:
+            for src, dst in node: 
+                if (edge[0] == src and edge[1] == dst) or edge[0] in new_edge_servers or edge[1] in new_edge_servers or edge[0] in new_cloud_servers or edge[1] in new_cloud_servers:
+                    if edge[1] not in new_adj_matrix[edge[0]]:
+                        new_adj_matrix[edge[0]].append(edge[1])
+                    if edge[0] not in new_adj_matrix[edge[1]]:
+                        new_adj_matrix[edge[1]].append(edge[0])
+            for src, dst in requests:
+                    if edge[0] == src or edge[1] == dst:
+                        if edge[1] not in new_adj_matrix[edge[0]]:
+                            new_adj_matrix[edge[0]].append(edge[1])
+                        if edge[0] not in new_adj_matrix[edge[1]]:
+                            new_adj_matrix[edge[1]].append(edge[0])
+    # Define the graph object
+    graph_gen = Graph(len(all_dfs_nodes), len(new_clients), len(new_edge_servers), len(new_cloud_servers), len(new_clients), new_clients, new_edge_servers, new_cloud_servers, new_adj_matrix)
 
     func = Function()
     graph_gen.updateGraph(update_delay, update_loss, update_bandwidth, update_link_utilization) 
     
-    # Generate the promising paths using DFS 
-    promising_paths = []
-    request_list = []
-    # print(request)
-    
-    for request in requests:
-        # print(src, dst)
-        path = dfs(graph_gen, request[0], request[1])
-        if path:
-            promising_paths.append(path)
-        # print(promising_paths)
-
-        # Create a subgraph containing all paths in the promising paths     
-        promising_nodes = set()
-        for path in promising_paths:
-            # print(path)
-            promising_nodes.update(path)
-        # print(promising_nodes)
-        promising_graph = graph_gen.subgraph(list(promising_nodes))
-
-
-        # Update src and dst in the request to match the new node indices
-        promising_nodes_list = list(promising_nodes)
-
-        # Update src and dst in the request to match the new node indices
-        request_list.append([(promising_nodes_list.index(request[0]), promising_nodes_list.index(request[1]))])
-            
     # Use the trained models to generate solutions
-    solutions = func.generate_solutions(promising_graph, request_list)  
+    solutions = func.generate_solutions(graph_gen, requests)  
     
     # result = func.select_solution(solutions)
 
     # Return flow rules based on JSON result format
     result_json = result_to_json(solutions, mapping)
-    print(f"result: {solutions}")
     flowrules = create_flowrule_json(result_json, host_json, get_link_to_port())
-    return flowrules
+    return send_flowrule_single(flowrules)

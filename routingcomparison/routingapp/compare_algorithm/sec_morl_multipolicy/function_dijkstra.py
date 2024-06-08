@@ -46,7 +46,21 @@ def dijkstra(graph, priority, source, destination):
     # using dijkstra algorithm to find the shortest path
     path = nx.shortest_path(G, source=source, target=destination, weight=priority)
     return path
-    
+
+def bfs(graph, source, destination, cutoff = 5):   
+
+    nx_graph = graph.adj_matrix 
+    G = nx.Graph()
+    for i in range(len(nx_graph)):
+        G.add_node(i)
+    for i in range(len(nx_graph)):
+        for j in nx_graph[i]:
+            G.add_edge(i, j)
+    # pos = nx.spring_layout(G)
+    # using dijkstra algorithm to find the shortest path
+    path = nx.all_shortest_paths(graph, source, destination, cutoff=cutoff)
+    return path
+
 # def dijkstra(graph, priority, source, destination):
 #     graph_cost = normalize_weight(graph, priority)
 #     dist = {i: float('inf') for i in range(0, graph.number_nodes)}
