@@ -5,6 +5,8 @@ from routingapp.common.models import MultiRouteTasks
 from routingapp.compare_algorithm.sec_morl_multipolicy.module_function import Function
 from routingapp.compare_algorithm.sec_morl_multipolicy.module_graph import Graph
 import networkx as nx
+import random
+
 from routingapp.dependencies import *
 from routingapp.common.datatype import NetworkStat
 
@@ -19,38 +21,90 @@ def preprocessing(graph):
     # nx.draw(G, pos, with_labels=True)
     # plt.show()
     return G
+def select_source_server(graph, src_node):
+  """
+  Selects a random edge or cloud server as the source for pushing traffic.
 
+  Args:
+      graph: An object representing the network graph.
+      src_node: The original source node from the request.
+
+  Returns:
+      The chosen edge or cloud server node ID.
+  """
+  # Identify edge and cloud server nodes
+  edge_servers = graph.edge_servers
+  cloud_servers = graph.cloud_servers
+
+  # Choose a random server type (edge or cloud)
+  server_type = random.choice(['edge', 'cloud'])
+
+  # Select a random server node of the chosen type
+  if server_type == 'edge':
+    chosen_server = random.choice(edge_servers)
+  else:
+    chosen_server = random.choice(cloud_servers)
+
+  # Ensure the chosen server is not the original source node
+  while chosen_server == src_node:
+    if server_type == 'edge':
+      chosen_server = random.choice(edge_servers)
+    else:
+      chosen_server = random.choice(cloud_servers)
+
+  return chosen_server
+
+def min_hop_routing(graph, nx_graph, request):
+  """
+  Implements min-hop routing algorithm using NetworkX.
+
+  Args:
+      graph: An object representing the network graph (assumed to be a NetworkX graph).
+      request: A list of source-destination pairs.
+
+  Returns:
+      A list of solutions (paths) for each request.
+  """
+  solutions = []
+  for src, dst in request:
+    try:
+        chosen_server = select_source_server(graph, src)
+        routing_path = nx.shortest_path(nx_graph, source = src, target = chosen_server) 
+        destination_path = nx.shortest_path(nx_graph, source = chosen_server, target = dst)  
+        complete_path = routing_path + destination_path[1:]
+        solutions.append(complete_path)
+    except nx.NetworkXNoPath:
+        solutions.append([])  # Handle cases where no path exists
+  return solutions
 def result_to_json(result, mapping):
     result_list = []
-    print(result)
+    # print(result)
     # print(mapping)
     for request in result:
-        for req in request:
-            print("Result", req)
-            src = get_key(mapping,req[0])
-            dst = get_key(mapping,req[-1])
-            request_result_map = []
-            for i in req[1:-1]:
-                print("I", i)
-                request_result_map.append(int(get_key(mapping, i)))
-            src = int(src[1:])
-            dst = int(dst[1:])
-            route = {
-                'src_host': src,
-                'dst_host': dst,
-                'path_dpid': request_result_map
-            }
+        # print("Result", request)
+        src = get_key(mapping,request[0])
+        dst = get_key(mapping,request[-1])
+        request_result_map = []
+        for i in request[1:-1]:
+            request_result_map.append(int(get_key(mapping, i)))
+        src = int(src[1:])
+        dst = int(dst[1:])
+        route = {
+            'src_host': src,
+            'dst_host': dst,
+            'path_dpid': request_result_map
+        }
             
-            result_list.append(route)
+        result_list.append(route)
     result_json = {
         'route': result_list
     }
-    print(result_json['route'])
+    # print(result_json['route'])
     return result_json 
 
 
 
-def sec_solver(tasks: MultiRouteTasks, network_stat: NetworkStat):
+def min_hop_solver(tasks: MultiRouteTasks, network_stat: NetworkStat):
 
     graph = network_stat.graph
     host_json = network_stat.host_json
@@ -135,52 +189,15 @@ def sec_solver(tasks: MultiRouteTasks, network_stat: NetworkStat):
         # Choose the rest as clients
         else:
             clients.append(i)
-        
     # Generate the promising paths using DFS 
     nx_graph_gen = preprocessing(adj_matrix)
-    promising_paths = []
-    for src, dst in requests:
-        predecessors = list(nx.dfs_edges(nx_graph_gen, source=src))  # Use BFS to find predecessors
-        promising_paths.append(predecessors)
-    # Create new adjacency graph based on the promising paths
-    # 1. Identify nodes involved in any DFS path:
-    all_dfs_nodes = set()  # Store all nodes encountered during DFS
-    for node in promising_paths:
-        for src, dst in node: 
-            if src not in all_dfs_nodes:
-                all_dfs_nodes.add(src)
-            if dst not in all_dfs_nodes:
-                all_dfs_nodes.add(dst) 
-    # Update the edge servers, cloud servers, and client nodes accordingly
-    new_clients = [node for node in clients if node in all_dfs_nodes]   
-    new_edge_servers = [node for node in edge_servers if node in all_dfs_nodes]
-    new_cloud_servers = [node for node in cloud_servers if node in all_dfs_nodes]
-
-    new_adj_matrix = [[] for _ in range(len(all_dfs_nodes)+1)]
-    for edge in edges:
-        for node in promising_paths:
-            for src, dst in node: 
-                if (edge[0] == src and edge[1] == dst) or edge[0] in new_edge_servers or edge[1] in new_edge_servers or edge[0] in new_cloud_servers or edge[1] in new_cloud_servers:
-                    if edge[1] not in new_adj_matrix[edge[0]]:
-                        new_adj_matrix[edge[0]].append(edge[1])
-                    if edge[0] not in new_adj_matrix[edge[1]]:
-                        new_adj_matrix[edge[1]].append(edge[0])
-            for src, dst in requests:
-                    if edge[0] == src or edge[1] == dst:
-                        if edge[1] not in new_adj_matrix[edge[0]]:
-                            new_adj_matrix[edge[0]].append(edge[1])
-                        if edge[0] not in new_adj_matrix[edge[1]]:
-                            new_adj_matrix[edge[1]].append(edge[0])
     # Define the graph object
-    graph_gen = Graph(len(all_dfs_nodes), len(new_clients), len(new_edge_servers), len(new_cloud_servers), len(new_clients), new_clients, new_edge_servers, new_cloud_servers, new_adj_matrix)
+    graph_gen = Graph(number_node, len(clients), len(edge_servers), len(cloud_servers), len(clients), clients, edge_servers, cloud_servers, adj_matrix)
 
-    func = Function()
     graph_gen.updateGraph(update_delay, update_loss, update_bandwidth, update_link_utilization) 
     
-    # Use the trained models to generate solutions
-    solutions = func.generate_solutions(graph_gen, requests)  
+    solutions = min_hop_routing(graph_gen, nx_graph_gen, requests)
     
-    # result = func.select_solution(solutions)
 
     # Return flow rules based on JSON result format
     result_json = result_to_json(solutions, mapping)
