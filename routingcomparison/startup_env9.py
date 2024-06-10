@@ -2,6 +2,8 @@
 # startup command: ./startup_2.py
 
 import os, subprocess, time
+from os.path import dirname, abspath
+
 import tomllib
 
 try:
@@ -36,8 +38,9 @@ NUM_DOMAIN = toml_dict['app-setting']['scenario-num-domain']
 TOPO_FILE = toml_dict['app-setting']['scenario-topo-file']
 
 # PYTHONPATH debug
-EXPORT_PYTHONPATH = f'export PYTHONPATH={os.getenv("PYTHONPATH")}'
-print(EXPORT_PYTHONPATH)
+if os.environ.get('PYTHONPATH') == None:
+   os.environ['PYTHONPATH'] = dirname(dirname(abspath(__file__)))
+print(f'export PYTHONPATH={os.getenv("PYTHONPATH")}')
 
 # create startup sequence
 # ryu startup
