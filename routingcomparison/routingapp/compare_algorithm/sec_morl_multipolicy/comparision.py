@@ -180,7 +180,7 @@ def collect_solutions(test_graph, func, test_request, trained_models):
         untrained_delay_solutions = []
         untrained_link_utilisation_solutions = []
         
-        for _ in range(1):  # Number of episodes
+        for _ in range(1000):  # Number of episodes
             obs = env.reset()
             done = False
             
@@ -193,8 +193,8 @@ def collect_solutions(test_graph, func, test_request, trained_models):
             delay, link_utilisation = env.estimate_performance()
             train_delay_solutions.append(delay)
             train_link_utilisation_solutions.append(link_utilisation)
-            
-            untrained_env = SDN_Env(graph = test_graph, function = func, request = test_request, w= (wi-1) / 100.0)
+            if (wi < 100):
+                untrained_env = SDN_Env(graph = test_graph, function = func, request = test_request, w= (wi+1) / 100.0)
             obs = untrained_env.reset()
             done = False
             untrained_episode_solutions = []
@@ -233,13 +233,13 @@ def extract_pareto_solutions(solutions):
 graph, func, request = generate_file(r"/home/ad/RoutingComparasion/RoutingComparation/routingcomparison/routingapp/compare_algorithm/data/chinanet/4_edge_cloud_server.json")
 trained_pareto_delay,trained_pareto_link_utilisation, untrained_pareto_delay, untrained_pareto_link_utilisation = compare(graph, func, request)
 
-# # Scatter plot comparison
-# plt.figure(figsize=(8, 6))
-# plt.scatter(trained_pareto_delay, trained_pareto_link_utilisation, color='blue', label='Trained')
-# plt.scatter(untrained_pareto_delay, untrained_pareto_link_utilisation, color='red', label='Untrained')
-# plt.xlabel('Delay (s)')
-# plt.ylabel('Link Utilization (Mbps)')
-# plt.title('Comparison: Trained vs Untrained Pareto Front Models')
-# plt.grid(True)
-# plt.legend()
-# plt.show()
+# Scatter plot comparison
+plt.figure(figsize=(8, 6))
+plt.scatter(trained_pareto_delay, trained_pareto_link_utilisation, color='blue', label='Trained')
+plt.scatter(untrained_pareto_delay, untrained_pareto_link_utilisation, color='red', label='Untrained')
+plt.xlabel('Delay (s)')
+plt.ylabel('Link Utilization (Mbps)')
+plt.title('Comparison: Trained vs Untrained Pareto Front Models')
+plt.grid(True)
+plt.legend()
+plt.show()
