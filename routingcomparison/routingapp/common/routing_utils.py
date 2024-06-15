@@ -63,6 +63,7 @@ def create_flowrule_json(solutions, host_json, link_to_port, important=False):
     flowrules = []
     for solution in solutions['route']:
         path_dpid = [int(dpid) for dpid in solution['path_dpid']]
+       
         hostmac_src = hostid_to_mac(solution['src_host'])
         hostmac_dst = hostid_to_mac(solution['dst_host'])
 

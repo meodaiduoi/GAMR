@@ -110,7 +110,7 @@ class SDN_Env(gym.Env):
         if not self.invalid_act_flag:
             # print(f"Edge Action: {edge_action}, Cloud Action: {cloud_action}")   
             # print(f"Request: {self.request}")
-            print(f"Current Request: {self.current_request}") 
+            # print(f"Current Request: {self.current_request}") 
             #####################################################
             # Assignment of tasks (Phân công công việc)
             the_task = {}

@@ -5,7 +5,6 @@ from routingapp.common.models import MultiRouteTasks
 from routingapp.compare_algorithm.sec_morl_multipolicy.module_function import Function
 from routingapp.compare_algorithm.sec_morl_multipolicy.module_graph import Graph
 import networkx as nx
-
 from routingapp.dependencies import *
 from routingapp.common.datatype import NetworkStat
 
@@ -34,14 +33,8 @@ def result_to_json(result, mapping):
             for i in req[1:-1]:
                 print("I", i)
                 request_result_map.append(int(get_key(mapping, i)))
-            # src = int(src[1:])
-            # dst = int(dst[1:])
-            # request_result_map = []
-            # for i in request[2][1:-1]:
-            #     request_result_map.append(int(get_key(mapping, i)))
-            # print("Hello")
-            
-            # This is output format for solved solution
+            src = int(src[1:])
+            dst = int(dst[1:])
             route = {
                 'src_host': src,
                 'dst_host': dst,
@@ -54,25 +47,6 @@ def result_to_json(result, mapping):
     }
     print(result_json['route'])
     return result_json 
-
-# # DFS function to find paths from source to destination
-# def dfs(graph, start, goal):
-#     visited = set()  # List of visited nodes
-#     stack = [(start, [start])]  # Stack containing pairs (node, path from source to node)
-
-#     while stack:
-#         node, path = stack.pop()  # Get the last node from the stack and the path to it
-#         if node not in visited:
-#             visited.add(node)
-#             if node == goal:
-#                 return path  # Return the path from source to destination
-#             neighbors = graph.adj_matrix[node]  # Access neighbors from the adjacency matrix of the graph
-#             for neighbor in reversed(neighbors):  # Traverse neighbors in reverse order to use stack
-#                 if neighbor not in visited:
-#                     stack.append((neighbor, path + [neighbor]))  # Add unvisited neighbors to stack with path to that node
-
-#     return None  # If no path from source to destination is found
-
 
 
 
@@ -210,5 +184,5 @@ def sec_solver(tasks: MultiRouteTasks, network_stat: NetworkStat):
 
     # Return flow rules based on JSON result format
     result_json = result_to_json(solutions, mapping)
-    flowrules = create_flowrule_json(result_json, host_json, get_link_to_port())
-    return send_flowrule_single(flowrules)
+    flowrules = create_flowrule_json(result_json, get_host(), get_link_to_port())
+    return flowrules

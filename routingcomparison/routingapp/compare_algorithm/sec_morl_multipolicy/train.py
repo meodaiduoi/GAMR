@@ -48,7 +48,7 @@ class sdn_net(nn.Module):
                                         mlp_ch=MLP_CH, out_ch=self.edge_num+self.cloud_num, block_num=3)
         else:
             self.network = conv_mlp_net(conv_in=INPUT_CH, conv_ch=FEATURE_CH, mlp_in=(self.edge_num+self.cloud_num)*FEATURE_CH,
-                                        mlp_ch=MLP_CH, out_ch=self.cloud_num, block_num=3)
+                                        mlp_ch=MLP_CH, out_ch=1, block_num=3)
         
     def load_model(self, filename):
         map_location=lambda storage, loc:storage
@@ -107,7 +107,8 @@ class Critic(nn.Module):
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
 
-    def forward(self, obs, state=None, info={}):       
+    def forward(self, obs, state=None, info={}): 
+        print(obs)      
         v,_ = self.net(obs)
 
         return v
