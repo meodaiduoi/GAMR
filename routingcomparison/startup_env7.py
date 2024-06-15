@@ -1,7 +1,7 @@
 #!/usr/bin/python3.11
 # startup command: ./startup_2.py
 
-import os, subprocess, time
+import os, sys, subprocess, time
 import tomllib
 
 try:
