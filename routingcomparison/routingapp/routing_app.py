@@ -1,5 +1,5 @@
 from routingapp.common.routing_utils import *
-from routingapp.common.network_stat_utils import link_with_port_mn_to_hmap
+from extras.network_unit_utils import get_host, get_link_to_port, link_with_port_mn_to_hmap
 from routingapp.common.models import *
 from routingapp.dependencies import *
 import asyncio
@@ -36,10 +36,14 @@ setting: config.Setting = get_app_setting()
 
 while True:
     try:
-        MAPPING, GRAPH = get_full_topo_graph()
-        if setting.MULTI_DOMAIN == True:
-            GRAPH = json_graph.node_link_graph(
-                rq.get('http://0.0.0.0:8000/graph').json()
+        # !NOTE: it just faster to get graph directly from mininet api may remove soon in future update
+        # MAPPING, GRAPH = get_full_topo_graph()
+        # if setting.MULTI_DOMAIN == True:
+        #     GRAPH = json_graph.node_link_graph(
+        #         rq.get('http://0.0.0.0:8000/graph').json()
+        #     )
+        GRAPH = json_graph.node_link_graph(
+            rq.get('http://0.0.0.0:8000/graph').json()
             )
         break
     except (rq.ConnectionError, rq.ConnectTimeout):
@@ -81,6 +85,7 @@ async def add_flow_adj():
                                                     sw_ctrler_mapping, 
                                                     setting.RYU_PORT)
             logging.info('Debug flow added sucessfully')
+
             # !NOTE: on next version add new adj flow on topology change
             await asyncio.sleep(500)
         except (rq.ConnectionError, rq.ConnectTimeout) as e:
@@ -97,11 +102,11 @@ async def lifespan(app: FastAPI):
     asyncio.create_task(add_flow_adj())
     yield
     
-
 app = FastAPI(lifespan=lifespan)
 
 from routingapp.routers.multidomain import ga_multi, simplerouting_multi
-from routingapp.routers.singledomain import simplerouting_single, ga_single, sec_single
+from routingapp.routers.singledomain import simplerouting_single, ga_single
+# from routingapp.routers.singledomain import sec_single
 from routingapp.routers import debugdata
 
 # Debug api
@@ -111,12 +116,12 @@ app.include_router(debugdata.router, prefix='/debug', tags=['debug'])
 if setting.MULTI_DOMAIN is False:
     app.include_router(simplerouting_single.router, prefix="/single/simplerouting", tags=["Single"]) 
     app.include_router(ga_single.router, prefix="/single/ga", tags=["Single"]) 
-    app.include_router(sec_single.router, prefix="/single/rl", tags=["Single"]) 
+    # app.include_router(sec_single.router, prefix="/single/rl", tags=["Single"]) 
 
 # New multidomain api
 if setting.MULTI_DOMAIN is True:
     app.include_router(simplerouting_multi.router, prefix="/simplerouting", tags=["Simple routing"])
-    app.include_router(ga_multi.router, prefix='/ga', tags=["Genetic Alogrithm"])
+    # app.include_router(ga_multi.router, prefix='/ga', tags=["Genetic Alogrithm"])
 
 # test api
 @app.get('/')

@@ -3,8 +3,8 @@ import networkx as nx
 import json
 import os
 import logging
-from routingapp.common.datatype import NetworkStat
-from extras.utils import get_full_topo_graph, get_link_info_legacy, dict_str_to_int_key, mac_to_int, get_link_info
+from extras.datatype import NetworkStat
+from extras.sys_util import mac_to_int, dict_str_to_int_key
 
 # Load ENV variable if fail fallback to default value
 try:
@@ -14,8 +14,16 @@ except TypeError:
     RYU_PORT = 8080
     OFP_PORT = 6633
 
+'''
+    Topology / Graph / Host / Switch
+    Get from api
+'''
 def get_topo():
-    topo_json = rq.get('http://0.0.0.0:8080/topology_graph').json()
+    try:
+        topo_json = rq.get('http://0.0.0.0:8080/topology_graph').json()
+    except (ConnectionError, TimeoutError):
+        logging.error("Can't connect to remote controller API to get topo graph")
+        return None, None
     return topo_json, nx.json_graph.node_link_graph(topo_json)
 
 def get_host(max_display_mac=-1):
@@ -25,7 +33,50 @@ def get_host(max_display_mac=-1):
         hosts = {'hosts': [host for host in hosts['hosts'] if mac_to_int(host['mac']) < 100]}
     return hosts
 
-# !NOTE: Resolve this?
+def get_endpoint_info(host_mac, host_json):
+    '''
+        Get dpid and port_no of host connected to switch \n
+        assume that host only connect to 1 switch
+    '''
+    for host in host_json['hosts']:
+        if host['mac'] == host_mac:
+            return mac_to_int(host['port']['dpid']), mac_to_int(host['port']['port_no'])
+
+def get_full_topo_graph(max_display_mac=100) -> tuple[dict, nx.DiGraph]:
+    '''
+        get network topology with hostId and switchId \n 
+        mapping of ryu restapi
+    '''
+    # dict, nx.DiGraph    
+    graph = get_topo()
+    host_json = get_host(max_display_mac)
+
+    # Add host to graph
+    for host in host_json['hosts']:
+        dpid_int = mac_to_int(host['port']['dpid'])
+        host_int = mac_to_int(host['mac'])
+        # print(f'dpid_int: {dpid_int}, host_int: {host_int}')
+        
+        # Add node to graph
+        graph.add_node(f'h{host_int}', type='host')
+        # add bi-directional link between host and switch
+        graph.add_edge(f'h{host_int}', dpid_int, type='host')
+        graph.add_edge(dpid_int, f'h{host_int}', type='host')
+
+    # Mapping host h{int} to int
+    mapping: dict = dict(zip(graph.nodes(), range(1, len(graph.nodes())+1)))
+
+    return mapping, graph
+'''
+    Port related function
+'''
+def get_link_to_port(ryu_rest_port=8080):
+    # fix this to remote port
+    link_to_port = rq.get(f'http://0.0.0.0:{ryu_rest_port}/link_to_port').json()
+    # convert string key to int key
+    link_to_port =  {int(key): {int(key2): value2 for key2, value2 in value.items()} for key, value in link_to_port.items()}
+    return link_to_port
+
 def link_with_port_mn_to_hmap():
     '''
         Convert link info from mn func
@@ -42,20 +93,6 @@ def link_with_port_mn_to_hmap():
         li_map[key2]['node1'], li_map[key2]['node2'] = li_map[key2]['node2'], li_map[key2]['node1']
         li_map[key2]['port1'], li_map[key2]['port2'] = li_map[key2]['port2'], li_map[key2]['port1']
     return li_map
-
-# TODO: fix this func and add host node 'h{n}' to graph
-def get_network_stat() -> NetworkStat:
-    # _, graph = get_full_topo_graph()
-    graph = None
-    host_json = get_host()
-    link_info = get_link_info()
-    return NetworkStat(graph, host_json, link_info)
-
-def get_network_stat_single() -> NetworkStat:
-    mapping, graph = get_full_topo_graph()
-    host_json = get_host()
-    link_info = get_link_info_legacy()
-    return NetworkStat(graph, mapping, host_json, link_info)
 
 def get_sw_ctrler_mapping():
     '''
@@ -119,9 +156,3 @@ def get_all_delta_port_stat():
     for d in deltal_port_stat:
         key = (d['dpid'], d['port_no'])
         dps_hmap[key] = d
-
-    return dps_hmap
-
-def cal_link_usage_inter_group():
-    ...
-    

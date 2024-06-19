@@ -12,7 +12,7 @@ from mininet.log import setLogLevel
 
 # import uvicorn
 # from mn_restapi.mn_restapi_hook import RestHookMN
-from mn_restapi.util import *
+from mn_restapi.mn_hook_util import *
 
 import random
 random.seed(69)

@@ -6,7 +6,8 @@ import networkx as nx
 from networkx.readwrite import json_graph
 
 from routingapp.common.routing_utils import *
-from routingapp.common.datatype import NetworkGraph, LaunchOpt
+from extras.datatype import NetworkGraph, LaunchOpt
+from extras.network_unit_utils import get_full_topo_graph
 
 from . import config
 
@@ -21,3 +22,6 @@ async def network_graph(setting: config.Setting = Depends(get_app_setting)):
             rq.get('http://0.0.0.0:8000/graph').json()
         )
     return NetworkGraph(MAPPING, GRAPH)
+
+# change system to using depencey
+# async def network_info_single(link_info: )

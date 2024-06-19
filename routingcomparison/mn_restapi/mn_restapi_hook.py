@@ -1,20 +1,17 @@
 import asyncio
-from typing import Optional
 
 from fastapi import FastAPI
-from contextlib import asynccontextmanager
 
 from mininet.net import Mininet, Host, Node, Link
 
 from mn_restapi.mn_restapi_model import *
-from mn_restapi.util import *
+from mn_restapi.mn_hook_util import *
 # from mn_restapi.spanning_tree import SpanningTree, convert_network
-
 
 from subprocess import Popen
 import concurrent.futures
 
-from extras.utils import find_key_from_value
+from extras.sys_util import find_key_from_value, mac_to_int
 from statistics import mean
 
 import networkx as nx

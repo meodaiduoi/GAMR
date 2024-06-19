@@ -3,8 +3,8 @@ import networkx as nx
 import json
 import logging
 from routingapp.common.routing_utils import *
-from extras.utils import *
-from .models import MultiRouteTasks
+from extras.sys_util import hostid_to_mac
+from extras.network_unit_utils import get_endpoint_info
 
 def get_key(dict, value):
     for key, val in dict.items():

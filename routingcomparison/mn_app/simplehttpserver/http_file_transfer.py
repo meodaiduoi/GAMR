@@ -11,7 +11,7 @@ import logging
 import datetime, time
 
 import requests as rq
-from extras.utils import set_cwd_to_location
+from RoutingComparison.routingcomparison.extras.network_info_utils import set_cwd_to_location
 
 app = FastAPI()
 REQUEST_TIMEOUT = 5

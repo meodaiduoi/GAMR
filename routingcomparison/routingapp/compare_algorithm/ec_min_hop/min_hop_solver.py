@@ -1,14 +1,13 @@
 import networkx as nx
-from routingapp.compare_algorithm.sec_morl_multipolicy.train import train_sdn_policy
-from routingapp.common.routing_utils import * 
 from routingapp.common.models import MultiRouteTasks
-from routingapp.compare_algorithm.sec_morl_multipolicy.module_function import Function
 from routingapp.compare_algorithm.sec_morl_multipolicy.module_graph import Graph
 import networkx as nx
 import random
 
 from routingapp.dependencies import *
-from routingapp.common.datatype import NetworkStat
+from extras.datatype import NetworkStat
+from extras.sys_util import mac_to_int
+from extras.network_unit_utils import get_host, get_link_to_port
 
 def preprocessing(graph):
     G = nx.Graph()

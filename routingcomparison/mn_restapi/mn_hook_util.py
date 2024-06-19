@@ -5,7 +5,7 @@ import re
 
 import mininet
 from mininet.net import Mininet, Host, Node, Link
-from extras.utils import mac_to_int, int_to_mac
+from extras.sys_util import mac_to_int
 
 def command_sanitization(cmd: str, open_in_term=False):
     '''

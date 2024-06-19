@@ -1,7 +1,9 @@
 import networkx as nx
-from extras.utils import *
+from RoutingComparison.routingcomparison.extras.network_info_utils import *
 from routingapp.common.routing_utils import *
 from routingapp.common.models import MultiRouteTasks
+
+# !NOTE WIP
 
 def ga_solver(tasks: MultiRouteTasks):
     '''

@@ -6,7 +6,7 @@ import time
 import os
 import datetime
 
-from extras.utils import *
+from RoutingComparison.routingcomparison.extras.network_info_utils import *
 
 argParser = argparse.ArgumentParser()
 argParser.add_argument("rest_port", type=int, help="resthookmn startup rest api port")
@@ -46,7 +46,7 @@ timeID_initial = 0
 start_time = time.time()
 while time.time() - start_time < 1850:
     try:
-        data = get_link_info_legacy()
+        data = get_link_info_single()
         for item in data:
             timeid = timeID_initial
             src = item.get('src.dpid')
