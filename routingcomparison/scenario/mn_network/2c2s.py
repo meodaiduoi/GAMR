@@ -17,7 +17,7 @@ import networkx as nx
 import random
 # random.seed(69)
 
-from RoutingComparison.routingcomparison.extras.network_info_utils import *
+from extras.network_info_utils import *
 from scenario.common.utils import *
 from mn_restapi.mn_hook_util import * 
 from mn_restapi.mn_restapi_hook import *

@@ -1,6 +1,7 @@
 import asyncio
 
 from fastapi import FastAPI
+from fastapi import FastAPI, Response, status
 
 from mininet.net import Mininet, Host, Node, Link
 
@@ -246,16 +247,71 @@ class RestHookMN(FastAPI):
             graph_json = nx.node_link_data(graph)
             return graph_json
 
-        @self.post('config_link_status')
-        def set_link(config: ConfigLink):
+        @self.post('/config_link_status', status_code=200)
+        def set_link_status(config: ConfigLinkStatus, response: Response):
             '''
-                turn on/off a link between 2 nodes
+                turn on/off a link between 2 nodes \n
+                name_node1: name of node1 \n
+                name_node2: name of node2 \n
+                status: status of link (up/down) \n
+                Warning: only support single link between 2 nodes
             '''
-            net.configLinkStatus(config.name1, config.name2, config.status)
-            return {'status': 'ok'}
+            # check if link exist to process
+            try:
+                net.get(config.name_node1).connectionsTo(
+                net.get(config.name_node2))
+            except IndexError:
+                response.status_code = status.HTTP_400_BAD_REQUEST
+                return {'status': 'Link not exist'}
+            except KeyError:
+                response.status_code = status.HTTP_400_BAD_REQUEST
+                return {'status': 'Node not exist'}
 
-        @self.post('/link_info')
-        async def link_info_post(link: LinkName):
+            net.configLinkStatus(config.name_node1, 
+                                 config.name_node2, 
+                                 config.status)
+            
+            return {
+                'node1': config.name_node1,
+                'node2': config.name_node2,
+                'status': config.status
+            }
+
+        @self.post('/config_link_quality', status_code=200)
+        def set_link_quality(config: ConfigLinkQuality, response: Response):
+            '''
+                name_node1: name of node1 \n
+                name_node2: name of node2 \n
+                set: bw, delay, packetloss \n
+                left key&value of attr to blank/null for unchange value \n
+                Warning: only support single link between 2 nodes
+            '''
+            # list of tuple of mininet.link.TCLink type
+            # [(TCLink, TCLink)... ]
+            # also check if link exist to process
+            try:
+                intfs = net.get(config.name_node1).connectionsTo(
+                    net.get(config.name_node2))[0]
+            except IndexError:
+                response.status_code = status.HTTP_400_BAD_REQUEST
+                return {'status': 'Link not exist'}
+            except KeyError:
+                response.status_code = status.HTTP_400_BAD_REQUEST
+                return {'status': 'Node not exist'}
+
+            if config.delay != None:
+                config.delay = f'{config.delay}ms'
+            attributes = ["bw", "loss", "delay"]
+            for attr in attributes:
+                if getattr(config, attr) is not None:
+                    intfs[0].config(**{attr: getattr(config, attr)})
+                    intfs[1].config(**{attr: getattr(config, attr)})
+                    net.topo.linkInfo(config.name_node1, 
+                        config.name_node2)[attr] = getattr(config, attr)                                
+                return net.topo.linkInfo(config.name_node1, config.name_node2)
+
+        @self.post('/link_info', status_code=200)
+        async def link_info_post(link: LinkName, response: Response):
             '''
                 Return info of single link
                 {
@@ -271,9 +327,13 @@ class RestHookMN(FastAPI):
                 graph: nx.Graph = topo_to_nx(self.net)
                 if link.name_node1 in graph.neighbors(link.name_node2):
                     return net.topo.linkInfo(link.name_node1, link.name_node2)
-                else: return "Link not valid"
+                else: 
+                    status.HTTP_400_BAD_REQUEST
+                    return {'status': "Link not exist"}
+
             except KeyError:
-                return "Invalid Node name" 
+                status.HTTP_400_BAD_REQUEST
+                return {'status': "Invalid Node name"} 
             
         @self.get('/link_info')
         async def link_info_get(): 
