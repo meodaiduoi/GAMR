@@ -7,6 +7,3 @@ class Setting(BaseSettings):
     RESTHOOKMN_PORT: int = os.environ.get('RESTHOOKMN_PORT')
     MULTI_DOMAIN: bool = bool(os.environ.get('MULTI_DOMAIN'))
     OFP_PORT: int = int(os.environ.get('OFP_PORT'))
-    
-
-

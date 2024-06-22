@@ -1,7 +1,7 @@
 #!/usr/bin/python3.11
 # startup command: ./startup_2.py
 
-import os, subprocess, time
+import os, subprocess, time, logging
 from os.path import dirname, abspath
 
 import tomllib
@@ -38,9 +38,12 @@ NUM_DOMAIN = toml_dict['app-setting']['scenario-num-domain']
 TOPO_FILE = toml_dict['app-setting']['scenario-topo-file']
 
 # PYTHONPATH debug
+if os.environ.get('PYTHONPATH') != None:
+  logging.info(f'WDIR: export PYTHONPATH={os.getenv("PYTHONPATH")}')
 if os.environ.get('PYTHONPATH') == None:
-   os.environ['PYTHONPATH'] = dirname(dirname(abspath(__file__)))
-print(f'export PYTHONPATH={os.getenv("PYTHONPATH")}')
+  logging.warning('export PYTHONPATH is not set script will try to adding PYTHONPATH at running script parent dir')
+  EXPORT_PYTHONPATH = dirname(abspath(__file__))
+  logging.info(f'Adding  PYTHONPATH at {EXPORT_PYTHONPATH}')
 
 # create startup sequence
 # ryu startup

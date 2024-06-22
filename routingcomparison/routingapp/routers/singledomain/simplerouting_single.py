@@ -1,7 +1,8 @@
 from routingapp.common.routing_utils import *
 from routingapp.common.models import *
 
-from routingapp.common.network_stat_utils import get_network_stat_single
+from extras.network_info_utils import get_network_stat_single
+from extras.network_unit_utils import get_host, get_link_to_port
 
 from routingapp.compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver
 from routingapp.compare_algorithm.ec_min_hop.min_hop_solver import min_hop_solver

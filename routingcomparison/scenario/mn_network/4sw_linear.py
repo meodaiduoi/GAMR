@@ -1,3 +1,4 @@
+
 #! /home/onos/Desktop/ryu/venv11/bin/python3.11
 
 from mininet.topo import Topo
@@ -7,15 +8,12 @@ from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 from mininet.link import TCLink
 
-from extras.utils import *
-from mn_restapi.util import * 
+from mn_restapi.mn_hook_util import * 
 # from mn_restapi.mn_restapi_hook import *
-from mn_restapi.util import *
+from mn_restapi.mn_hook_util import *
 import uvicorn
 
 import time
-import sys
-import os
 from networkx.readwrite import json_graph
 
 import argparse

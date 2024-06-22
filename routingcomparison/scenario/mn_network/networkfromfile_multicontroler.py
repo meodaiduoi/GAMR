@@ -1,5 +1,6 @@
 '''
-    Generating network topology from 
+    Generating network topology from file
+    for multiple domain
 
 '''
 
@@ -19,13 +20,13 @@ from mininet.util import pmonitor
 
 import networkx as nx
 
-import random
-# random.seed(69)
-
-from extras.utils import *
 from scenario.common.utils import *
-from mn_restapi.util import * 
-from mn_restapi.mn_restapi_hook import *
+from mn_restapi.mn_restapi_hook import RestHookMN
+from mn_restapi.mn_hook_util import sw_to_ctrler_mapping_converter
+from extras.sys_util import int_to_mac
+
+import logging
+
 import uvicorn
     
 import argparse

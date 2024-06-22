@@ -7,7 +7,7 @@ import json
 
 from routingapp.common.routing_utils import *
 from routingapp.common.models import *
-from extras.utils import *
+from extras.network_info_utils import *
 
 import heapq
 import numpy as np

@@ -8,8 +8,6 @@ from mininet.cli import CLI
 from mininet.util import irange
 from mininet.link import TCLink
 
-from mn_switch import STPOVSSwitch
-
 import uvicorn
 from mn_restapi.mn_restapi_hook import RestHookMN 
 

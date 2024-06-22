@@ -1,5 +1,7 @@
 from routingapp.common.routing_utils import *
-from routingapp.common.network_stat_utils import get_network_stat_single
+
+from extras.network_info_utils import get_network_stat_single
+
 from routingapp.common.models import *
 
 # from routingapp.compare_algorithm.dijkstra.dijkstra_solver import dijkstra_solver

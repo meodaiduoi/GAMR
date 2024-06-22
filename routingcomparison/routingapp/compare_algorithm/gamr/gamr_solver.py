@@ -1,8 +1,11 @@
 import networkx as nx
-from extras.utils import *
+
 from routingapp.common.routing_utils import *
 from routingapp.common.models import MultiRouteTasks
-from routingapp.common.datatype import NetworkStat
+
+from extras.sys_util import mac_to_int
+from extras.datatype import NetworkStat
+from extras.network_unit_utils import get_link_to_port
 
 from routingapp.compare_algorithm.gamr.module_function import Function
 from routingapp.compare_algorithm.gamr.module_evole import Evolutionary

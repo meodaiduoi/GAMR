@@ -1,3 +1,4 @@
+
 from mininet.net import Mininet
 from mininet.node import OVSSwitch
 from mininet.link import TCLink
@@ -25,7 +26,7 @@ from mininet.link import TCLink
 from mininet.log import setLogLevel, info
 from mininet.util import pmonitor
 
-from mn_restapi.util import *
+from mn_restapi.mn_hook_util import *
 
 
 
