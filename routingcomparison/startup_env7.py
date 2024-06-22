@@ -38,12 +38,12 @@ NUM_DOMAIN = toml_dict['app-setting']['scenario-num-domain']
 TOPO_FILE = toml_dict['app-setting']['scenario-topo-file']
 
 # PYTHONPATH debug
-# EXPORT_PYTHONPATH = f'export PYTHONPATH={os.getenv("PYTHONPATH")}'
-# print(EXPORT_PYTHONPATH)
+EXPORT_PYTHONPATH = f'export PYTHONPATH={os.getenv("PYTHONPATH")}'
+print(EXPORT_PYTHONPATH)
 # PYTHONPATH debug
-if os.environ.get('PYTHONPATH') == None:
-   os.environ['PYTHONPATH'] = dirname(dirname(abspath(__file__)))
-print(f'export PYTHONPATH={os.getenv("PYTHONPATH")}')
+# if os.environ.get('PYTHONPATH') == None:
+#    os.environ['PYTHONPATH'] = dirname(dirname(abspath(__file__)))
+# print(f'export PYTHONPATH={os.getenv("PYTHONPATH")}')
 
 # create startup sequence
 # ryu startup

@@ -17,7 +17,7 @@ scenario-num-domain = 2
 
 # Topology file stored at 
 # ./scenario/mn_network/graphds/<filename>.ds
-scenario-topo-file = 'Epoch.graphml'
+scenario-topo-file = 'Oxford.graphml'
 
 [app-path]
 simplehttpserver = "./scenario/simplehttpserver/http_file_transfer.py"
